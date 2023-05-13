@@ -4,28 +4,40 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { db } from "../firebase.js";
+import { collection, getDocs } from "firebase/firestore";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [data, setData] = useState([]);
 
-  const getDocs = () => {
-    const docs = db
-      .collection("users")
-      .get()
-      .then((sc) => {
-        const documents = sc.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setData(documents);
-      });
-  };
+  const getData = () => {
+    getDocs(collection(db, "users")).then((sc) => {
+      const tempData = [];
+      sc.forEach((doc) => {
+        const data = doc.data();
+        console.log(data);
+        tempData.push(data);
+        console.log(doc.id, " => ", doc.data());
+      })
+      setData(tempData);
+    });
+  }
 
-  console.log(data);
-
-  useEffect(getDocs, []);
+  // const getDocs = () => {
+  //   db.collection("users")
+  //     .get()
+  //     .then((sc) => {
+  //       const tempMentees = [];
+  //       sc.forEach((snap) => {
+  //         const data = snap.data();
+  //         console.log("Here", data);
+  //         tempMentees.push(data);
+  //       });
+  //       setData(tempMentees);
+  //     });
+  // };
+  useEffect(getData, []);
 
   return (
     <>
