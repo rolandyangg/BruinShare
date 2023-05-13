@@ -1,0 +1,22 @@
+{
+  "name": "bruinshare",
+  "version": "1.0.0",
+  "description": "EGGERTTT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolandyangg/BruinShare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolandyangg/BruinShare/issues"
+  },
+  "homepage": "https://github.com/rolandyangg/BruinShare#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
