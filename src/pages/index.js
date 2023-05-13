@@ -11,6 +11,12 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [data, setData] = useState([]);
 
+  // const querySnapshot = await getDocs(collection(db, "users"));
+  // querySnapshot.forEach((doc) => {
+    
+  // });
+
+
   const getData = () => {
     getDocs(collection(db, "users")).then((sc) => {
       const tempData = [];
@@ -18,7 +24,7 @@ export default function Home() {
         const data = doc.data();
         console.log(data);
         tempData.push(data);
-        console.log(doc.id, " => ", doc.data());
+        console.log(`${doc.id} => ${doc.data()}`);
       })
       setData(tempData);
     });
