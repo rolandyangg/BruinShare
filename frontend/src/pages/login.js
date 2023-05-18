@@ -3,34 +3,51 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "@/styles/Login.module.css";
 import * as api from "./api/api.js";
+import { useRouter } from 'next/router';
+import bcrypt from 'bcryptjs';
 
-export default function Login() {
-    const [user, setUser] = useState();
+export default function Login({user}) {
     const [allUsers, setAllUsers] = useState([]);
+    const router = useRouter();
     
     useEffect(() => {
         api.getUsers().then((users) => {
             setAllUsers(users.data);
         });
     }, []);
-    console.log(allUsers);
+    console.log(user);
 
+    //when the user clicks log in
     const handleLogin = (e) => {
         e.preventDefault();
         const username = e.target.username.value;
         const password = e.target.password.value;
+        //check for a matching username in firebase
         const userMatch = allUsers.filter((p) => p.data.username === username);
         if (userMatch.length === 0) {
             alert("your username is incorrect! try again!")
           } else {
             console.log("username matched!")
             const user = userMatch[0].data;
-            user.id = userMatch[0].id;
-            localStorage.setItem('user', JSON.stringify(user))
-            setUser(user);
-            //check password here
+            //check if entered password matches hashed password in firebase
+            bcrypt.compare(password, user.password).then((matches) => {
+                if(matches){
+                    console.log("password matched!")
+                    //set user info in local storage for login persistence
+                    localStorage.setItem('user', JSON.stringify(user));
+                } else {
+                    alert("your password is incorrect! try again");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
           }
         e.target.reset();
+    }
+
+    //once logged in, immediately go to home page
+    if (typeof window !== 'undefined' && localStorage.getItem('user')) {
+        router.push("/");
     }
 
     return (
