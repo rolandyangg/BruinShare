@@ -19,6 +19,10 @@
   },
   "homepage": "https://github.com/rolandyangg/BruinShare#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "firebase": "^9.22.0"
   }
 }
