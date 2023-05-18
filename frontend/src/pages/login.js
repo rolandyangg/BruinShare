@@ -15,7 +15,7 @@ export default function Login({user}) {
             setAllUsers(users.data);
         });
     }, []);
-    console.log(user);
+    console.log(allUsers);
 
     //when the user clicks log in
     const handleLogin = (e) => {
@@ -35,6 +35,8 @@ export default function Login({user}) {
                     console.log("password matched!")
                     //set user info in local storage for login persistence
                     localStorage.setItem('user', JSON.stringify(user));
+                    //once logged in, immediately go to home page
+                    router.push("/");
                 } else {
                     alert("your password is incorrect! try again");
                 }
@@ -43,11 +45,6 @@ export default function Login({user}) {
             });
           }
         e.target.reset();
-    }
-
-    //once logged in, immediately go to home page
-    if (typeof window !== 'undefined' && localStorage.getItem('user')) {
-        router.push("/");
     }
 
     return (
