@@ -1,0 +1,73 @@
+.flex_container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.login_left{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex: 40%;
+    margin-left: 20px;
+    margin-right: 40px;
+}
+
+.login_right{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex: 40%;
+    text-align: left;
+}
+
+.login_right p {
+    font-size: 22px;
+    line-height: 42px;
+}
+
+.login_right h1 {
+    font-size: 50px;
+    line-height: 48px;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.login_form{
+    margin-top: 30px;
+}
+
+.textfield{
+    box-sizing: border-box;
+    height: 50px;
+    font-size: 25px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: aliceblue;
+    padding: 10px;
+}
+
+.full_width{
+    width: 65%;
+    margin: 0;
+    margin-bottom: 15px !important;
+}
+
+.login_button{
+    cursor: pointer;
+    height: 50px;
+    width: 65%;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 25px;
+    color: white;
+    background: #4EA5F0;
+    border-color: transparent;
+    border-radius: 5px;
+}
+
+.signup_link{
+    color: #18A0FB;
+    text-decoration: underline;
+}
