@@ -74,7 +74,7 @@ export default function SignUp() {
           />
           <br></br>
           <input type="submit" value="SIGN UP" className={styles.login_button}></input>
-          <p>Already have an account? <Link className={styles.signup_link} href="/signup">Log in</Link></p>
+          <p>Already have an account? <Link className={styles.signup_link} href="/login">Log in</Link></p>
         </form>
       </div>
     );
