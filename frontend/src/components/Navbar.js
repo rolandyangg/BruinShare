@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import Button from '@mui/material/Button';
 
 function Navbar (props, {user}) {
   const router = useRouter();
@@ -12,6 +13,7 @@ function Navbar (props, {user}) {
 
   return (
     <div>
+      <Button variant="contained">MaterialUI Test Button</Button>
         {props.profile && 
           <div>
             <Link href="/">HOME</Link>

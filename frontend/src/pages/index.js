@@ -10,14 +10,14 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [data, setData] = useState([]);
 
-  const getData = () => {
-    api.getUsers().then((users) => {
-      setData(users.data);
-      console.log(users.data);
-    })
-  }
+  // const getData = () => {
+  //   api.getUsers().then((users) => {
+  //     setData(users.data);
+  //     console.log(users.data);
+  //   })
+  // }
 
-  useEffect(getData, []);
+  // useEffect(getData, []);
 
   return (
     <>
