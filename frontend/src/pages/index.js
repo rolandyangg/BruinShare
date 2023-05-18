@@ -3,8 +3,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { db } from "../firebase.js";
-import { collection, getDocs } from "firebase/firestore";
 import * as api from "./api/api.js";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,6 +13,7 @@ export default function Home() {
   const getData = () => {
     api.getUsers().then((users) => {
       setData(users.data);
+      console.log(users.data);
     })
   }
 
