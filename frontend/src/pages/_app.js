@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     // retrieve user information from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (typeof window !== 'undefined' && !user) {
+    if (typeof window !== 'undefined' && !storedUser) {
       router.push('/login');
     } else{
       setUser(storedUser);

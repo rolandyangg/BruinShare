@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 //returns an array of all the users
 const getUsers = async (req, res) => {
@@ -18,6 +18,20 @@ const getUsers = async (req, res) => {
     }
   };
 
+//creates a new user & adds their info to firebase
+const createUser = async(req, res) => {
+  try {
+    const data = req.body.newProfile;
+    console.log(data);
+    addDoc(collection(db, "users"), data).then(() => {
+        res.status(202).json('success');
+      });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
   export {
-    getUsers
+    getUsers,
+    createUser
   }

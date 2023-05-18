@@ -13,3 +13,15 @@ export const getUsers = async () => {
   }
   return null;
 };
+
+export const createUser = async (newProfile) => {
+  try {
+    console.log(newProfile)
+    const newUser = await axios.post(`${url}/createUser`, {newProfile});
+    return newUser;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not create a new user!');
+  }
+  return null;
+};

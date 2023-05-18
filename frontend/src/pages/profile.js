@@ -1,3 +1,4 @@
 export default function Profile({user}) {
-    return <h1>{user.name}</h1>;
+  // TODO: FIX THE PAGE PROPS IN APP.JS -- USER IS A NULL OBJECT UPON REFRESH
+    return <h1>PROFILE PAGE</h1>;
   }
