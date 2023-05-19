@@ -1,4 +1,4 @@
-export default function Profile({user}) {
-  // TODO: FIX THE PAGE PROPS IN APP.JS -- USER IS A NULL OBJECT UPON REFRESH
-    return <h1>PROFILE PAGE</h1>;
+export default function Profile() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return <h1>PROFILE PAGE FOR {user.firstname}</h1>;
   }

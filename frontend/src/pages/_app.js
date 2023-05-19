@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Navbar profile={user}/>
-      <Component {...pageProps} user={user}/>
+      <Component {...pageProps}/>
     </>
   )
 }
