@@ -53,8 +53,9 @@
 
 .dialogTitle {
   position: absolute;
-  top: 20px;
+  top: 50px;
   left: 20px;
+  margin-bottom: 40px;
   text-align: center;
   font-weight: 400;
   font-size: 46px;
@@ -69,7 +70,7 @@
   font-family: 'Work Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 32px;
+  font-size: 28px;
   line-height: 22px;
 }
 
