@@ -17,6 +17,8 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
 
+  console.log(user);
+
   useEffect(() => {
     const handleRouteChange = (url) => {
       // retrieve updated user information from localStorage
@@ -36,8 +38,12 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <Navbar profile={user}/>
-      <Component {...pageProps}/>
+    {user && 
+      <>    
+        <Navbar profile={user} />
+      </>
+    }
+      <Component {...pageProps} profile={user}/>
     </>
   )
 }

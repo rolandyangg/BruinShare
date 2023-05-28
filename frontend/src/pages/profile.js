@@ -1,4 +1,7 @@
-export default function Profile() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return <h1>PROFILE PAGE FOR {user.firstname}</h1>;
+import { useEffect } from "react";
+
+export default function Profile({profile}) {
+    
+    console.log(profile);
+    return <h1>PROFILE PAGE FOR {profile.firstname}</h1>;
   }

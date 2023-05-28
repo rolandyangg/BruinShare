@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 
-function Navbar (props, {user}) {
+function Navbar ({profile}) {
   const router = useRouter();
 
   const logout = () => {
@@ -13,8 +13,8 @@ function Navbar (props, {user}) {
 
   return (
     <div>
-      <Button variant="contained">MaterialUI Test Button</Button>
-        {props.profile && 
+      <Button variant="contained">MaterialUI Test Button{profile.firstname}</Button>
+        {profile && 
           <div>
             <Link href="/">HOME</Link>
             <br></br>
@@ -23,7 +23,7 @@ function Navbar (props, {user}) {
             <Link href="/login" onClick={logout}>LOG OUT</Link>
           </div>
           }
-          {!props.profile && 
+          {!profile && 
           <div>
             <Link href="/login">LOGIN</Link>
             <br></br>
