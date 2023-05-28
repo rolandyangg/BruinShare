@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-// import styles from "@/styles/Login.module.css";
-
+import styles from "@/styles/Login.module.css";
 import * as api from "./api/api.js";
 import { useRouter } from 'next/router';
 import bcrypt from 'bcryptjs';
@@ -21,6 +20,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function Login({ user }) {
+// export default function Login() {
     const [allUsers, setAllUsers] = useState([]);
     const router = useRouter();
 
@@ -29,7 +29,7 @@ export default function Login({ user }) {
             setAllUsers(users.data);
         });
     }, []);
-    console.log(user);
+    console.log(allUsers);
 
     //when the user clicks log in
     const handleLogin = (e) => {
@@ -49,6 +49,8 @@ export default function Login({ user }) {
                     console.log("password matched!")
                     //set user info in local storage for login persistence
                     localStorage.setItem('user', JSON.stringify(user));
+                    //once logged in, immediately go to home page
+                    router.push("/");
                 } else {
                     alert("your password is incorrect! try again");
                 }
@@ -57,11 +59,6 @@ export default function Login({ user }) {
             });
         }
         e.target.reset();
-    }
-
-    //once logged in, immediately go to home page
-    if (typeof window !== 'undefined' && localStorage.getItem('user')) {
-        router.push("/");
     }
 
     return (
@@ -76,15 +73,19 @@ export default function Login({ user }) {
                         height={700}
                         priority
                     />
-              </div>
-              <div className={styles.login_right}>
+                </div>
+                <div className={styles.login_right}>
                     <h1>Login</h1>
-                    <p>Welcome back to BruinShare!</p>
+                    <p>Welcome back to BruinShare! 🚙</p>
                     <form className={styles.login_form} onSubmit={(e) => handleLogin(e)}>
                         <p>username</p>
-                        <input type="text" name="username" className={`${styles.textfield} ${styles.full_width}`} required ></input>
+                        <TextField
+                            type="text" name="username" className={`${styles.full_width}`} required
+                        />
                         <p>password</p>
-                        <input type="password" name="password" className={`${styles.textfield} ${styles.full_width}`} required ></input>
+                        <TextField
+                            type="password" name="password" className={`${styles.full_width}`} required
+                        />
                         <br></br>
                         <input type="submit" value="LOG IN" className={styles.login_button}></input>
                         <p>{"Don't"} have an account? <Link className={styles.signup_link} href="/signup">Sign up</Link></p>

@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.2",
+    "@mui/styled-engine-sc": "^5.12.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
@@ -23,9 +24,7 @@
     "next": "13.3.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.11.2"
-  },
-  "watch": {
-    "test": "{src,pages}/*.js"
+    "react-router-dom": "^6.11.2",
+    "styled-components": "^5.3.10"
   }
 }

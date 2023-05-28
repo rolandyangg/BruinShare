@@ -10,12 +10,14 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     // retrieve user information from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (typeof window !== 'undefined' && !user) {
+    if (typeof window !== 'undefined' && !storedUser && router.asPath !== '/signup') {
       router.push('/login');
     } else{
       setUser(storedUser);
     }
   }, []);
+
+  console.log(user);
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -36,8 +38,17 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <Navbar profile={user}/>
-      <Component {...pageProps} user={user}/>
+    {
+      user && 
+      <>    
+        <Navbar profile={user} />
+        <Component {...pageProps} profile={user}/>
+      </>
+    }
+    {
+      !user && (router.asPath === '/login' || router.asPath == '/signup') && <Component {...pageProps} profile={user}/>
+    }
+      
     </>
   )
 }
