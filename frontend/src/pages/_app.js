@@ -38,12 +38,17 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-    {user && 
+    {
+      user && 
       <>    
         <Navbar profile={user} />
+        <Component {...pageProps} profile={user}/>
       </>
     }
-      <Component {...pageProps} profile={user}/>
+    {
+      !user && (router.asPath === '/login' || router.asPath == '/signup') && <Component {...pageProps} profile={user}/>
+    }
+      
     </>
   )
 }
