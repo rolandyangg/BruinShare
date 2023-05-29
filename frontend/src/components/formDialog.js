@@ -11,7 +11,7 @@ import styles from '@/styles/postDialog.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "../pages/api/posts.js";
-import dayjs from 'dayjs';
+
 
 
 export default function CustomizedDialogs() {
@@ -67,8 +67,16 @@ export default function CustomizedDialogs() {
     api.createPost(newPost);
   
     // Reset the form after saving the post
-   e.target.reset();
-   handleClose();
+    formData.departLoc = '';
+    formData.dest = '';
+    formData.departDate = '';
+    formData.departTime = '';
+    formData.flightTime = '';
+    formData.flightNumber = '';
+    formData.flightDest = '';
+    formData.groupSize = 0;  
+    
+    handleClose();
   };
   
 
@@ -113,7 +121,6 @@ export default function CustomizedDialogs() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                     <DatePicker 
-                        label="Basic date picker"
                         value={formData.departDate}
                         onChange={(date) => handleInputChange({ target: { name: 'departDate', value: date.toISOString() } })}
                     />
@@ -127,7 +134,6 @@ export default function CustomizedDialogs() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['TimePicker', 'TimePicker']}>
                         <TimePicker
-                            label="Controlled picker"
                             value={formData.departTime}
                             onChange={(time) => handleInputChange({ target: { name: 'departTime', value: time.toISOString()} })}
                         />
@@ -139,7 +145,6 @@ export default function CustomizedDialogs() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['TimePicker', 'TimePicker']}>
                         <TimePicker
-                            label="Controlled picker"
                             value={formData.flightTime}
                             onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time.toISOString()} })}
                         />
