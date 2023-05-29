@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { FormControl, MenuItem, Select } from '@mui/material';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -11,8 +10,6 @@ import styles from '@/styles/postDialog.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "../pages/api/posts.js";
-
-
 
 export default function CustomizedDialogs() {
   const [open, setOpen] = React.useState(false);
@@ -119,36 +116,30 @@ export default function CustomizedDialogs() {
               <div className={styles.inputContainer}>
                 <label htmlFor="departDate">Depart. Date:</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
                     <DatePicker 
                         value={formData.departDate}
                         onChange={(date) => handleInputChange({ target: { name: 'departDate', value: date.toISOString() } })}
                     />
-                </DemoContainer>
                 </LocalizationProvider>
-
               </div>
 
             <div className={styles.inputContainer}>
                 <label htmlFor="departTime">Depart. Time:</label>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['TimePicker', 'TimePicker']}>
-                        <TimePicker
-                            value={formData.departTime}
-                            onChange={(time) => handleInputChange({ target: { name: 'departTime', value: time.toISOString()} })}
-                        />
-                    </DemoContainer>
+                <LocalizationProvider dateAdapter={AdapterDayjs}> 
+                  <TimePicker
+                    value={formData.departTime}
+                    onChange={(time) => handleInputChange({ target: { name: 'departTime', value: time.toISOString()} })}
+                  />
                 </LocalizationProvider>
             </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="flightTime">Flight Time:</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['TimePicker', 'TimePicker']}>
-                        <TimePicker
-                            value={formData.flightTime}
-                            onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time.toISOString()} })}
-                        />
-                    </DemoContainer>
+                  <TimePicker
+                    value={formData.flightTime}
+                      onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time.toISOString()} })}
+                    />
+                
                 </LocalizationProvider>
               </div>
               <div className={styles.inputContainer}>
@@ -178,7 +169,11 @@ export default function CustomizedDialogs() {
                 <FormControl>
                   <Select
                     value={formData.groupSize}
-                    onChange={handleInputChange}
+                    onChange={(event) =>
+                      handleInputChange({
+                        target: { name: 'groupSize', value: event.target.value },
+                      })
+                    }
                     name="groupSize"
                   >
                     <MenuItem value={2}>2</MenuItem>
