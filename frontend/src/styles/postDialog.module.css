@@ -70,13 +70,14 @@
   font-family: 'Work Sans';
   font-style: normal;
   font-weight: 400;
-  font-size: 28px;
+  font-size: 26px;
   line-height: 22px;
 }
 
 .dialogActions {
   display: flex;
-  justify-content: flex-end;
+  align-items: right;
+  /* //justify-content: flex-end; */
   margin-top: auto;
 }
 

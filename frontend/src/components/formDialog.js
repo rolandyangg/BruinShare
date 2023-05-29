@@ -1,69 +1,181 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { FormControl, MenuItem, Select } from '@mui/material';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import styles from '@/styles/postDialog.module.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import * as api from "../pages/api/posts.js";
+import dayjs from 'dayjs';
+
 
 export default function CustomizedDialogs() {
   const [open, setOpen] = React.useState(false);
 
+  //define our form
+  const [formData, setFormData] = React.useState({
+    departLoc: '',
+    dest: '',
+    departDate: '',
+    departTime: '',
+    flightTime: '',
+    flightNumber: '',
+    flightDest: '',
+    groupSize: 0
+  });
+
+  //open dialog
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  //close dialog
   const handleClose = () => {
     setOpen(false);
   };
 
-  const [selectedNumber, setSelectedNumber] = React.useState('');
-
-  const handleNumberChange = (event) => {
-    setSelectedNumber(event.target.value);
+  //handle changes in input
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value
+    }));
   };
+
+  //submit form
+  const handleCreatePost = (e) => {
+    e.preventDefault();
+    // Create the post using the form data
+    const newPost = {
+        departLoc: formData.departLoc,
+        dest: formData.dest,
+        departDate: formData.departDate,
+        departTime: formData.departTime,
+        flightTime: formData.flightTime,
+        flightNumber: formData.flightNumber,
+        flightDest: formData.flightDest,
+        groupSize: formData.groupSize,
+    };
+  
+    // Call a function or API to save the post to the database
+    api.createPost(newPost);
+  
+    // Reset the form after saving the post
+   e.target.reset();
+   handleClose();
+  };
+  
 
   return (
     <div>
+      {/* button to open dialog */}
       <Button variant="outlined" onClick={handleClickOpen}>
         Create Post
       </Button>
+
+      {/* defining the dialog */}
       <Dialog open={open} onClose={handleClose}>
         <div className={styles.dialogContainer}>
           <h3 className={styles.dialogTitle}>Create Post</h3>
           <DialogContent className={styles.dialogContent}>
-            <form onSubmit={(e) => addChild(e)}>
+            {/* all the content in the dialog */}
+            <form onSubmit={handleCreatePost}>
               <div className={styles.inputContainer}>
                 <label htmlFor="departLoc">Depart. Location:</label>
-                <input type="text" id="departLoc" name="departLoc" required />
+                <input
+                  type="text"
+                  id="departLoc"
+                  name="departLoc"
+                  value={formData.departLoc}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="dest">Destination:</label>
-                <input type="text" id="dest" name="dest" required />
+                <input
+                  type="text"
+                  id="dest"
+                  name="dest"
+                  value={formData.dest}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="departDate">Depart. Date:</label>
-                <input type="text" id="departDate" name="departDate" required />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                    <DatePicker 
+                        label="Basic date picker"
+                        value={formData.departDate}
+                        onChange={(date) => handleInputChange({ target: { name: 'departDate', value: date.toISOString() } })}
+                    />
+                </DemoContainer>
+                </LocalizationProvider>
+
               </div>
-              <div className={styles.inputContainer}>
+
+            <div className={styles.inputContainer}>
                 <label htmlFor="departTime">Depart. Time:</label>
-                <input type="text" id="departTime" name="departTime" required />
-              </div>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['TimePicker', 'TimePicker']}>
+                        <TimePicker
+                            label="Controlled picker"
+                            value={formData.departTime}
+                            onChange={(time) => handleInputChange({ target: { name: 'departTime', value: time.toISOString()} })}
+                        />
+                    </DemoContainer>
+                </LocalizationProvider>
+            </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="flightTime">Flight Time:</label>
-                <input type="text" id="flightTime" name="flightTime" required />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={['TimePicker', 'TimePicker']}>
+                        <TimePicker
+                            label="Controlled picker"
+                            value={formData.flightTime}
+                            onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time.toISOString()} })}
+                        />
+                    </DemoContainer>
+                </LocalizationProvider>
               </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="flightNumber">Flight Number:</label>
-                <input type="text" id="flightNumber" name="flightNumber" required />
+                <input
+                  type="text"
+                  id="flightNumber"
+                  name="flightNumber"
+                  value={formData.flightNumber}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="flightDest">Flight Dest.:</label>
-                <input type="text" id="flightDest" name="flightDest" required />
+                <input
+                  type="text"
+                  id="flightDest"
+                  name="flightDest"
+                  value={formData.flightDest}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div className={styles.inputContainer}>
                 <label htmlFor="number">Group Size (including you):</label>
                 <FormControl>
-                  <Select value={selectedNumber} onChange={handleNumberChange}>
+                  <Select
+                    value={formData.groupSize}
+                    onChange={handleInputChange}
+                    name="groupSize"
+                  >
                     <MenuItem value={2}>2</MenuItem>
                     <MenuItem value={3}>3</MenuItem>
                     <MenuItem value={4}>4</MenuItem>
@@ -85,3 +197,4 @@ export default function CustomizedDialogs() {
     </div>
   );
 }
+
