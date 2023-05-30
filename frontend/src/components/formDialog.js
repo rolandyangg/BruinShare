@@ -16,6 +16,7 @@ export default function CustomizedDialogs({ profile }) {
 
   //define our form
   const [formData, setFormData] = React.useState({
+    creator: '',
     departLoc: '',
     dest: '',
     departDate: '',
@@ -45,11 +46,14 @@ export default function CustomizedDialogs({ profile }) {
     }));
   };
 
+  let creator = `${profile.firstname} ${profile.lastname}`;
+
   //submit form
   const handleCreatePost = (e) => {
     e.preventDefault();
     // Create the post using the form data
     const newPost = {
+        creator: creator,
         departLoc: formData.departLoc,
         dest: formData.dest,
         departDate: formData.departDate,
@@ -63,9 +67,10 @@ export default function CustomizedDialogs({ profile }) {
     // Call a function or API to save the post to the database
     api.createPost(newPost);
 
-    setPosts((prevPosts) => [...prevPosts, createdPost]);
+    //setPosts((prevPosts) => [...prevPosts, createdPost]);
   
     // Reset the form after saving the post
+    creator = '';
     formData.departLoc = '';
     formData.dest = '';
     formData.departDate = '';
@@ -85,7 +90,6 @@ export default function CustomizedDialogs({ profile }) {
       <Button variant="outlined" onClick={handleClickOpen}>
         Create Post
       </Button>
-      <h2>{profile.firstname}</h2> 
       {/* defining the dialog */}
       <Dialog open={open} onClose={handleClose}>
         <div className={styles.dialogContainer}>

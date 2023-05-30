@@ -18,6 +18,7 @@ const PostList = () => {
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
+            <p>Author: {post.data.creator} </p>
             <p>Departure Date: {post.data.departDate}</p>
             <p>Departure Location: {post.data.departLoc}</p>
             <p>Departure Time: {post.data.departTime}</p>

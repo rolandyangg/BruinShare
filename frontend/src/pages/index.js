@@ -10,7 +10,7 @@ import PostList from "@/components/allPosts.js";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({profile}) {
   const [data, setData] = useState([]);
 
   // const getData = () => {
@@ -31,8 +31,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <CustomizedDialogs/>
+    <CustomizedDialogs profile={profile}/>
     <PostList/>
+    <div><h1>{profile.firstname}</h1></div>
 
       
     </>
