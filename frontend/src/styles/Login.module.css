@@ -67,7 +67,20 @@
     border-radius: 5px;
 }
 
+.signup_button{
+    width: 465px !important;
+}
+
 .signup_link{
     color: #18A0FB;
     text-decoration: underline;
+}
+
+.input_block{
+    display: flex;
+}
+
+.text_block{
+    display: block;
+    margin-right: 50px;
 }

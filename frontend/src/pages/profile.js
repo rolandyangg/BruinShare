@@ -1,4 +1,7 @@
-export default function Profile({user}) {
-  // TODO: FIX THE PAGE PROPS IN APP.JS -- USER IS A NULL OBJECT UPON REFRESH
-    return <h1>PROFILE PAGE</h1>;
+import { useEffect } from "react";
+
+export default function Profile({profile}) {
+    
+    console.log(profile);
+    return <h1>PROFILE PAGE FOR {profile.firstname}</h1>;
   }
