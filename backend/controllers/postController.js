@@ -34,8 +34,9 @@ const createPost = async (req, res) => {
       groupSize: groupSize
     };
 
-    await addDoc(collection(db, "posts"), postData);
-    res.status(202).json('success');
+    const doc = await addDoc(collection(db, "posts"), postData);
+    const id = doc.id;
+    res.status(202).json(id);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

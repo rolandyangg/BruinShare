@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,6 +13,16 @@ import * as api from "../pages/api/posts.js";
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    api.getPosts().then((response) => {
+      setPosts(response.data);
+    });
+  }, []);
+
+  console.log(posts);
+
 
   //define our form
   const [formData, setFormData] = React.useState({
@@ -65,9 +75,14 @@ export default function CustomizedDialogs({ profile }) {
     };
   
     // Call a function or API to save the post to the database
-    api.createPost(newPost);
+    const id = api.createPost(newPost);
 
-    //setPosts((prevPosts) => [...prevPosts, createdPost]);
+    const newpost2 = {};
+    newpost2.id = id;
+    newpost2.data = newPost;
+    
+    const tempPosts = [...posts, newpost2]
+    setPosts(tempPosts);
   
     // Reset the form after saving the post
     creator = '';
@@ -200,6 +215,25 @@ export default function CustomizedDialogs({ profile }) {
           </DialogContent>
         </div>
       </Dialog>
+      {/* display all posts */}
+      <div>
+      <h2>Posts</h2>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            <p>Author: {post.data.creator} </p>
+            <p>Departure Date: {post.data.departDate}</p>
+            <p>Departure Location: {post.data.departLoc}</p>
+            <p>Departure Time: {post.data.departTime}</p>
+            <p>Destination: {post.data.dest}</p>
+            <p>Flight Destination: {post.data.flightDest}</p>
+            <p>Flight Number: {post.data.flightNumber}</p>
+            <p>Flight Time: {post.data.flightTime}</p>
+            <p>Group Size: {post.data.groupSize}</p>
+          </li>
+        ))}
+      </ul>
+      </div>
     </div>
   );
 }

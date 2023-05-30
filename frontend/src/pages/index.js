@@ -4,8 +4,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import * as api from "./api/api.js";
-import CustomizedDialogs from "@/components/formDialog.js";
-import PostList from "@/components/allPosts.js";
+import CustomizedDialogs from "@/components/posts.js";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,10 +31,6 @@ export default function Home({profile}) {
     </Head>
 
     <CustomizedDialogs profile={profile}/>
-    <PostList/>
-    <div><h1>{profile.firstname}</h1></div>
-
-      
     </>
   );
 }
