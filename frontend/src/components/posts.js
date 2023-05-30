@@ -6,7 +6,7 @@ import { FormControl, MenuItem, Select } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import styles from '@/styles/postDialog.module.css';
+import styles from '@/styles/post.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "../pages/api/posts.js";
@@ -57,17 +57,35 @@ export default function CustomizedDialogs({ profile }) {
   };
 
   let creator = `${profile.firstname} ${profile.lastname}`;
-
+  let timeString = formData.departTime;
+  let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   //submit form
   const handleCreatePost = (e) => {
     e.preventDefault();
+
+    //format departure date
+    const iDateString = formData.departDate;
+    const date = new Date(iDateString);
+
+    // Extracting the date components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    // Formatting the date as mm/dd/yyyy
+    const formattedDD = `${month}/${day}/${year}`;
+
+    // if (duplicate.length !== 0) {
+    //   alert("your username is taken! pick another one!")
+    // }
+
     // Create the post using the form data
     const newPost = {
         creator: creator,
         departLoc: formData.departLoc,
         dest: formData.dest,
-        departDate: formData.departDate,
-        departTime: formData.departTime,
+        departDate: formattedDD,
+        departTime: departTime,
         flightTime: formData.flightTime,
         flightNumber: formData.flightNumber,
         flightDest: formData.flightDest,
@@ -216,24 +234,26 @@ export default function CustomizedDialogs({ profile }) {
         </div>
       </Dialog>
       {/* display all posts */}
-      <div>
-      <h2>Posts</h2>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <p>Author: {post.data.creator} </p>
-            <p>Departure Date: {post.data.departDate}</p>
-            <p>Departure Location: {post.data.departLoc}</p>
-            <p>Departure Time: {post.data.departTime}</p>
-            <p>Destination: {post.data.dest}</p>
-            <p>Flight Destination: {post.data.flightDest}</p>
+      <div className={styles.postContainer}>
+      {posts.map((post) => (
+        <div key={post.id} className={styles.post}>
+          <div className={styles.postContent}>
+            <p className={styles.postCreator}>Author: {post.data.creator}</p>
+            <p className={styles.departDate}>{post.data.departDate}</p>
+            <div className={styles.travelInfo}>
+              <p>Depart: {post.data.departLoc}</p>
+              <p>Dest: {post.data.dest}</p>
+              <p>Depart. Time: {post.data.departTime}</p>
+            </div>
+            {/* <p>Flight Destination: {post.data.flightDest}</p>
             <p>Flight Number: {post.data.flightNumber}</p>
-            <p>Flight Time: {post.data.flightTime}</p>
+            <p>Flight Time: {post.data.flightTime}</p> */}
             <p>Group Size: {post.data.groupSize}</p>
-          </li>
-        ))}
-      </ul>
-      </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
     </div>
   );
 }
