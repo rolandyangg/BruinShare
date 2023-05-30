@@ -11,7 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "../pages/api/posts.js";
 
-export default function CustomizedDialogs() {
+export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
 
   //define our form
@@ -62,6 +62,8 @@ export default function CustomizedDialogs() {
   
     // Call a function or API to save the post to the database
     api.createPost(newPost);
+
+    setPosts((prevPosts) => [...prevPosts, createdPost]);
   
     // Reset the form after saving the post
     formData.departLoc = '';
@@ -83,7 +85,7 @@ export default function CustomizedDialogs() {
       <Button variant="outlined" onClick={handleClickOpen}>
         Create Post
       </Button>
-
+      <h2>{profile.firstname}</h2> 
       {/* defining the dialog */}
       <Dialog open={open} onClose={handleClose}>
         <div className={styles.dialogContainer}>

@@ -8,7 +8,7 @@ const PostList = () => {
     api.getPosts().then((response) => {
       setPosts(response.data);
     });
-  }, [posts.length]);
+  }, []);
 
   console.log(posts);
 
