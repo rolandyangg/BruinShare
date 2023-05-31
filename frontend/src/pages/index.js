@@ -30,7 +30,8 @@ export default function Home({profile}) {
         <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <CustomizedDialogs profile={profile}/>
-    </>
+    <CustomizedDialogs profile={profile}/></>
+
+    
   );
 }
