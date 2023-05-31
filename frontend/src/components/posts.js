@@ -64,7 +64,7 @@ export default function CustomizedDialogs({ profile }) {
     departTime: '',
     flightTime: '',
     flightNumber: '',
-    flightDest: '',
+    //flightDest: '',
     groupSize: 0
   });
 
@@ -95,7 +95,7 @@ export default function CustomizedDialogs({ profile }) {
     e.preventDefault();
 
     //format departure date
-    const iDateString = formData.departDate;
+    const iDateString = formData.departTime;
     const date = new Date(iDateString);
 
     // Extracting the date components
@@ -119,7 +119,7 @@ export default function CustomizedDialogs({ profile }) {
       departTime: departTime,
       flightTime: formData.flightTime,
       flightNumber: formData.flightNumber,
-      flightDest: formData.flightDest,
+      //flightDest: formData.flightDest,
       groupSize: formData.groupSize,
     };
 
@@ -141,7 +141,7 @@ export default function CustomizedDialogs({ profile }) {
     formData.departTime = '';
     formData.flightTime = '';
     formData.flightNumber = '';
-    formData.flightDest = '';
+    //formData.flightDest = '';
     formData.groupSize = 0;
 
     handleClose();
@@ -183,24 +183,35 @@ export default function CustomizedDialogs({ profile }) {
         <DialogTitle id="alert-dialog-title">
           Create Post
         </DialogTitle>
-        <form>
+        <form onSubmit={handleCreatePost}>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Fill out the following to create your own post.
             </DialogContentText>
             <Grid container spacing={2} mt={0}>
-              <Grid item xs={12}>
+            <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Departure Location"
+                  name="departLoc"
+                  value={formData.departLoc}
+                  onChange={handleInputChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={6}>
                 <TextField
                   fullWidth
                   label="Destination"
                   name="dest"
-                  
+                  value={formData.dest}
+                  onChange={handleInputChange}
                   required
                 />
               </Grid>
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker textFieldProps={{ fullWidth: true }} label="Depart Time" required/>
+                  <DateTimePicker textFieldProps={{ fullWidth: true }} label="Depart Time" value={formData.departTime}  onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date.format() } })}required/>
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={6}>
@@ -210,35 +221,49 @@ export default function CustomizedDialogs({ profile }) {
                     labelId="group-size"
                     id="group-size-selection"
                     label="Group Size"
+                    value={formData.groupSize}
+                    onChange={(event) =>
+                      handleInputChange({
+                        target: { name: 'groupSize', value: event.target.value },
+                      })
+                    }
                   >
                     <MenuItem value={2}>Two</MenuItem>
                     <MenuItem value={3}>Three</MenuItem>
                     <MenuItem value={4}>Four</MenuItem>
                     <MenuItem value={5}>Five</MenuItem>
+                    <MenuItem value={6}>Six</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label="Flight Name"
-                />
+                  label="Flight Time"
+                  name="flightTime"
+                  value={formData.flightTime}
+                  onChange={handleInputChange}
+                />  
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label="Flight Destination"
+                  label="Flight Number"
+                  name="flightNumber"
+                  value={formData.flightNumber}
+                  onChange={handleInputChange}
                 />
               </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} variant="outlined">Cancel</Button>
-            <Button onClick={handleClose} variant="contained" autoFocus> Submit</Button>
+            <Button type="submit" variant="contained" autoFocus> Submit</Button>
           </DialogActions>
         </form>
       </Dialog>
 
+      {/* display posts */}
       <Box m={2}>
         <Grid container spacing={2} mt={2} pb={5}>
           {posts.map((post) => (
