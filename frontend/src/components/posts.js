@@ -26,6 +26,7 @@ import {
   Typography,
   Paper
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -236,12 +237,12 @@ export default function CustomizedDialogs({ profile }) {
       </Dialog>
 
       <Box m={2}>
-        <Grid container spacing={2} mt={2}>
+        <Grid container spacing={2} mt={2} pb={5}>
           {posts.map((post) => (
               <Grid item xs={12} sm={6} md={4} lg={3} variant="outlined">
                 {/* <Paper elevation={24}/> */}
-                <Card sx={{ maxWidth: 1000, boxShadow: 5 }}>
-                  <Grid xs mt={2} display="flex" justifyContent="center" alignItems="center">
+                <Card sx={{ maxWidth: 1000, boxShadow: 10}}>
+                  <Grid xs display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: grey[50] }} p={3}>
                     <CardMedia
                       center
                       style={{borderRadius: '50%', height:'30vh', width:'30vh'}}
@@ -252,8 +253,7 @@ export default function CustomizedDialogs({ profile }) {
                     />
                   </Grid>
                   <CardContent>
-                  <AvatarGroup max={4}>
-                    <Avatar alt={post.data.creator} src="/static/images/avatar/1.jpg" />
+                  <AvatarGroup max={3}>
                     <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                     <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
                     <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
