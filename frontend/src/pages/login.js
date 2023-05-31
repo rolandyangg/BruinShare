@@ -13,6 +13,9 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
+import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -135,6 +138,9 @@ export default function Login({ user }) {
                                     label="Username"
                                     name="username"
                                     autoComplete="username"
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start"><PersonIcon/></InputAdornment>,
+                                    }}
                                     autoFocus
                                 />
                                 <TextField
@@ -146,6 +152,9 @@ export default function Login({ user }) {
                                     type="password"
                                     id="password"
                                     autoComplete="password"
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start"><LockIcon/></InputAdornment>,
+                                    }}
                                 />
                                 <Button
                                     fullWidth
