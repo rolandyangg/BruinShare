@@ -150,6 +150,7 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
+      {/* search bar and sort by  */}
       <Box m={2}>
         <Grid container spacing={2} mt={4}>
           <Grid item xs={8}>
@@ -192,12 +193,14 @@ export default function CustomizedDialogs({ profile }) {
                 <TextField
                   fullWidth
                   label="Destination"
+                  name="dest"
+                  
                   required
                 />
               </Grid>
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker slotProps={{ textField: { fullWidth: true } }} label="Depart Time" required/>
+                  <DateTimePicker textFieldProps={{ fullWidth: true }} label="Depart Time" required/>
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={6}>
@@ -239,12 +242,12 @@ export default function CustomizedDialogs({ profile }) {
       <Box m={2}>
         <Grid container spacing={2} mt={2} pb={5}>
           {posts.map((post) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} variant="outlined">
+              <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 {/* <Paper elevation={24}/> */}
                 <Card sx={{ maxWidth: 1000, boxShadow: 10}}>
-                  <Grid xs display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: grey[50] }} p={3}>
+                  <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: grey[50] }} p={3}>
                     <CardMedia
-                      center
+                      center="true"
                       style={{borderRadius: '50%', height:'30vh', width:'30vh'}}
                       component="img"
                       alt="title"
