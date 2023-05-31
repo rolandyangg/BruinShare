@@ -238,14 +238,19 @@ export default function CustomizedDialogs({ profile }) {
       <Box m={2}>
         <Grid container spacing={2} mt={2}>
           {posts.map((post) => (
-              <Grid item xs={6} sm={4} md={3}>
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardMedia
-                    component="img"
-                    alt="title"
-                    height="140"
-                    image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80"
-                  />
+              <Grid item xs={12} sm={6} md={4} lg={3} variant="outlined">
+                {/* <Paper elevation={24}/> */}
+                <Card sx={{ maxWidth: 1000, boxShadow: 5 }}>
+                  <Grid xs mt={2} display="flex" justifyContent="center" alignItems="center">
+                    <CardMedia
+                      center
+                      style={{borderRadius: '50%', height:'30vh', width:'30vh'}}
+                      component="img"
+                      alt="title"
+                      height="140"
+                      image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80"
+                    />
+                  </Grid>
                   <CardContent>
                   <AvatarGroup max={4}>
                     <Avatar alt={post.data.creator} src="/static/images/avatar/1.jpg" />
@@ -258,7 +263,9 @@ export default function CustomizedDialogs({ profile }) {
                       {post.data.departDate}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Departing at <strong>{post.data.departTime}</strong> from <strong>{post.data.departLoc}</strong> to <strong>{post.data.dest}</strong>.
+                      Time: <strong>{post.data.departTime}</strong> <br/>
+                      Location: <strong>{post.data.departLoc}</strong> <br/>
+                      Destination: <strong>{post.data.dest}</strong>
                     </Typography>
                   </CardContent>
                   <CardActions>
