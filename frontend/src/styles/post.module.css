@@ -1,0 +1,86 @@
+.dialogContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  position: relative;
+  width: 800px;
+  height: 600px;
+  background: #FFFFFF;
+  border-radius: 20px;
+}
+.dialogTitle {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  margin-bottom: 100px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 22px;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 22px;
+}
+
+.dialogActions {
+  display: flex;
+  align-items: right;
+  /* //justify-content: flex-end; */
+  margin-top: auto;
+}
+
+.dialogContent form input {
+  margin-bottom: 20px;
+}
+
+.postContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post {
+  box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  /* width: 500px; */
+  height: 300px;
+  left: 67px;
+  top: 248px;
+  padding: 20px; /* Add padding to create space between content and border */
+  width: calc(93% / 3); 
+  margin: 10px 10px 10px 20px; /* Adjust the margin value as needed */
+}
+
+.travelInfo {
+  position: absolute;
+  width: 500px;
+  height: 158px;
+  margin: 15px 40px 22px 210px;
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: #000000;
+
+}
+
+.departDate {
+  margin: 15px 40px 0px 210px;
+  width: 500px;
+  font-family: 'Work Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 40px;
+  color: #000000;
+}
