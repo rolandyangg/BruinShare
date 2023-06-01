@@ -81,10 +81,24 @@ export default function CustomizedDialogs({ profile }) {
   //handle changes in input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value
-    }));
+  
+    // Check if the name includes a dot (.)
+    if (name.includes('.')) {
+      const [nestedName, subName] = name.split('.');
+  
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [nestedName]: {
+          ...prevFormData[nestedName],
+          [subName]: value,
+        },
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   let creator = `${profile.firstname} ${profile.lastname}`;
@@ -215,7 +229,7 @@ export default function CustomizedDialogs({ profile }) {
                     fullwidth
                     slotProps={{ textField: { fullWidth: true } }} 
                     label="Depart Time" value={formData.departTime}  
-                    onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date.format() } })}
+                    onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
                     required
                   />
                 </LocalizationProvider>
@@ -250,7 +264,7 @@ export default function CustomizedDialogs({ profile }) {
                       label="Flight Time"
                       name="flightTime"
                       value={formData.flightTime}
-                      onChange={handleInputChange}
+                      onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time } })}
                     />
                 </LocalizationProvider>
               </Grid>
