@@ -215,7 +215,7 @@ export default function CustomizedDialogs({ profile }) {
                     fullwidth
                     slotProps={{ textField: { fullWidth: true } }} 
                     label="Depart Time" value={formData.departTime}  
-                    // onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date.format() } })}
+                    onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date.format() } })}
                     required
                   />
                 </LocalizationProvider>
@@ -250,7 +250,7 @@ export default function CustomizedDialogs({ profile }) {
                       label="Flight Time"
                       name="flightTime"
                       value={formData.flightTime}
-                      // onChange={handleInputChange}
+                      onChange={handleInputChange}
                     />
                 </LocalizationProvider>
               </Grid>
