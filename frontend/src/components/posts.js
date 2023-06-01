@@ -188,7 +188,7 @@ export default function CustomizedDialogs({ profile }) {
             <DialogContentText id="alert-dialog-description">
               Fill out the following to create your own post.
             </DialogContentText>
-            <Grid container spacing={2} mt={0}>
+            <Grid container spacing={2} mt={0} mb={2}>
             <Grid item xs={6}>
                 <TextField
                   fullWidth
@@ -211,7 +211,13 @@ export default function CustomizedDialogs({ profile }) {
               </Grid>
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker textFieldProps={{ fullWidth: true }} label="Depart Time" value={formData.departTime}  onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date.format() } })}required/>
+                  <DateTimePicker 
+                    fullwidth
+                    slotProps={{ textField: { fullWidth: true } }} 
+                    label="Depart Time" value={formData.departTime}  
+                    // onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date.format() } })}
+                    required
+                  />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={6}>
@@ -237,13 +243,16 @@ export default function CustomizedDialogs({ profile }) {
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label="Flight Time"
-                  name="flightTime"
-                  value={formData.flightTime}
-                  onChange={handleInputChange}
-                />  
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <TimePicker 
+                      fullwidth
+                      slotProps={{ textField: { fullWidth: true } }}
+                      label="Flight Time"
+                      name="flightTime"
+                      value={formData.flightTime}
+                      // onChange={handleInputChange}
+                    />
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -255,11 +264,11 @@ export default function CustomizedDialogs({ profile }) {
                 />
               </Grid>
             </Grid>
+            <DialogActions>
+              <Button onClick={handleClose} variant="outlined">Cancel</Button>
+              <Button type="submit" variant="contained" autoFocus> Submit</Button>
+            </DialogActions>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} variant="outlined">Cancel</Button>
-            <Button type="submit" variant="contained" autoFocus> Submit</Button>
-          </DialogActions>
         </form>
       </Dialog>
 
