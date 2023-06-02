@@ -4,7 +4,9 @@ import Image from "next/image";
 
 export default function Profile({ profile }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedProfile, setEditedProfile] = useState({ ...profile });
+  const [editedProfile, setEditedProfile] = useState({
+    description: profile.description,
+  });
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -12,7 +14,7 @@ export default function Profile({ profile }) {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedProfile({ ...profile });
+    setEditedProfile({ description: profile.description });
   };
 
   const handleSaveProfile = () => {
@@ -30,24 +32,56 @@ export default function Profile({ profile }) {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setEditedProfile((prevState) => ({
+        ...prevState,
+        profilePicture: reader.result,
+      }));
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div>
       <div className={styles.profile_container}>
         <div className={styles.profile_left}>
-        <button className={styles.edit_profile_button}>Edit Profile</button>
           <div className={styles.profile_image}>
-            <Image
-              src="/icons/pfp.svg"
-              alt="Profile Picture"
-              width={700}
-              height={700}
-              priority
-            />
+            {isEditing ? (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className={styles.edit_profile_file_input}
+              />
+            ) : (
+              <Image
+                src={editedProfile.profilePicture || "/icons/pfp.svg"}
+                alt="Profile Picture"
+                width={700}
+                height={700}
+                priority
+              />
+            )}
           </div>
           <h1 className={styles.profile_name}>{profile.firstname}</h1>
           <p className={styles.profile_username}>{profile.username}</p>
           <p className={styles.profile_description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            {isEditing ? (
+              <textarea
+                name="description"
+                value={editedProfile.description}
+                onChange={handleInputChange}
+              ></textarea>
+            ) : (
+              profile.description
+            )}
           </p>
         </div>
         <div className={styles.profile_right}>
@@ -74,6 +108,7 @@ export default function Profile({ profile }) {
                   name="email"
                   value={editedProfile.email}
                   onChange={handleInputChange}
+                  className={styles.edit_profile_input}
                 />
               ) : (
                 <span className={styles.info_value}>{profile.email}</span>
@@ -87,6 +122,7 @@ export default function Profile({ profile }) {
                   name="phone"
                   value={editedProfile.phone}
                   onChange={handleInputChange}
+                  className={styles.edit_profile_input}
                 />
               ) : (
                 <span className={styles.info_value}>{profile.phone}</span>
@@ -100,6 +136,7 @@ export default function Profile({ profile }) {
                   name="location"
                   value={editedProfile.location}
                   onChange={handleInputChange}
+                  className={styles.edit_profile_input}
                 />
               ) : (
                 <span className={styles.info_value}>{profile.location}</span>
@@ -108,11 +145,13 @@ export default function Profile({ profile }) {
             <div className={styles.info_row}>
               <span className={styles.info_label}>Interests &amp; Hobbies</span>
               {isEditing ? (
-                <textarea
+                <input
+                  type="text"
                   name="interests"
                   value={editedProfile.interests}
                   onChange={handleInputChange}
-                ></textarea>
+                  className={styles.edit_profile_input}
+                />
               ) : (
                 <span className={styles.info_value}>{profile.interests}</span>
               )}
