@@ -10,17 +10,7 @@ import CustomizedDialogs from "@/components/posts.js";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({profile}) {
-  const [data, setData] = useState([]);
-
-  // const getData = () => {
-  //   api.getUsers().then((users) => {
-  //     setData(users.data);
-  //     console.log(users.data);
-  //   })
-  // }
-
-  // useEffect(getData, []);
-
+  
   return (
     <>
     <Head>
@@ -30,7 +20,8 @@ export default function Home({profile}) {
         <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <CustomizedDialogs profile={profile}/>
-    </>
+    <CustomizedDialogs profile={profile}/></>
+
+    
   );
 }

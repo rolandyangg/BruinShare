@@ -5,6 +5,7 @@ import Image from "next/image";
 export default function Profile({profile}) {
     return (
      <div>
+      <button className={styles.edit_profile_button}>Edit Profile</button>
       <div className={styles.profile_container}>
         <div className={styles.profile_left}>
         <button className={styles.edit_profile_button}>Edit Profile</button>

@@ -25,3 +25,25 @@ export const createPost = async (newPost) => {
   }
   return null;
 };
+
+export const getUserPosts = async (username) => {
+  try {
+    const posts = await axios.post(`${url}/getUserPosts`, {username});
+    return posts;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not get all of users posts!');
+  }
+  return null;
+};
+
+export const joinGroup = async (username, postID) => {
+  try {
+    const posts = await axios.post(`${url}/joinGroup`, {username, postID});
+    return posts;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not join the post group!');
+  }
+  return null;
+};
