@@ -50,7 +50,8 @@ export default function CustomizedDialogs({ profile }) {
 
   useEffect(() => {
     api.getPosts().then((response) => {
-      setPosts(response.data);
+      if(response !== null)
+        setPosts(response.data);
     });
   }, []);
 
@@ -163,21 +164,35 @@ export default function CustomizedDialogs({ profile }) {
     const tempPosts = [...posts, newpost2]
     setPosts(tempPosts);
 
-    // Reset the form after saving the post
-    userName = '';
-    creator = '';
-    formData.departLoc = '';
-    formData.dest = '';
-    formData.departDate = '';
-    formData.departTime = '';
-    formData.flightTime = '';
-    formData.flightNumber = '';
-    //formData.flightDest = '';
-    formData.groupSize = 0;
+    api.getPosts().then(() => {
+      // Reset the form after saving the post
+      userName = '';
+      creator = '';
+      formData.departLoc = '';
+      formData.dest = '';
+      formData.departDate = '';
+      formData.departTime = '';
+      formData.flightTime = '';
+      formData.flightNumber = '';
+      //formData.flightDest = '';
+      formData.groupSize = 0;
 
-    handleClose();
+      handleClose();
+    })
   };
 
+  const joinGroup = (postID, creator) => {
+    const username = profile.username;
+    if(creator !== null && creator !== profile.username){
+      console.log(creator);
+      api.joinGroup(username, postID).then(() => {
+        // window.location.reload();
+      });
+    }
+    else{
+      alert("cannot join this group, you created it!")
+    }
+  }
 
   return (
     <div>
@@ -331,6 +346,9 @@ export default function CustomizedDialogs({ profile }) {
                         {post.data.departDate}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
+                        Group Creator: {post.data.creator}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
                         Time: {post.data.departTime}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
@@ -343,7 +361,7 @@ export default function CustomizedDialogs({ profile }) {
                   </CardActionArea>
                   <CardActions>
                     <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
-                    <Button size="small">Join</Button>
+                    <Button size="small" onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
                   </CardActions>
                 </Card>
               </Grid>

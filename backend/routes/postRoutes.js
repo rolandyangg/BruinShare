@@ -4,6 +4,7 @@ import{
     getPosts,
     createPost,
     getUserPosts,
+    joinGroup,
 } from '../controllers/postController.js'
   
   const router = express.Router();
@@ -20,6 +21,9 @@ import{
 
   //get user posts
   router.post('/getUserPosts', getUserPosts);
+
+  //join a post group
+  router.post('/joinGroup', joinGroup);
   
   export default router;
   

@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, updateDoc } from "firebase/firestore";
 
 const getPosts = async (req, res) => {
   try {
@@ -42,7 +42,7 @@ const createPost = async (req, res) => {
   }
 };
 
-//get a user's posts
+//get a user's posts for the my rides page
 const getUserPosts = async (req, res) => {
   try {
     const { username } = req.body;
@@ -61,8 +61,29 @@ const getUserPosts = async (req, res) => {
   }
 };
 
+//allows a user to join a group (adds their username to the post members field)
+const joinGroup = async (req, res) => {
+  try {
+    const { username, postID } = req.body;
+    const postRef = doc(db, "posts", postID);
+    const postData = await getDoc(postRef);
+    const data = postData.data();
+    if(data.members === undefined || (data.members !== undefined && !(data.members).includes(username))){
+      updateDoc(postRef, {
+        members: arrayUnion(username),
+      }).then(() => {
+        res.status(202).json('success');
+      });
+    }
+    res.status(202).json('cannot join more than once');
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 export {
   getPosts,
   createPost,
   getUserPosts,
+  joinGroup,
 }

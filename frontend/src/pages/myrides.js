@@ -21,10 +21,13 @@ export default function MyRides({ profile }) {
 
     useEffect(() => {
         api.getUserPosts(username).then((response) => {
-          setPosts(response.data);
+            if(response){
+                setPosts(response.data);
+            }
         });
       }, []);
 
+      console.log(posts);
     return (
         <div>
             <h1>MY RIDES</h1>
