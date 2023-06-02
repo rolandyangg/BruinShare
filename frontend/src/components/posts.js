@@ -15,6 +15,7 @@ import {
   InputAdornment,
   InputLabel,
   Card,
+  Divider,
   CardHeader,
   CardMedia,
   CardContent,
@@ -199,7 +200,7 @@ export default function CustomizedDialogs({ profile }) {
       {/* search bar and sort by  */}
       <Box m={2}>
         <Grid container spacing={2} mt={4}>
-          <Grid item xs={8}>
+          {/* <Grid item xs={8}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
@@ -208,21 +209,86 @@ export default function CustomizedDialogs({ profile }) {
                 startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
               }}
             >Search</TextField>
-          </Grid>
-          <Grid item xs={2}>
+          </Grid> */}
+          <Grid item xs={6}>
             <FormControl fullWidth>
-              <InputLabel id="sort-posts">Sort</InputLabel>
+              <InputLabel id="sort-posts">Sort By</InputLabel>
               <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts">
-                <MenuItem value={10}>Date</MenuItem>
-                <MenuItem value={20}>Distance</MenuItem>
+                <MenuItem value={10}>Date/Time</MenuItem>
+                <MenuItem value={20}>Group Space Left</MenuItem>
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={2}>
-            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Post</Button>
+          <Grid item xs={6}>
+            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
           </Grid>
         </Grid>
       </Box>
+
+      <Divider/>
+
+      {/* filter/search bar */}
+      <Box m={2}>
+        <Grid container spacing={2} mt={4}>
+          <Grid item xs={2}>
+            <TextField
+              fullWidth
+              id="outlined-start-adornment"
+              label="Start Location"
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Search</TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              fullWidth
+              id="outlined-start-adornment"
+              label="End Location"
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Search</TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker 
+                fullwidth
+                slotProps={{ textField: { fullWidth: true } }} 
+                label="Start Date Range" value={formData.departTime}  
+                onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+                required
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker 
+                fullwidth
+                slotProps={{ textField: { fullWidth: true } }} 
+                label="End Date Range" value={formData.departTime}  
+                onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+                required
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              fullWidth
+              id="outlined-start-adornment"
+              label="Group Size"
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Group Size</TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Divider/>
 
       {/* defining the dialog */}
       <Dialog open={open} onClose={handleClose}>
