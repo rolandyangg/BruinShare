@@ -49,3 +49,18 @@ export const joinGroup = async (username, postID) => {
   }
   return null;
 };
+
+export const getFilteredPosts = async (filter) => {
+  try {
+    console.log("FILTER")
+    console.log(filter)
+    const response = await axios.get(`${url}/getFilteredPosts`, filter);
+    // console.log(posts);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not filter posts!');
+  }
+  return null;
+}

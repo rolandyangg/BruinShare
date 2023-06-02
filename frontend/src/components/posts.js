@@ -218,7 +218,7 @@ export default function CustomizedDialogs({ profile }) {
   const handleFilterFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log(filterForm)
+    // console.log(filterForm)
 
     const filter = {
       startLocation: filterForm.startLocation,
@@ -228,9 +228,9 @@ export default function CustomizedDialogs({ profile }) {
       groupSize: filterForm.groupSize
     }
 
-    // const res = api.getFilteredPosts(filter).then((response) => {
-    //   console.log(response);
-    // })    
+    const res = api.getFilteredPosts(filter).then((response) => {
+      console.log(response);
+    })    
   };
 
   const username = profile.username;

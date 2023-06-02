@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, updateDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, updateDoc, query, where } from "firebase/firestore";
 
 const getPosts = async (req, res) => {
   try {
@@ -15,24 +15,6 @@ const getPosts = async (req, res) => {
     res.status(400).json(error);
   }
 };
-
-const getFilteredPosts = async (req, res) => {
-  try {
-    console.log(req);
-    const posts = [];
-    const q = query(collection(db, "posts"), where("departLoc", "==", "UCLA"));
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-    });
-    // Insert filtering logic here...
-    res.status(202).json(posts);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-}
 
 //creates a new user & adds their info to firebase
 const createPost = async (req, res) => {
@@ -102,6 +84,30 @@ const joinGroup = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+// Return posts accordingly to the filter
+const getFilteredPosts = async (req, res) => {
+  try {
+    // console.log(req);
+    console.log("req receieved")
+
+    getDocs(query(collection(db, "posts"), 
+    where("departLoc", "==", "UCLA"),
+    where("dest", "==", "LAX")
+    )).then((sc)=> {
+      const posts = [];
+      sc.forEach((doc) => {
+        const data = doc.data();
+        posts.push({id: doc.id, data: data});
+        console.log("FOUND")
+      }) 
+      res.status(202).json("TESTING");
+    });
+  } catch (error) {
+    console.log(error)
+    res.status(400).json(error);
+  }
+}
 
 export {
   getPosts,
