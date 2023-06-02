@@ -60,3 +60,14 @@ export const leaveGroup = async (username, postID) => {
   }
   return null;
 }
+
+export const deletePost = async (postID) => {
+  try {
+    const posts = await axios.post(`${url}/deletePost`, {postID});
+    return posts;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not delete the post!');
+  }
+  return null;
+}

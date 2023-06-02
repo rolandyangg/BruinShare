@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, arrayRemove, updateDoc } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, arrayRemove, updateDoc, deleteDoc } from "firebase/firestore";
 
 const getPosts = async (req, res) => {
   try {
@@ -104,10 +104,22 @@ const leaveGroup = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const { postID } = req.body;
+    const postRef = doc(db, "posts", postID);
+    const response = await deleteDoc(postRef);
+    res.status(202).json(response);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 export {
   getPosts,
   createPost,
   getUserPosts,
   joinGroup,
   leaveGroup,
+  deletePost,
 }

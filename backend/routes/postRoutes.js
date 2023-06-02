@@ -6,6 +6,7 @@ import{
     getUserPosts,
     joinGroup,
     leaveGroup,
+    deletePost,
 } from '../controllers/postController.js'
   
   const router = express.Router();
@@ -28,6 +29,9 @@ import{
 
   //leave a post group
   router.post('/leaveGroup', leaveGroup);
+
+  //delete a post
+  router.post('/deletePost', deletePost);
   
   export default router;
   
