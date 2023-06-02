@@ -20,9 +20,10 @@ const getPosts = async (req, res) => {
 //creates a new user & adds their info to firebase
 const createPost = async (req, res) => {
   try {
-    const { departLoc, dest, departDate, departTime, flightTime, flightNumber, flightDest, groupSize, creator } = req.body;
+    const { userName, departLoc, dest, departDate, departTime, flightTime, flightNumber, flightDest, groupSize, creator } = req.body;
     console.log(req.body);
     const postData = {
+      userName: userName,
       creator: creator,
       departLoc: departLoc,
       dest: dest,
