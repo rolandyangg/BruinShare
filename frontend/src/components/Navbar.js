@@ -20,7 +20,7 @@ function Navbar ({profile}) {
                 {profile && 
                 <Stack direction='row' spacing={5}>
                     <Link href="/"><Typography variant='h6'>Home</Typography></Link>
-                    <Link href="/"><Typography variant='h6'>MyRides</Typography></Link>
+                    <Link href="/myrides"><Typography variant='h6'>MyRides</Typography></Link>
                     <Link href="/profile"><Typography variant='h6'>Profile</Typography></Link>
                     <Link href="/login" onClick={logout}><Typography variant='h6'>Logout</Typography></Link>
                 </Stack>
