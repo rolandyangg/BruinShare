@@ -19,6 +19,7 @@ import {
   CardMedia,
   CardContent,
   CardActions,
+  CardActionArea,
   Collapse,
   Avatar,
   AvatarGroup,
@@ -44,6 +45,7 @@ import * as api from "../pages/api/posts.js";
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
+  const [openInfo, setOpenInfo] = React.useState(false);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -67,6 +69,16 @@ export default function CustomizedDialogs({ profile }) {
     //flightDest: '',
     groupSize: 0
   });
+
+  //open dialog
+  const handleInfoClickOpen = () => {
+    setOpenInfo(true);
+  };
+
+  //close dialog
+  const handleInfoClose = () => {
+    setOpenInfo(false);
+  };
 
   //open dialog
   const handleClickOpen = () => {
@@ -280,7 +292,7 @@ export default function CustomizedDialogs({ profile }) {
             </Grid>
             <DialogActions>
               <Button onClick={handleClose} variant="outlined">Cancel</Button>
-              <Button type="submit" variant="contained" autoFocus> Submit</Button>
+              <Button type="submit" variant="contained" autoFocus>Submit</Button>
             </DialogActions>
           </DialogContent>
         </form>
@@ -290,45 +302,68 @@ export default function CustomizedDialogs({ profile }) {
       <Box m={2}>
         <Grid container spacing={2} mt={2} pb={5}>
           {posts.map((post) => (
-              <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
+            <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 {/* <Paper elevation={24}/> */}
-                <Card sx={{ maxWidth: 1000, boxShadow: 10}}>
-                  <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{backgroundColor: grey[50] }} p={3}>
-                    <CardMedia
-                      center="true"
-                      style={{borderRadius: '50%', height:'30vh', width:'30vh'}}
-                      component="img"
-                      alt="title"
-                      height="140"
-                      image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80"
-                    />
-                  </Grid>
-                  <CardContent>
-                  <AvatarGroup max={3}>
-                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                    <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                    <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                  </AvatarGroup>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {post.data.departDate}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Time: <strong>{post.data.departTime}</strong> <br/>
-                      Location: <strong>{post.data.departLoc}</strong> <br/>
-                      Destination: <strong>{post.data.dest}</strong>
-                    </Typography>
-                  </CardContent>
+                <Card sx={{ maxWidth: 1000, boxShadow: 10 }}>
+                  <CardActionArea>
+                    <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[50] }} p={3}>
+                      <CardMedia
+                        center="true"
+                        style={{ borderRadius: '50%', height: '30vh', width: '30vh' }}
+                        component="img"
+                        alt="title"
+                        height="140"
+                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
+                    </Grid>
+                    <CardContent>
+                      <AvatarGroup max={3}>
+                        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+                      </AvatarGroup>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {post.data.departDate}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Time: {post.data.departTime}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Location: {post.data.departLoc}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Destination: {post.data.dest}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
                   <CardActions>
-                    <Button size="small" variant="contained">Join</Button>
-                    <Button size="small" variant="outlined">Details</Button>
+                    <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                    <Button size="small">Join</Button>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
           </Grid>
       </Box>
-
+      <Dialog
+        open={openInfo}
+        onClose={handleInfoClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Creator's trip to Destination from Departure Location
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Other Group Members
+            clickable avatars
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleInfoClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
