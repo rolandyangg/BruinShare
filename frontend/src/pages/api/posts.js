@@ -26,9 +26,9 @@ export const createPost = async (newPost) => {
   return null;
 };
 
-export const getUserPosts = async () => {
+export const getUserPosts = async (username) => {
   try {
-    const posts = await axios.get(`${url}/getUserPosts`);
+    const posts = await axios.post(`${url}/getUserPosts`, {username});
     return posts;
   } catch (error) {
     console.error(error.message);

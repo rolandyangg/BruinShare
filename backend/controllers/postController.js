@@ -8,7 +8,6 @@ const getPosts = async (req, res) => {
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
-        console.log(`${doc.id} => ${doc.data()}`);
       }) 
       res.status(202).json(posts);
     });
@@ -21,7 +20,6 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     const { departLoc, dest, departDate, departTime, flightTime, flightNumber, groupSize, creator } = req.body;
-    console.log(req.body);
     const postData = {
       creator: creator,
       departLoc: departLoc,
@@ -45,12 +43,14 @@ const createPost = async (req, res) => {
 //get a user's posts
 const getUserPosts = async (req, res) => {
   try {
+    const { username } = req.body;
     getDocs(collection(db, "posts")).then((sc)=> {
       const posts = [];
       sc.forEach((doc) => {
         const data = doc.data();
-        posts.push({id: doc.id, data: data});
-        console.log(`${doc.id} => ${doc.data()}`);
+        if((data.userName !== undefined && data.userName === username) || (data.members !== undefined && (data.members).includes(username))){
+          posts.push({id: doc.id, data: data});
+        }
       }) 
       res.status(202).json(posts);
     });
