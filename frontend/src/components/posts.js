@@ -181,8 +181,8 @@ export default function CustomizedDialogs({ profile }) {
     })
   };
 
+  const username = profile.username;
   const joinGroup = (postID, creator) => {
-    const username = profile.username;
     if(creator !== null && creator !== profile.username){
       console.log(creator);
       api.joinGroup(username, postID).then(() => {
@@ -320,22 +320,32 @@ export default function CustomizedDialogs({ profile }) {
 
       {/* display posts */}
       <Box m={2}>
-        <Grid container spacing={2} mt={2} pb={5}>
+        <Grid container spacing={4} mt={2} pb={5}>
           {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 {/* <Paper elevation={24}/> */}
-                <Card sx={{ maxWidth: 1000, boxShadow: 10 }}>
+                <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
-                    <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[50] }} p={3}>
+                    <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
                       <CardMedia
                         center="true"
-                        style={{ borderRadius: '50%', height: '30vh', width: '30vh' }}
+                        style={{ borderRadius: '50%', height: '30vh', width: '30vh'}}
                         component="img"
                         alt="title"
                         height="140"
                         image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
                     </Grid>
-                    <CardContent>
+                    {/* `${locationPath.includes(module.title) ? styles.nav2_btn_top : styles.nav2_btn_blue}` */}
+                    <CardContent
+                      sx={{
+                        backgroundColor:
+                          post.data.userName === username
+                            ? '#DED9E2'
+                            : post.data.members !== undefined && post.data.members.includes(username)
+                            ? '#C65858'
+                            : '#3AE46D',
+                      }}
+                    >
                       <AvatarGroup max={3}>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
@@ -359,10 +369,27 @@ export default function CustomizedDialogs({ profile }) {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                  <CardActions>
+                  {post.data.userName === username && 
+                    <CardActions>
+                      You are the group creator.
+                    </CardActions>
+                  }
+                  {post.data.members !== undefined && post.data.members.includes(username) && 
+                    <CardActions>
+                      You have already joined this group.
+                    </CardActions>
+                  }
+                  {post.data.members !== undefined && (post.data.members).length === post.data.groupSize && 
+                    <CardActions>
+                      Maximum # of people reached.
+                    </CardActions>
+                  }
+                  {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName !== username  && 
+                    <CardActions>
                     <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
                     <Button size="small" onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
                   </CardActions>
+                  }
                 </Card>
               </Grid>
             ))}

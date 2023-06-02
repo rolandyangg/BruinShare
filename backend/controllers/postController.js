@@ -48,13 +48,17 @@ const getUserPosts = async (req, res) => {
     const { username } = req.body;
     getDocs(collection(db, "posts")).then((sc)=> {
       const posts = [];
+      const joined = [];
       sc.forEach((doc) => {
         const data = doc.data();
-        if((data.userName !== undefined && data.userName === username) || (data.members !== undefined && (data.members).includes(username))){
+        if((data.userName !== undefined && data.userName === username)){
           posts.push({id: doc.id, data: data});
         }
+        else if(data.members !== undefined && (data.members).includes(username)){
+          joined.push({id: doc.id, data: data});
+        }
       }) 
-      res.status(202).json(posts);
+      res.status(202).json({posts, joined});
     });
   } catch (error) {
     res.status(400).json(error);

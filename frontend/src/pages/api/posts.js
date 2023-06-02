@@ -28,8 +28,10 @@ export const createPost = async (newPost) => {
 
 export const getUserPosts = async (username) => {
   try {
-    const posts = await axios.post(`${url}/getUserPosts`, {username});
-    return posts;
+    const response = await axios.post(`${url}/getUserPosts`, {username});
+    // console.log(posts);
+    const {posts, joined} = response.data;
+    return {posts, joined};
   } catch (error) {
     console.error(error.message);
     console.error('could not get all of users posts!');
