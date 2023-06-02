@@ -13,7 +13,7 @@ function Navbar ({profile}) {
 
   return (
     <React.Fragment>
-      <AppBar position='fixed' color="transparent" style={{ backgroundColor: 'white' }}>
+      <AppBar position='fixed' color="transparent" style={{ backgroundColor: 'white',  color: 'black'}}>
           <Toolbar>
               <Link href="/"><img src="icons/logo.svg" alt="Logo" height="30" /></Link>
               <Typography sx={{flexGrow:1}}></Typography>
