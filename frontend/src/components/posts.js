@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  Badge,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -20,6 +21,7 @@ import {
   CardContent,
   CardActions,
   CardActionArea,
+  SmallAvatar,
   Collapse,
   Avatar,
   AvatarGroup,
@@ -214,7 +216,7 @@ export default function CustomizedDialogs({ profile }) {
             <DialogContentText id="alert-dialog-description">
               Fill out the following to create your own post.
             </DialogContentText>
-            <Grid container spacing={2} mt={0} mb={2}>
+            <Grid container spacing={2} mt={0} mb={0}>
             <Grid item xs={6}>
                 <TextField
                   fullWidth
@@ -290,11 +292,11 @@ export default function CustomizedDialogs({ profile }) {
                 />
               </Grid>
             </Grid>
-            <DialogActions>
-              <Button onClick={handleClose} variant="outlined">Cancel</Button>
-              <Button type="submit" variant="contained" autoFocus>Submit</Button>
-            </DialogActions>
           </DialogContent>
+          <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button type="submit" mr={2} autoFocus>Submit</Button>
+            </DialogActions>
         </form>
       </Dialog>
 
@@ -302,42 +304,61 @@ export default function CustomizedDialogs({ profile }) {
       <Box m={2}>
         <Grid container spacing={2} mt={2} pb={5}>
           {posts.map((post) => (
-            <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
+            <Grid item key={post.id} xs={12} sm={6} md={4} lg={3}>
                 {/* <Paper elevation={24}/> */}
                 <Card sx={{ maxWidth: 1000, boxShadow: 10 }}>
-                  <CardActionArea>
+                  <CardActionArea onClick={handleInfoClickOpen}>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[50] }} p={3}>
-                      <CardMedia
+                      <CardMedia>
+                        <Badge
+                          overlap="circular"
+                          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                          badgeContent={
+                            <AvatarGroup max={2}>
+                              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                              <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+                              <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+                            </AvatarGroup>
+                          }
+                        >
+                          <Avatar
+                            alt="Profile Picture"
+                            src="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80"
+                            sx={{ height: '30vh', width: '30vh' }}
+                          />
+                        </Badge>
+                      </CardMedia>
+                      {/* <CardMedia
                         center="true"
                         style={{ borderRadius: '50%', height: '30vh', width: '30vh' }}
                         component="img"
                         alt="title"
                         height="140"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
+                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" /> */}
                     </Grid>
                     <CardContent>
-                      <AvatarGroup max={3}>
+                      {/* <AvatarGroup max={3}>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
                         <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                      </AvatarGroup>
+                      </AvatarGroup> */}
                       <Typography gutterBottom variant="h5" component="div">
                         {post.data.departDate}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="subtitle1" color="text.secondary">
                         Time: {post.data.departTime}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="subtitle1" color="text.secondary">
                         Location: {post.data.departLoc}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="subtitle1" color="text.secondary">
                         Destination: {post.data.dest}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
                     <Button size="small">Join</Button>
                   </CardActions>
                 </Card>
@@ -361,6 +382,7 @@ export default function CustomizedDialogs({ profile }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          <Button autoFocus>Join</Button>
           <Button onClick={handleInfoClose}>Close</Button>
         </DialogActions>
       </Dialog>
