@@ -34,6 +34,7 @@ export default function Profile({ profile }) {
     <div>
       <div className={styles.profile_container}>
         <div className={styles.profile_left}>
+        <button className={styles.edit_profile_button}>Edit Profile</button>
           <div className={styles.profile_image}>
             <Image
               src="/icons/pfp.svg"
