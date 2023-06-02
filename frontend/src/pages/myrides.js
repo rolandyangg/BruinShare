@@ -32,6 +32,19 @@ export default function MyRides({ profile }) {
         });
       }, []);
     console.log(posts);
+
+    const leaveGroup = (postID) => {
+        api.leaveGroup(username, postID).then(() => {
+            api.getUserPosts(username).then((response) => {
+                if(response){
+                    console.log(response);
+                    const {posts, joined} = response;
+                    setPosts(posts);
+                    setJoined(joined);
+                }
+            });
+        })
+    }
     
     return (
         <div>
@@ -132,7 +145,7 @@ export default function MyRides({ profile }) {
                     </CardContent>
                   </CardActionArea>
                     <CardActions>
-                      <Button size="small">Leave Group</Button>
+                      <Button size="small" onClick={() => {leaveGroup(post.id)}}>Leave Group</Button>
                     </CardActions>
                 </Card>
               </Grid>

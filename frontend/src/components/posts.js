@@ -186,7 +186,10 @@ export default function CustomizedDialogs({ profile }) {
     if(creator !== null && creator !== profile.username){
       console.log(creator);
       api.joinGroup(username, postID).then(() => {
-        // window.location.reload();
+        api.getPosts().then((response) => {
+          if(response !== null)
+            setPosts(response.data);
+        });
       });
     }
     else{
@@ -376,7 +379,7 @@ export default function CustomizedDialogs({ profile }) {
                   }
                   {post.data.members !== undefined && post.data.members.includes(username) && 
                     <CardActions>
-                      You have already joined this group.
+                      You have joined this group.
                     </CardActions>
                   }
                   {post.data.members !== undefined && (post.data.members).length === post.data.groupSize && 

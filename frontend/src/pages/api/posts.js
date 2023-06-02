@@ -49,3 +49,14 @@ export const joinGroup = async (username, postID) => {
   }
   return null;
 };
+
+export const leaveGroup = async (username, postID) => {
+  try {
+    const posts = await axios.post(`${url}/leaveGroup`, {username, postID});
+    return posts;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not leave the post group!');
+  }
+  return null;
+}
