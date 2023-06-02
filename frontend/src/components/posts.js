@@ -73,6 +73,15 @@ export default function CustomizedDialogs({ profile }) {
     groupSize: 0
   });
 
+  // define our filter
+  const [filterForm, setFilterForm] = React.useState({
+    startLocation: '',
+    endLocation: '',
+    startTimeRange: '',
+    endTimeRange: '',
+    groupSize: 0
+  })
+
   //open dialog
   const handleInfoClickOpen = () => {
     setOpenInfo(true);
@@ -110,6 +119,29 @@ export default function CustomizedDialogs({ profile }) {
       }));
     } else {
       setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
+
+  //handle changes in input
+  const handleFilterInputChange = (event) => {
+    const { name, value } = event.target;
+  
+    // Check if the name includes a dot (.)
+    if (name.includes('.')) {
+      const [nestedName, subName] = name.split('.');
+  
+      setFilterForm((prevFormData) => ({
+        ...prevFormData,
+        [nestedName]: {
+          ...prevFormData[nestedName],
+          [subName]: value,
+        },
+      }));
+    } else {
+      setFilterForm((prevFormData) => ({
         ...prevFormData,
         [name]: value,
       }));
@@ -182,6 +214,25 @@ export default function CustomizedDialogs({ profile }) {
     })
   };
 
+  // Filter form submit
+  const handleFilterFormSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(filterForm)
+
+    const filter = {
+      startLocation: filterForm.startLocation,
+      endLocation: filterForm.endLocation,
+      startTimeRange: filterForm.startTimeRange,
+      endTimeRange: filterForm.endTimeRange,
+      groupSize: filterForm.groupSize
+    }
+
+    // const res = api.getFilteredPosts(filter).then((response) => {
+    //   console.log(response);
+    // })    
+  };
+
   const username = profile.username;
   const joinGroup = (postID, creator) => {
     if(creator !== null && creator !== profile.username){
@@ -197,19 +248,9 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
-      {/* search bar and sort by  */}
+      {/* sort by and create post */}
       <Box m={2}>
         <Grid container spacing={2} mt={4}>
-          {/* <Grid item xs={8}>
-            <TextField
-              fullWidth
-              id="outlined-start-adornment"
-              label="Search"
-              InputProps={{
-                startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
-              }}
-            >Search</TextField>
-          </Grid> */}
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputLabel id="sort-posts">Sort By</InputLabel>
@@ -229,12 +270,17 @@ export default function CustomizedDialogs({ profile }) {
 
       {/* filter/search bar */}
       <Box m={2}>
+      <form onSubmit={handleFilterFormSubmit}>
         <Grid container spacing={2} mt={4}>
+          
           <Grid item xs={2}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
               label="Start Location"
+              name="startLocation"
+              value={filterForm.startLocation}
+              onChange={handleFilterInputChange}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
               }}
@@ -245,6 +291,9 @@ export default function CustomizedDialogs({ profile }) {
               fullWidth
               id="outlined-start-adornment"
               label="End Location"
+              name="endLocation"
+              value={filterForm.endLocation}
+              onChange={handleFilterInputChange}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
               }}
@@ -256,7 +305,7 @@ export default function CustomizedDialogs({ profile }) {
                 fullwidth
                 slotProps={{ textField: { fullWidth: true } }} 
                 label="Start Date Range" value={formData.departTime}  
-                onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+                onChange={(date) => handleFilterInputChange({ target: { name: 'startTimeRange', value: date } })}
                 required
               />
             </LocalizationProvider>
@@ -267,25 +316,39 @@ export default function CustomizedDialogs({ profile }) {
                 fullwidth
                 slotProps={{ textField: { fullWidth: true } }} 
                 label="End Date Range" value={formData.departTime}  
-                onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+                onChange={(date) => handleFilterInputChange({ target: { name: 'endTimeRange', value: date } })}
                 required
               />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={2}>
-            <TextField
-              fullWidth
-              id="outlined-start-adornment"
-              label="Group Size"
-              InputProps={{
-                startAdornment: <InputAdornment position="start"></InputAdornment>,
-              }}
-            >Group Size</TextField>
+            <FormControl fullWidth>
+              <InputLabel id="group-size">Group Size</InputLabel>
+              <Select
+                labelId="group-size"
+                id="group-size-selection"
+                label="Group Size"
+                value={formData.groupSize}
+                onChange={(event) =>
+                  handleFilterInputChange({
+                    target: { name: 'groupSize', value: event.target.value },
+                  })
+                }
+              >
+                <MenuItem value={2}>Two</MenuItem>
+                <MenuItem value={3}>Three</MenuItem>
+                <MenuItem value={4}>Four</MenuItem>
+                <MenuItem value={5}>Five</MenuItem>
+                <MenuItem value={6}>Six</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={2}>
-            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
+            <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
           </Grid>
+          
         </Grid>
+        </form>
       </Box>
 
       <Divider/>
