@@ -1,11 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import { FormControl, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Grid,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField,
+  InputAdornment,
+  InputLabel,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  CardActionArea,
+  Collapse,
+  Avatar,
+  AvatarGroup,
+  IconButton,
+  Typography,
+  Paper
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
+
+
+import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
 import styles from '@/styles/post.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -13,11 +45,13 @@ import * as api from "../pages/api/posts.js";
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
+  const [openInfo, setOpenInfo] = React.useState(false);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     api.getPosts().then((response) => {
-      setPosts(response.data);
+      if(response !== null)
+        setPosts(response.data);
     });
   }, []);
 
@@ -26,6 +60,7 @@ export default function CustomizedDialogs({ profile }) {
 
   //define our form
   const [formData, setFormData] = React.useState({
+    userName: '',
     creator: '',
     departLoc: '',
     dest: '',
@@ -33,9 +68,19 @@ export default function CustomizedDialogs({ profile }) {
     departTime: '',
     flightTime: '',
     flightNumber: '',
-    flightDest: '',
+    //flightDest: '',
     groupSize: 0
   });
+
+  //open dialog
+  const handleInfoClickOpen = () => {
+    setOpenInfo(true);
+  };
+
+  //close dialog
+  const handleInfoClose = () => {
+    setOpenInfo(false);
+  };
 
   //open dialog
   const handleClickOpen = () => {
@@ -50,12 +95,28 @@ export default function CustomizedDialogs({ profile }) {
   //handle changes in input
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value
-    }));
+  
+    // Check if the name includes a dot (.)
+    if (name.includes('.')) {
+      const [nestedName, subName] = name.split('.');
+  
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [nestedName]: {
+          ...prevFormData[nestedName],
+          [subName]: value,
+        },
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
+
+  let userName = profile.username;
   let creator = `${profile.firstname} ${profile.lastname}`;
   let timeString = formData.departTime;
   let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -64,7 +125,7 @@ export default function CustomizedDialogs({ profile }) {
     e.preventDefault();
 
     //format departure date
-    const iDateString = formData.departDate;
+    const iDateString = formData.departTime;
     const date = new Date(iDateString);
 
     // Extracting the date components
@@ -81,6 +142,7 @@ export default function CustomizedDialogs({ profile }) {
 
     // Create the post using the form data
     const newPost = {
+        userName: userName,
         creator: creator,
         departLoc: formData.departLoc,
         dest: formData.dest,
@@ -91,169 +153,240 @@ export default function CustomizedDialogs({ profile }) {
         flightDest: formData.flightDest,
         groupSize: formData.groupSize,
     };
-  
+
     // Call a function or API to save the post to the database
     const id = api.createPost(newPost);
 
     const newpost2 = {};
     newpost2.id = id;
     newpost2.data = newPost;
-    
+
     const tempPosts = [...posts, newpost2]
     setPosts(tempPosts);
-  
-    // Reset the form after saving the post
-    creator = '';
-    formData.departLoc = '';
-    formData.dest = '';
-    formData.departDate = '';
-    formData.departTime = '';
-    formData.flightTime = '';
-    formData.flightNumber = '';
-    formData.flightDest = '';
-    formData.groupSize = 0;  
-    
-    handleClose();
+
+    api.getPosts().then(() => {
+      // Reset the form after saving the post
+      userName = '';
+      creator = '';
+      formData.departLoc = '';
+      formData.dest = '';
+      formData.departDate = '';
+      formData.departTime = '';
+      formData.flightTime = '';
+      formData.flightNumber = '';
+      //formData.flightDest = '';
+      formData.groupSize = 0;
+
+      handleClose();
+    })
   };
-  
+
+  const joinGroup = (postID, creator) => {
+    const username = profile.username;
+    if(creator !== null && creator !== profile.username){
+      console.log(creator);
+      api.joinGroup(username, postID).then(() => {
+        // window.location.reload();
+      });
+    }
+    else{
+      alert("cannot join this group, you created it!")
+    }
+  }
 
   return (
     <div>
-      {/* button to open dialog */}
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Create Post
-      </Button>
+      {/* search bar and sort by  */}
+      <Box m={2}>
+        <Grid container spacing={2} mt={4}>
+          <Grid item xs={8}>
+            <TextField
+              fullWidth
+              id="outlined-start-adornment"
+              label="Search"
+              InputProps={{
+                startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+              }}
+            >Search</TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel id="sort-posts">Sort</InputLabel>
+              <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts">
+                <MenuItem value={10}>Date</MenuItem>
+                <MenuItem value={20}>Distance</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Post</Button>
+          </Grid>
+        </Grid>
+      </Box>
+
       {/* defining the dialog */}
       <Dialog open={open} onClose={handleClose}>
-        <div className={styles.dialogContainer}>
-          <h3 className={styles.dialogTitle}>Create Post</h3>
-          <DialogContent className={styles.dialogContent}>
-            {/* all the content in the dialog */}
-            <form onSubmit={handleCreatePost}>
-              <div className={styles.inputContainer}>
-                <label htmlFor="departLoc">Depart. Location:</label>
-                <input
-                  type="text"
-                  id="departLoc"
+        <DialogTitle id="alert-dialog-title">
+          Create Post
+        </DialogTitle>
+        <form onSubmit={handleCreatePost}>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Fill out the following to create your own post.
+            </DialogContentText>
+            <Grid container spacing={2} mt={0} mb={2}>
+            <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Departure Location"
                   name="departLoc"
                   value={formData.departLoc}
                   onChange={handleInputChange}
                   required
                 />
-              </div>
-              <div className={styles.inputContainer}>
-                <label htmlFor="dest">Destination:</label>
-                <input
-                  type="text"
-                  id="dest"
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Destination"
                   name="dest"
                   value={formData.dest}
                   onChange={handleInputChange}
                   required
                 />
-              </div>
-              <div className={styles.inputContainer}>
-                <label htmlFor="departDate">Depart. Date:</label>
+              </Grid>
+              <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                        value={formData.departDate}
-                        onChange={(date) => handleInputChange({ target: { name: 'departDate', value: date.toISOString() } })}
-                    />
-                </LocalizationProvider>
-              </div>
-
-            <div className={styles.inputContainer}>
-                <label htmlFor="departTime">Depart. Time:</label>
-                <LocalizationProvider dateAdapter={AdapterDayjs}> 
-                  <TimePicker
-                    value={formData.departTime}
-                    onChange={(time) => handleInputChange({ target: { name: 'departTime', value: time.toISOString()} })}
+                  <DateTimePicker 
+                    fullwidth
+                    slotProps={{ textField: { fullWidth: true } }} 
+                    label="Depart Time" value={formData.departTime}  
+                    onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+                    required
                   />
                 </LocalizationProvider>
-            </div>
-              <div className={styles.inputContainer}>
-                <label htmlFor="flightTime">Flight Time:</label>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimePicker
-                    value={formData.flightTime}
-                      onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time.toISOString()} })}
-                    />
-                
-                </LocalizationProvider>
-              </div>
-              <div className={styles.inputContainer}>
-                <label htmlFor="flightNumber">Flight Number:</label>
-                <input
-                  type="text"
-                  id="flightNumber"
-                  name="flightNumber"
-                  value={formData.flightNumber}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className={styles.inputContainer}>
-                <label htmlFor="flightDest">Flight Dest.:</label>
-                <input
-                  type="text"
-                  id="flightDest"
-                  name="flightDest"
-                  value={formData.flightDest}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className={styles.inputContainer}>
-                <label htmlFor="number">Group Size (including you):</label>
-                <FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="group-size">Group Size</InputLabel>
                   <Select
+                    labelId="group-size"
+                    id="group-size-selection"
+                    label="Group Size"
                     value={formData.groupSize}
                     onChange={(event) =>
                       handleInputChange({
                         target: { name: 'groupSize', value: event.target.value },
                       })
                     }
-                    name="groupSize"
                   >
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={6}>6</MenuItem>
-                    <MenuItem value={7}>7</MenuItem>
-                    <MenuItem value={8}>8</MenuItem>
+                    <MenuItem value={2}>Two</MenuItem>
+                    <MenuItem value={3}>Three</MenuItem>
+                    <MenuItem value={4}>Four</MenuItem>
+                    <MenuItem value={5}>Five</MenuItem>
+                    <MenuItem value={6}>Six</MenuItem>
                   </Select>
                 </FormControl>
-              </div>
-              <div className={styles.buttonContainer}>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit">Publish</Button>
-              </div>
-            </form>
+              </Grid>
+              <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <TimePicker 
+                      fullwidth
+                      slotProps={{ textField: { fullWidth: true } }}
+                      label="Flight Time"
+                      name="flightTime"
+                      value={formData.flightTime}
+                      onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time } })}
+                    />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Flight Number"
+                  name="flightNumber"
+                  value={formData.flightNumber}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+            </Grid>
+            <DialogActions>
+              <Button onClick={handleClose} variant="outlined">Cancel</Button>
+              <Button type="submit" variant="contained" autoFocus>Submit</Button>
+            </DialogActions>
           </DialogContent>
-        </div>
+        </form>
       </Dialog>
-      {/* display all posts */}
-      <div className={styles.postContainer}>
-      {posts.map((post) => (
-        <div key={post.id} className={styles.post}>
-          <div className={styles.postContent}>
-            <p className={styles.postCreator}>Author: {post.data.creator}</p>
-            <p className={styles.departDate}>{post.data.departDate}</p>
-            <div className={styles.travelInfo}>
-              <p>Depart: {post.data.departLoc}</p>
-              <p>Dest: {post.data.dest}</p>
-              <p>Depart. Time: {post.data.departTime}</p>
-            </div>
-            {/* <p>Flight Destination: {post.data.flightDest}</p>
-            <p>Flight Number: {post.data.flightNumber}</p>
-            <p>Flight Time: {post.data.flightTime}</p> */}
-            <p>Group Size: {post.data.groupSize}</p>
-          </div>
-        </div>
-      ))}
-    </div>
 
+      {/* display posts */}
+      <Box m={2}>
+        <Grid container spacing={2} mt={2} pb={5}>
+          {posts.map((post) => (
+            <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
+                {/* <Paper elevation={24}/> */}
+                <Card sx={{ maxWidth: 1000, boxShadow: 10 }}>
+                  <CardActionArea>
+                    <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[50] }} p={3}>
+                      <CardMedia
+                        center="true"
+                        style={{ borderRadius: '50%', height: '30vh', width: '30vh' }}
+                        component="img"
+                        alt="title"
+                        height="140"
+                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
+                    </Grid>
+                    <CardContent>
+                      <AvatarGroup max={3}>
+                        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+                      </AvatarGroup>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {post.data.departDate}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Group Creator: {post.data.creator}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Time: {post.data.departTime}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Location: {post.data.departLoc}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Destination: {post.data.dest}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                    <Button size="small" onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+      </Box>
+      <Dialog
+        open={openInfo}
+        onClose={handleInfoClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Creator's trip to Destination from Departure Location
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Other Group Members
+            clickable avatars
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleInfoClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
