@@ -16,6 +16,24 @@ const getPosts = async (req, res) => {
   }
 };
 
+const getFilteredPosts = async (req, res) => {
+  try {
+    console.log(req);
+    const posts = [];
+    const q = query(collection(db, "posts"), where("departLoc", "==", "UCLA"));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+    });
+    // Insert filtering logic here...
+    res.status(202).json(posts);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
+
 //creates a new user & adds their info to firebase
 const createPost = async (req, res) => {
   try {
@@ -87,6 +105,7 @@ const joinGroup = async (req, res) => {
 
 export {
   getPosts,
+  getFilteredPosts,
   createPost,
   getUserPosts,
   joinGroup,
