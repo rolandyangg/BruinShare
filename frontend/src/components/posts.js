@@ -59,6 +59,7 @@ export default function CustomizedDialogs({ profile }) {
 
   //define our form
   const [formData, setFormData] = React.useState({
+    userName: '',
     creator: '',
     departLoc: '',
     dest: '',
@@ -113,6 +114,8 @@ export default function CustomizedDialogs({ profile }) {
     }
   };
 
+
+  let userName = profile.username;
   let creator = `${profile.firstname} ${profile.lastname}`;
   let timeString = formData.departTime;
   let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -138,15 +141,16 @@ export default function CustomizedDialogs({ profile }) {
 
     // Create the post using the form data
     const newPost = {
-      creator: creator,
-      departLoc: formData.departLoc,
-      dest: formData.dest,
-      departDate: formattedDD,
-      departTime: departTime,
-      flightTime: formData.flightTime,
-      flightNumber: formData.flightNumber,
-      //flightDest: formData.flightDest,
-      groupSize: formData.groupSize,
+        userName: userName,
+        creator: creator,
+        departLoc: formData.departLoc,
+        dest: formData.dest,
+        departDate: formattedDD,
+        departTime: departTime,
+        flightTime: formData.flightTime,
+        flightNumber: formData.flightNumber,
+        flightDest: formData.flightDest,
+        groupSize: formData.groupSize,
     };
 
     // Call a function or API to save the post to the database
@@ -160,6 +164,7 @@ export default function CustomizedDialogs({ profile }) {
     setPosts(tempPosts);
 
     // Reset the form after saving the post
+    userName = '';
     creator = '';
     formData.departLoc = '';
     formData.dest = '';
