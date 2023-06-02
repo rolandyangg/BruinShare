@@ -42,7 +42,25 @@ const createPost = async (req, res) => {
   }
 };
 
+//get a user's posts
+const getUserPosts = async (req, res) => {
+  try {
+    getDocs(collection(db, "posts")).then((sc)=> {
+      const posts = [];
+      sc.forEach((doc) => {
+        const data = doc.data();
+        posts.push({id: doc.id, data: data});
+        console.log(`${doc.id} => ${doc.data()}`);
+      }) 
+      res.status(202).json(posts);
+    });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
 export {
   getPosts,
-  createPost
+  createPost,
+  getUserPosts,
 }
