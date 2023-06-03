@@ -28,7 +28,7 @@ const createPost = async (req, res) => {
       dest: dest,
       departDate: departDate,
       departTime: departTime,
-      timeObject: timeObject,
+      timeObject: new Date(timeObject),
       flightTime: flightTime,
       flightNumber: flightNumber,
       //flightDest: flightDest,
@@ -89,7 +89,7 @@ const joinGroup = async (req, res) => {
 // Return posts accordingly to the filter
 const getFilteredPosts = async (req, res) => {
   try {
-    // console.log(req);
+    console.log('A FILTER HAS BEEN REQUESTED!');
     console.log(req.body);
 
     let { startLocation, endLocation, startTimeRange, endTimeRange, groupSizeMin, groupSizeMax } = req.body;
@@ -112,22 +112,25 @@ const getFilteredPosts = async (req, res) => {
 
     // Departing Location
     if (startLocation.trim() != '')
-      queries.push(where("departLoc", "==", startLocation.trim()))
+      queries.push(where("departLoc", "==", startLocation.trim()));
 
     // Destination
     if (endLocation.trim() != '')
-      queries.push(where("dest", "==", endLocation.trim()))
+      queries.push(where("dest", "==", endLocation.trim()));
 
-    // Start date...
-
-    // End date...
+    // Start Time
+    if (!isNaN(startTimeRange.getTime()))
+      queries.push(where("timeObject", ">=", startTimeRange));
+    
+    if (!isNaN(endTimeRange.getTime()))
+      queries.push(where("timeObject", "<=", endTimeRange));
 
     // Group Size Min & Max
     if (!isNaN(groupSizeMin))
-      queries.push(where("groupSize", ">=", groupSizeMin))
+      queries.push(where("groupSize", "<=", groupSizeMin));
     
     if (!isNaN(groupSizeMax))
-      queries.push(where("groupSize", "<=", groupSizeMax))
+      queries.push(where("groupSize", "<=", groupSizeMax));
 
     console.log("Num of queries: " + queries.length)
 
@@ -137,11 +140,8 @@ const getFilteredPosts = async (req, res) => {
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
-        // let postTime = new Date(data.departTime);
-        // console.log(postTime);
-        // console.log(data.departTime);
+        // console.log("FOUND QUERY MATCH: ");
       }) 
-      // console.log(posts);
       res.status(202).json(posts);
     });
   } catch (error) {

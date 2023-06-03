@@ -183,7 +183,7 @@ export default function CustomizedDialogs({ profile }) {
         dest: formData.dest,
         departDate: formattedDD,
         departTime: departTime,
-        timeObject: formData.departTime,
+        timeObject: new Date(formData.departTime),
         flightTime: formData.flightTime,
         flightNumber: formData.flightNumber,
         flightDest: formData.flightDest,
