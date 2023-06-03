@@ -5,22 +5,14 @@ import styles from "@/styles/Login.module.css";
 import * as api from "./api/api.js";
 import { useRouter } from 'next/router';
 import bcrypt from 'bcryptjs';
-
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function Login({ user }) {
 // export default function Login() {
@@ -99,17 +91,25 @@ export default function Login({ user }) {
                         item
                         xs={false}
                         sm={4}
-                        md={7}
+                        md={6.2}
                         sx={{
-                            backgroundImage: 'url(https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80)',
+                            // backgroundImage: '/images/carpool.png',
                             backgroundRepeat: 'no-repeat',
                             backgroundColor: (t) =>
                                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
-                        }}
-                    />
-                    <Grid item xs={12} sm={8} md={5} elevation={6} square>
+                        }}>
+                        <Image
+                        src="/icons/carpool.svg"
+                        alt="Carpool Logo"
+                        // className={styles.vercelLogo}
+                        width={700}
+                        height={700}
+                        priority
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={8} md={5.5} elevation={6} square>
                         <Box
                             sx={{
                                 my: 8,

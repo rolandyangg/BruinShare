@@ -88,6 +88,7 @@ body {
 body {
   background-color: white;
   font-family: 'Work Sans', sans-serif;
+  color: black; 
 }
 
 a {
@@ -100,3 +101,4 @@ a {
     color-scheme: dark;
   }
 }
+

@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, doc } from "firebase/firestore";
 
 //returns an array of all the users
 const getUsers = async (req, res) => {
@@ -29,7 +29,7 @@ const createUser = async(req, res) => {
   }
 }
 
-  export {
-    getUsers,
-    createUser
-  }
+export {
+  getUsers,
+  createUser
+}
