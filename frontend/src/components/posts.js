@@ -150,6 +150,20 @@ export default function CustomizedDialogs({ profile }) {
     }
   };
 
+  // sort posts
+  const sortPosts = (filter) => {
+    console.log("Sorting...");
+    console.log(filter);
+    let sortedPosts = [...posts] // We have to make a copy because we can't directly mutate posts
+    // console.log(new Date(sortedPosts[0].data.timeObject.seconds));
+    if (filter == "Time/Newest") {
+      sortedPosts.sort((a, b) => a.data.timeObject.seconds - b.data.timeObject.seconds); 
+    } else if (filter == "Time/Oldest") {
+      sortedPosts.sort((a, b) => b.data.timeObject.seconds - a.data.timeObject.seconds);
+    }
+    setPosts(sortedPosts);
+  }
+
 
   let userName = profile.username;
   let creator = `${profile.firstname} ${profile.lastname}`;
@@ -263,9 +277,14 @@ export default function CustomizedDialogs({ profile }) {
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputLabel id="sort-posts">Sort By</InputLabel>
-              <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts">
-                <MenuItem value={10}>Date/Time</MenuItem>
-                <MenuItem value={20}>Group Space Left</MenuItem>
+              <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
+              onChange={(event) => { sortPosts(event.target.value); }
+                // handleInputChange({
+                //   target: { name: 'groupSize', value: event.target.value },
+                // })
+              }>
+                <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
+                <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
               </Select>
             </FormControl>
           </Grid>
