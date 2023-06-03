@@ -2,6 +2,7 @@ import express from 'express';
 
 import{
     getPosts,
+    getFilteredPosts,
     createPost,
     getUserPosts,
     joinGroup,
@@ -17,7 +18,10 @@ import{
   
   //get all posts
   router.get('/getPosts', getPosts);
-  
+
+  //get filterest posts
+  router.post('/getFilteredPosts', getFilteredPosts);
+
   //create new post
   router.post('/createPost', createPost);
 

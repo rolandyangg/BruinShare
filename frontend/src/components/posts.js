@@ -15,10 +15,12 @@ import {
   InputAdornment,
   InputLabel,
   Card,
+  Divider,
   CardHeader,
   CardMedia,
   CardContent,
   CardActions,
+  NumberField,
   CardActionArea,
   Collapse,
   Avatar,
@@ -72,6 +74,16 @@ export default function CustomizedDialogs({ profile }) {
     groupSize: 0
   });
 
+  // define our filter
+  const [filterForm, setFilterForm] = React.useState({
+    startLocation: '',
+    endLocation: '',
+    startTimeRange: '',
+    endTimeRange: '',
+    groupSizeMin: '',
+    groupSizeMax: '',
+  })
+
   //open dialog
   const handleInfoClickOpen = () => {
     setOpenInfo(true);
@@ -115,6 +127,43 @@ export default function CustomizedDialogs({ profile }) {
     }
   };
 
+  //handle changes in input
+  const handleFilterInputChange = (event) => {
+    const { name, value } = event.target;
+  
+    // Check if the name includes a dot (.)
+    if (name.includes('.')) {
+      const [nestedName, subName] = name.split('.');
+  
+      setFilterForm((prevFormData) => ({
+        ...prevFormData,
+        [nestedName]: {
+          ...prevFormData[nestedName],
+          [subName]: value,
+        },
+      }));
+    } else {
+      setFilterForm((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
+  };
+
+  // sort posts
+  const sortPosts = (filter) => {
+    console.log("Sorting...");
+    console.log(filter);
+    let sortedPosts = [...posts] // We have to make a copy because we can't directly mutate posts
+    // console.log(new Date(sortedPosts[0].data.timeObject.seconds));
+    if (filter == "Time/Newest") {
+      sortedPosts.sort((a, b) => a.data.timeObject.seconds - b.data.timeObject.seconds); 
+    } else if (filter == "Time/Oldest") {
+      sortedPosts.sort((a, b) => b.data.timeObject.seconds - a.data.timeObject.seconds);
+    }
+    setPosts(sortedPosts);
+  }
+
 
   let userName = profile.username;
   let creator = `${profile.firstname} ${profile.lastname}`;
@@ -148,6 +197,7 @@ export default function CustomizedDialogs({ profile }) {
         dest: formData.dest,
         departDate: formattedDD,
         departTime: departTime,
+        timeObject: new Date(formData.departTime),
         flightTime: formData.flightTime,
         flightNumber: formData.flightNumber,
         flightDest: formData.flightDest,
@@ -181,6 +231,31 @@ export default function CustomizedDialogs({ profile }) {
     })
   };
 
+  // Filter form submit
+  const handleFilterFormSubmit = (e) => {
+    e.preventDefault();
+
+    // console.log(filterForm)
+
+    const filter = {
+      startLocation: filterForm.startLocation,
+      endLocation: filterForm.endLocation,
+      startTimeRange: filterForm.startTimeRange,
+      endTimeRange: filterForm.endTimeRange,
+      groupSizeMin: filterForm.groupSizeMin,
+      groupSizeMax: filterForm.groupSizeMax,
+    }
+
+    const res = api.getFilteredPosts(filter).then((response) => {
+      if (response !== null) {
+        console.log("successfully received");
+        // console.log(response);
+        setPosts(response);
+        console.log(posts);
+      }
+    })    
+  };
+
   const username = profile.username;
   const joinGroup = (postID, creator) => {
     if(creator !== null && creator !== profile.username){
@@ -199,33 +274,121 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
-      {/* search bar and sort by  */}
+      {/* sort by and create post */}
       <Box m={2}>
         <Grid container spacing={2} mt={4}>
-          <Grid item xs={8}>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel id="sort-posts">Sort By</InputLabel>
+              <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
+              onChange={(event) => { sortPosts(event.target.value); }
+                // handleInputChange({
+                //   target: { name: 'groupSize', value: event.target.value },
+                // })
+              }>
+                <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
+                <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Divider/>
+
+      {/* filter/search bar */}
+      <Box m={2}>
+      <form onSubmit={handleFilterFormSubmit}>
+        <Grid container spacing={2} mt={4}>
+          
+          <Grid item xs={1.5}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
-              label="Search"
+              label="Start Location"
+              name="startLocation"
+              value={filterForm.startLocation}
+              onChange={handleFilterInputChange}
               InputProps={{
-                startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Search</TextField>
+          </Grid>
+          <Grid item xs={1.5}>
+            <TextField
+              fullWidth
+              id="outlined-start-adornment"
+              label="End Location"
+              name="endLocation"
+              value={filterForm.endLocation}
+              onChange={handleFilterInputChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
               }}
             >Search</TextField>
           </Grid>
           <Grid item xs={2}>
-            <FormControl fullWidth>
-              <InputLabel id="sort-posts">Sort</InputLabel>
-              <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts">
-                <MenuItem value={10}>Date</MenuItem>
-                <MenuItem value={20}>Distance</MenuItem>
-              </Select>
-            </FormControl>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker 
+                fullwidth
+                slotProps={{ textField: { fullWidth: true } }} 
+                label="Start Date Range" value={formData.departTime}  
+                onChange={(date) => handleFilterInputChange({ target: { name: 'startTimeRange', value: date } })}
+                required
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item xs={2}>
-            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Post</Button>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker 
+                fullwidth
+                slotProps={{ textField: { fullWidth: true } }} 
+                label="End Date Range" value={formData.departTime}  
+                onChange={(date) => handleFilterInputChange({ target: { name: 'endTimeRange', value: date } })}
+                required
+              />
+            </LocalizationProvider>
           </Grid>
+          <Grid item xs={1.5}>
+            <TextField
+              fullWidth
+              type="number"
+              id="outlined-start-adornment"
+              label="Group Size Minimum"
+              name="groupSizeMin"
+              value={filterForm.groupSizeMin}
+              onChange={handleFilterInputChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Group Size Minimimum</TextField>
+          </Grid>
+          <Grid item xs={1.5}>
+            <TextField
+              fullWidth
+              type="number"
+              id="outlined-start-adornment"
+              label="Group Size Maximum"
+              name="groupSizeMax"
+              value={filterForm.groupSizeMax}
+              onChange={handleFilterInputChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Group Size Maximum</TextField>
+          </Grid>
+          <Grid item xs={2}>
+            <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
+          </Grid>
+          
         </Grid>
+        </form>
       </Box>
+
+      <Divider/>
 
       {/* defining the dialog */}
       <Dialog open={open} onClose={handleClose}>
