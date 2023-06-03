@@ -9,7 +9,6 @@ const getUsers = async (req, res) => {
             sc.forEach((doc) => {
               const data = doc.data();
               users.push({id: doc.id, data: data});
-              console.log(`${doc.id} => ${doc.data()}`);
             })
             res.status(202).json(users);
           });
@@ -22,7 +21,6 @@ const getUsers = async (req, res) => {
 const createUser = async(req, res) => {
   try {
     const data = req.body.newProfile;
-    console.log(data);
     addDoc(collection(db, "users"), data).then(() => {
         res.status(202).json('success');
       });

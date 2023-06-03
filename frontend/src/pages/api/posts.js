@@ -16,7 +16,6 @@ export const getPosts = async () => {
 
 export const createPost = async (newPost) => {
   try {
-    console.log(newPost)
     const newPosting = await axios.post(`${url}/createPost`, newPost);
     return newPosting;
   } catch (error) {

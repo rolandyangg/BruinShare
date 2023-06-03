@@ -32,7 +32,6 @@ export default function Login({ user }) {
             setAllUsers(users.data);
         });
     }, []);
-    console.log(allUsers);
 
     //when the user clicks log in
     const handleLogin = (e) => {
@@ -44,12 +43,10 @@ export default function Login({ user }) {
         if (userMatch.length === 0) {
             alert("your username is incorrect! try again!")
         } else {
-            console.log("username matched!")
             const user = userMatch[0].data;
             //check if entered password matches hashed password in firebase
             bcrypt.compare(password, user.password).then((matches) => {
                 if (matches) {
-                    console.log("password matched!")
                     //set user info in local storage for login persistence
                     localStorage.setItem('user', JSON.stringify(user));
                     //once logged in, immediately go to home page

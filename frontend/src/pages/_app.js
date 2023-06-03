@@ -17,14 +17,11 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
 
-  console.log(user);
-
   useEffect(() => {
     const handleRouteChange = (url) => {
       // retrieve updated user information from localStorage
       const updatedUser = JSON.parse(localStorage.getItem('user'));
       setUser(updatedUser);
-      console.log(updatedUser);
     };
 
     // listen to route changes

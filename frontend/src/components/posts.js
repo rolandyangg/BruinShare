@@ -21,8 +21,6 @@ export default function CustomizedDialogs({ profile }) {
     });
   }, []);
 
-  console.log(posts);
-
 
   //define our form
   const [formData, setFormData] = React.useState({

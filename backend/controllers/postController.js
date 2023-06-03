@@ -8,7 +8,6 @@ const getPosts = async (req, res) => {
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
-        console.log(`${doc.id} => ${doc.data()}`);
       }) 
       res.status(202).json(posts);
     });
@@ -21,7 +20,6 @@ const getPosts = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     const { departLoc, dest, departDate, departTime, flightTime, flightNumber, flightDest, groupSize, creator } = req.body;
-    console.log(req.body);
     const postData = {
       creator: creator,
       departLoc: departLoc,

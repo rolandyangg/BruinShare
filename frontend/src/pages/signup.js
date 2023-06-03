@@ -36,7 +36,6 @@ export default function SignUp() {
     //check validity - duplicate username + ucla email
     api.getUsers().then((users) => {
       const duplicate = (users.data).filter((p) => p.data.username === username);
-      console.log(duplicate);
       if (duplicate.length !== 0) {
         alert("your username is taken! pick another one!")
       } else if (email && !email.includes("ucla.edu")) {
