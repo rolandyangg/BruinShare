@@ -7,7 +7,6 @@ import {
     Button,
     Grid,
     Card,
-    CardMedia,
     CardContent,
     CardActions,
     CardActionArea,
@@ -59,13 +58,9 @@ export default function MyRides({ profile }) {
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
-                      <CardMedia
-                        center="true"
-                        style={{ borderRadius: '50%', height: '30vh', width: '30vh'}}
-                        component="img"
-                        alt="title"
-                        height="140"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
+                    <Typography variant="h5" color="text.secondary">
+                      🚙 {post.data.departLoc} {`  ➪  `} {post.data.dest} 
+                    </Typography>
                     </Grid>
                     <CardContent
                       sx={{backgroundColor:'#DED9E2'}}
@@ -110,13 +105,9 @@ export default function MyRides({ profile }) {
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
-                      <CardMedia
-                        center="true"
-                        style={{ borderRadius: '50%', height: '30vh', width: '30vh'}}
-                        component="img"
-                        alt="title"
-                        height="140"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
+                    <Typography variant="h5" color="text.secondary">
+                      🚙 {post.data.departLoc} {`  ➪  `} {post.data.dest} 
+                    </Typography>
                     </Grid>
                     <CardContent
                       sx={{backgroundColor:'#C65858'}}>

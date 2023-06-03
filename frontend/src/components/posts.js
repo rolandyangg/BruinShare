@@ -1,33 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Grid,
-  FormControl,
-  MenuItem,
-  Select,
-  TextField,
-  InputAdornment,
-  InputLabel,
-  Card,
-  Divider,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  NumberField,
-  CardActionArea,
-  Collapse,
-  Avatar,
-  AvatarGroup,
-  IconButton,
-  Typography,
-  Paper
+  Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid, FormControl, MenuItem, Select, TextField, InputAdornment, InputLabel, Card, Divider, CardHeader, CardMedia, CardContent, CardActions, NumberField, CardActionArea, Collapse, Avatar, AvatarGroup, IconButton, Typography, Paper
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
@@ -44,6 +17,7 @@ import styles from '@/styles/post.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "../pages/api/posts.js";
+import { Margin } from '@mui/icons-material';
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
@@ -272,36 +246,14 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
-      {/* sort by and create post */}
       <Box m={2}>
-        <Grid container spacing={2} mt={4}>
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputLabel id="sort-posts">Sort By</InputLabel>
-              <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
-              onChange={(event) => { sortPosts(event.target.value); }
-                // handleInputChange({
-                //   target: { name: 'groupSize', value: event.target.value },
-                // })
-              }>
-                <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
-                <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <Button fullWidth variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
-          </Grid>
-        </Grid>
+        <h1>Current Postings</h1>
       </Box>
-
-      <Divider/>
 
       {/* filter/search bar */}
       <Box m={2}>
       <form onSubmit={handleFilterFormSubmit}>
         <Grid container spacing={2} mt={4}>
-          
           <Grid item xs={1.5}>
             <TextField
               fullWidth
@@ -381,7 +333,6 @@ export default function CustomizedDialogs({ profile }) {
           <Grid item xs={2}>
             <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
           </Grid>
-          
         </Grid>
         </form>
       </Box>
@@ -482,22 +433,35 @@ export default function CustomizedDialogs({ profile }) {
         </form>
       </Dialog>
 
-      {/* display posts */}
-      <Box m={2}>
+      {/* sort by and create post + display posts */}
+      <Box m={2} sx={{textAlign: 'center'}}>
+        <FormControl sx={{width: '300px', marginRight: '20px'}}>
+          <InputLabel id="sort-posts">Sort By</InputLabel>
+          <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
+          onChange={(event) => { sortPosts(event.target.value); }
+          }>
+            <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
+            <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
+          </Select>
+        </FormControl>
+        <Button variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
         <Grid container spacing={4} mt={2} pb={5}>
           {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
-                      <CardMedia
+                      <Typography variant="h5" color="text.secondary">
+                      {`🚙 `} {post.data.departLoc} {`  ➪  `} {post.data.dest} 
+                      </Typography>
+                      {/* <CardMedia
                         center="true"
-                        style={{ borderRadius: '50%', height: '30vh', width: '30vh'}}
+                        style={{ borderRadius: '50%', height: '20vh', width: '20vh'}}
                         padding="0"
                         component="img"
                         alt="title"
-                        height="50"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
+                        height="20"
+                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" /> */}
                     </Grid>
                     <CardContent
                       sx={{
@@ -559,6 +523,7 @@ export default function CustomizedDialogs({ profile }) {
             ))}
           </Grid>
       </Box>
+
       {/* popup for details */}
       <Dialog
         open={openInfo}
