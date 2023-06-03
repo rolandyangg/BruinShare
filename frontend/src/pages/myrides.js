@@ -50,7 +50,7 @@ export default function MyRides({ profile }) {
     }
     
     return (
-        <div>
+        <Box p={4}>
             <h1>My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
@@ -119,7 +119,7 @@ export default function MyRides({ profile }) {
                         image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
                     </Grid>
                     <CardContent
-                      sx={{backgroundColor:'#C65858'}}>
+                      sx={{backgroundColor:'#FFD100'}}>
                       <AvatarGroup max={3}>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
@@ -151,6 +151,6 @@ export default function MyRides({ profile }) {
             ))}
             </Grid>
         </Box>
-      </div>
+      </Box>
     )
 }
