@@ -80,7 +80,8 @@ export default function CustomizedDialogs({ profile }) {
     endLocation: '',
     startTimeRange: '',
     endTimeRange: '',
-    groupSize: 0
+    groupSizeMin: '',
+    groupSizeMax: '',
   })
 
   //open dialog
@@ -182,6 +183,7 @@ export default function CustomizedDialogs({ profile }) {
         dest: formData.dest,
         departDate: formattedDD,
         departTime: departTime,
+        timeObject: formData.departTime,
         flightTime: formData.flightTime,
         flightNumber: formData.flightNumber,
         flightDest: formData.flightDest,
@@ -226,7 +228,8 @@ export default function CustomizedDialogs({ profile }) {
       endLocation: filterForm.endLocation,
       startTimeRange: filterForm.startTimeRange,
       endTimeRange: filterForm.endTimeRange,
-      groupSize: filterForm.groupSize
+      groupSizeMin: filterForm.groupSizeMin,
+      groupSizeMax: filterForm.groupSizeMax,
     }
 
     const res = api.getFilteredPosts(filter).then((response) => {
@@ -279,7 +282,7 @@ export default function CustomizedDialogs({ profile }) {
       <form onSubmit={handleFilterFormSubmit}>
         <Grid container spacing={2} mt={4}>
           
-          <Grid item xs={2}>
+          <Grid item xs={1.5}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
@@ -292,7 +295,7 @@ export default function CustomizedDialogs({ profile }) {
               }}
             >Search</TextField>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.5}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
@@ -327,10 +330,33 @@ export default function CustomizedDialogs({ profile }) {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={1.5}>
+            <TextField
+              fullWidth
+              type="number"
+              id="outlined-start-adornment"
+              label="Group Size Minimum"
+              name="groupSizeMin"
+              value={filterForm.groupSizeMin}
+              onChange={handleFilterInputChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Group Size Minimimum</TextField>
           </Grid>
-          <Grid item xs={1}>
-            
+          <Grid item xs={1.5}>
+            <TextField
+              fullWidth
+              type="number"
+              id="outlined-start-adornment"
+              label="Group Size Maximum"
+              name="groupSizeMax"
+              value={filterForm.groupSizeMax}
+              onChange={handleFilterInputChange}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+              }}
+            >Group Size Maximum</TextField>
           </Grid>
           <Grid item xs={2}>
             <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>

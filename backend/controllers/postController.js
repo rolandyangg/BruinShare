@@ -19,7 +19,7 @@ const getPosts = async (req, res) => {
 //creates a new user & adds their info to firebase
 const createPost = async (req, res) => {
   try {
-    const { userName, departLoc, dest, departDate, departTime, flightTime, flightNumber, flightDest, groupSize, creator } = req.body;
+    const { userName, departLoc, dest, departDate, departTime, flightTime, flightNumber, flightDest, timeObject, groupSize, creator } = req.body;
     console.log(req.body);
     const postData = {
       userName: userName,
@@ -28,6 +28,7 @@ const createPost = async (req, res) => {
       dest: dest,
       departDate: departDate,
       departTime: departTime,
+      timeObject: timeObject,
       flightTime: flightTime,
       flightNumber: flightNumber,
       //flightDest: flightDest,
@@ -91,12 +92,23 @@ const getFilteredPosts = async (req, res) => {
     // console.log(req);
     console.log(req.body);
 
-    const { startLocation, endLocation, startTimeRange, endTimeRange, groupSize } = req.body;
+    let { startLocation, endLocation, startTimeRange, endTimeRange, groupSizeMin, groupSizeMax } = req.body;
     let queries = []
 
-    console.log(startTimeRange);
+    // Preprocess the filters for comparison
+    startLocation = startLocation.trim(); // Remove extra whitespace
+    endLocation = endLocation.trim();
+    startTimeRange = new Date(startTimeRange);
+    endTimeRange = new Date(endTimeRange);
+    groupSizeMin = parseInt(groupSizeMin); // Convert to integers
+    groupSizeMax = parseInt(groupSizeMax);
 
+    console.log(startLocation);
+    console.log(endLocation);
+    console.log(startTimeRange);
     console.log(endTimeRange);
+    console.log(groupSizeMin);
+    console.log(groupSizeMax);
 
     // Departing Location
     if (startLocation.trim() != '')
@@ -110,9 +122,12 @@ const getFilteredPosts = async (req, res) => {
 
     // End date...
 
-    // Group Size
-    if (groupSize != 0)
-      queries.push(where("groupSize", "==", groupSize))
+    // Group Size Min & Max
+    if (!isNaN(groupSizeMin))
+      queries.push(where("groupSize", ">=", groupSizeMin))
+    
+    if (!isNaN(groupSizeMax))
+      queries.push(where("groupSize", "<=", groupSizeMax))
 
     console.log("Num of queries: " + queries.length)
 
@@ -122,7 +137,9 @@ const getFilteredPosts = async (req, res) => {
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
-        // console.log("Found post for query...")
+        // let postTime = new Date(data.departTime);
+        // console.log(postTime);
+        // console.log(data.departTime);
       }) 
       // console.log(posts);
       res.status(202).json(posts);
