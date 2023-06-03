@@ -21,7 +21,7 @@ export default function MyRides({ profile }) {
     const [posts, setPosts] = useState([]);
     const [joined, setJoined] = useState([]);
 
-    useEffect(() => {
+    const getPosts = () => {
         api.getUserPosts(username).then((response) => {
             if(response){
                 console.log(response);
@@ -30,8 +30,24 @@ export default function MyRides({ profile }) {
                 setJoined(joined);
             }
         });
+    }
+
+    useEffect(() => {
+        getPosts();
       }, []);
-    console.log(posts);
+    
+
+    const leaveGroup = (postID) => {
+        api.leaveGroup(username, postID).then(() => {
+            getPosts();
+        })
+    }
+
+    const deletePost = (postID) => {
+        api.deletePost(postID).then(() => {
+            getPosts();
+        })
+    }
     
     return (
         <div>
@@ -40,7 +56,6 @@ export default function MyRides({ profile }) {
             <Grid container spacing={4} mt={2} pb={5}>
             {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
-                {/* <Paper elevation={24}/> */}
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
@@ -52,7 +67,6 @@ export default function MyRides({ profile }) {
                         height="140"
                         image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
                     </Grid>
-                    {/* `${locationPath.includes(module.title) ? styles.nav2_btn_top : styles.nav2_btn_blue}` */}
                     <CardContent
                       sx={{backgroundColor:'#DED9E2'}}
                     >
@@ -80,7 +94,7 @@ export default function MyRides({ profile }) {
                     </CardContent>
                   </CardActionArea>
                     <CardActions>
-                      <Button size="small">Delete Post</Button>
+                      <Button size="small" onClick={() => {deletePost(post.id)}}>Delete Post</Button>
                     </CardActions>
                 </Card>
               </Grid>
@@ -93,7 +107,6 @@ export default function MyRides({ profile }) {
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
-                {/* <Paper elevation={24}/> */}
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
@@ -105,7 +118,6 @@ export default function MyRides({ profile }) {
                         height="140"
                         image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
                     </Grid>
-                    {/* `${locationPath.includes(module.title) ? styles.nav2_btn_top : styles.nav2_btn_blue}` */}
                     <CardContent
                       sx={{backgroundColor:'#C65858'}}>
                       <AvatarGroup max={3}>
@@ -132,7 +144,7 @@ export default function MyRides({ profile }) {
                     </CardContent>
                   </CardActionArea>
                     <CardActions>
-                      <Button size="small">Leave Group</Button>
+                      <Button size="small" onClick={() => {leaveGroup(post.id)}}>Leave Group</Button>
                     </CardActions>
                 </Card>
               </Grid>

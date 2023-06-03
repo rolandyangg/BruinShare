@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, updateDoc, query, where } from "firebase/firestore";
+import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, arrayRemove, updateDoc, deleteDoc, query, where } from "firebase/firestore";
 
 const getPosts = async (req, res) => {
   try {
@@ -77,10 +77,40 @@ const joinGroup = async (req, res) => {
       updateDoc(postRef, {
         members: arrayUnion(username),
       }).then(() => {
-        res.status(202).json('success');
+        res.status(202).json({});
       });
     }
-    res.status(202).json('cannot join more than once');
+    // res.status(202).json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+//allows a user to leave a group (removes their username to the post members field)
+const leaveGroup = async (req, res) => {
+  try {
+    const { username, postID } = req.body;
+    const postRef = doc(db, "posts", postID);
+    const postData = await getDoc(postRef);
+    const data = postData.data();
+    if(data.members !== undefined && data.members.includes(username)){
+      updateDoc(postRef, {
+        members: arrayRemove(username),
+      }).then(() => {
+        res.status(202).json({});
+      });
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    const { postID } = req.body;
+    const postRef = doc(db, "posts", postID);
+    const response = await deleteDoc(postRef);
+    res.status(202).json(response);
   } catch (error) {
     res.status(400).json(error);
   }
@@ -156,4 +186,6 @@ export {
   createPost,
   getUserPosts,
   joinGroup,
+  leaveGroup,
+  deletePost,
 }

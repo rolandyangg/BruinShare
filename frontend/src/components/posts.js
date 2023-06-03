@@ -261,7 +261,10 @@ export default function CustomizedDialogs({ profile }) {
     if(creator !== null && creator !== profile.username){
       console.log(creator);
       api.joinGroup(username, postID).then(() => {
-        // window.location.reload();
+        api.getPosts().then((response) => {
+          if(response !== null)
+            setPosts(response.data);
+        });
       });
     }
     else{
@@ -486,19 +489,18 @@ export default function CustomizedDialogs({ profile }) {
         <Grid container spacing={4} mt={2} pb={5}>
           {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
-                {/* <Paper elevation={24}/> */}
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                     <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
                       <CardMedia
                         center="true"
                         style={{ borderRadius: '50%', height: '30vh', width: '30vh'}}
+                        padding="0"
                         component="img"
                         alt="title"
-                        height="140"
+                        height="50"
                         image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" />
                     </Grid>
-                    {/* `${locationPath.includes(module.title) ? styles.nav2_btn_top : styles.nav2_btn_blue}` */}
                     <CardContent
                       sx={{
                         backgroundColor:
@@ -510,6 +512,7 @@ export default function CustomizedDialogs({ profile }) {
                       }}
                     >
                       <AvatarGroup max={3}>
+                        {/* TODO: MAP EACH AVATAR TO EACH MEMBER IN THE GROUP */}
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
@@ -518,7 +521,7 @@ export default function CustomizedDialogs({ profile }) {
                       <Typography gutterBottom variant="h5" component="div">
                         {post.data.departDate}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body1" color="text.secondary">
                         Group Creator: {post.data.creator}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
@@ -539,7 +542,7 @@ export default function CustomizedDialogs({ profile }) {
                   }
                   {post.data.members !== undefined && post.data.members.includes(username) && 
                     <CardActions>
-                      You have already joined this group.
+                      You have joined this group.
                     </CardActions>
                   }
                   {post.data.members !== undefined && (post.data.members).length === post.data.groupSize && 
@@ -558,6 +561,7 @@ export default function CustomizedDialogs({ profile }) {
             ))}
           </Grid>
       </Box>
+      {/* popup for details */}
       <Dialog
         open={openInfo}
         onClose={handleInfoClose}

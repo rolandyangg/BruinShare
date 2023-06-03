@@ -62,5 +62,26 @@ export const getFilteredPosts = async (filter) => {
     console.error(error.message);
     console.error('could not filter posts!');
   }
+}
+
+export const leaveGroup = async (username, postID) => {
+  try {
+    const posts = await axios.post(`${url}/leaveGroup`, {username, postID});
+    return posts;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not leave the post group!');
+  }
+  return null;
+}
+
+export const deletePost = async (postID) => {
+  try {
+    const posts = await axios.post(`${url}/deletePost`, {postID});
+    return posts;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not delete the post!');
+  }
   return null;
 }
