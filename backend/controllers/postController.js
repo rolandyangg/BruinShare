@@ -165,7 +165,7 @@ const getFilteredPosts = async (req, res) => {
 
     getDocs(query(collection(db, "posts"), ...queries
     )).then((sc)=> {
-      const posts = [];
+      let posts = [];
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
@@ -173,10 +173,10 @@ const getFilteredPosts = async (req, res) => {
       // Filter by group size (We can't make a query for it because firebase is stupid and limits the amoount of queries you can perform...)
       // Solution... Filter manually!!!
       if (!isNaN(groupSizeMin))
-        posts.filter((post) => post.data.groupSize >= groupSizeMin); // queries.push(where("groupSize", ">=", groupSizeMin));
-      
+        posts = posts.filter((post) => post.data.groupSize >= groupSizeMin); // queries.push(where("groupSize", ">=", groupSizeMin));
+
       if (!isNaN(groupSizeMax))
-        posts.filter((post) => post.data.groupSize <= groupSizeMax); // queries.push(where("groupSize", "<=", groupSizeMax));
+        posts = posts.filter((post) => post.data.groupSize <= groupSizeMax); // queries.push(where("groupSize", "<=", groupSizeMax));
         
       res.status(202).json(posts);
     });
