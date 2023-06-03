@@ -20,6 +20,7 @@ import {
   CardMedia,
   CardContent,
   CardActions,
+  NumberField,
   CardActionArea,
   Collapse,
   Avatar,
@@ -229,7 +230,12 @@ export default function CustomizedDialogs({ profile }) {
     }
 
     const res = api.getFilteredPosts(filter).then((response) => {
-      console.log(response);
+      if (response !== null) {
+        console.log("successfully received");
+        // console.log(response);
+        setPosts(response);
+        console.log(posts);
+      }
     })    
   };
 
@@ -321,27 +327,10 @@ export default function CustomizedDialogs({ profile }) {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={2}>
-            <FormControl fullWidth>
-              <InputLabel id="group-size">Group Size</InputLabel>
-              <Select
-                labelId="group-size"
-                id="group-size-selection"
-                label="Group Size"
-                value={formData.groupSize}
-                onChange={(event) =>
-                  handleFilterInputChange({
-                    target: { name: 'groupSize', value: event.target.value },
-                  })
-                }
-              >
-                <MenuItem value={2}>Two</MenuItem>
-                <MenuItem value={3}>Three</MenuItem>
-                <MenuItem value={4}>Four</MenuItem>
-                <MenuItem value={5}>Five</MenuItem>
-                <MenuItem value={6}>Six</MenuItem>
-              </Select>
-            </FormControl>
+          <Grid item xs={1}>
+          </Grid>
+          <Grid item xs={1}>
+            
           </Grid>
           <Grid item xs={2}>
             <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>

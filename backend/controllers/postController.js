@@ -89,19 +89,43 @@ const joinGroup = async (req, res) => {
 const getFilteredPosts = async (req, res) => {
   try {
     // console.log(req);
-    console.log("req receieved")
+    console.log(req.body);
 
-    getDocs(query(collection(db, "posts"), 
-    where("departLoc", "==", "UCLA"),
-    where("dest", "==", "LAX")
+    const { startLocation, endLocation, startTimeRange, endTimeRange, groupSize } = req.body;
+    let queries = []
+
+    console.log(startTimeRange);
+
+    console.log(endTimeRange);
+
+    // Departing Location
+    if (startLocation.trim() != '')
+      queries.push(where("departLoc", "==", startLocation.trim()))
+
+    // Destination
+    if (endLocation.trim() != '')
+      queries.push(where("dest", "==", endLocation.trim()))
+
+    // Start date...
+
+    // End date...
+
+    // Group Size
+    if (groupSize != 0)
+      queries.push(where("groupSize", "==", groupSize))
+
+    console.log("Num of queries: " + queries.length)
+
+    getDocs(query(collection(db, "posts"), ...queries
     )).then((sc)=> {
       const posts = [];
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
-        console.log("FOUND")
+        // console.log("Found post for query...")
       }) 
-      res.status(202).json("TESTING");
+      // console.log(posts);
+      res.status(202).json(posts);
     });
   } catch (error) {
     console.log(error)

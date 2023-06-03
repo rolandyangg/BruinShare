@@ -54,7 +54,7 @@ export const getFilteredPosts = async (filter) => {
   try {
     console.log("FILTER")
     console.log(filter)
-    const response = await axios.get(`${url}/getFilteredPosts`, filter);
+    const response = await axios.post(`${url}/getFilteredPosts`, filter);
     // console.log(posts);
     const data = response.data;
     return data;

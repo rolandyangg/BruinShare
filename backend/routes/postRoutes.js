@@ -18,7 +18,7 @@ import{
   router.get('/getPosts', getPosts);
 
   //get filterest posts
-  router.get('/getFilteredPosts', getFilteredPosts);
+  router.post('/getFilteredPosts', getFilteredPosts);
 
   //create new post
   router.post('/createPost', createPost);
