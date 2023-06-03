@@ -2,6 +2,16 @@ import '@/styles/globals.css'
 import Navbar from "../components/Navbar";
 import {useState, useEffect} from 'react';
 import { useRouter } from 'next/router';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    // Add coloring here...
+  },
+  typography: {
+    fontFamily: 'Work Sans',
+  },
+});
 
 export default function App({ Component, pageProps }) {
   const [user, setUser] = useState(null);
@@ -37,9 +47,11 @@ export default function App({ Component, pageProps }) {
     <>
     {
       user && 
-      <>    
-        <Navbar profile={user} />
-        <Component {...pageProps} profile={user}/>
+      <>
+        <ThemeProvider theme={theme}>
+          <Navbar profile={user} />
+          <Component {...pageProps} profile={user}/>
+        </ThemeProvider>
       </>
     }
     {

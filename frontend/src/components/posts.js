@@ -469,8 +469,8 @@ export default function CustomizedDialogs({ profile }) {
                           post.data.userName === username
                             ? '#DED9E2'
                             : post.data.members !== undefined && post.data.members.includes(username)
-                            ? '#C65858'
-                            : '#3AE46D',
+                            ? "#FFD100" // gold  // '#C65858' red
+                            : '#3595de', // blue //  '#3AE46D', green
                       }}
                     >
                       <AvatarGroup max={3}>

@@ -49,7 +49,7 @@ export default function MyRides({ profile }) {
     }
     
     return (
-        <div>
+        <Box p={4}>
             <h1>My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
@@ -110,7 +110,7 @@ export default function MyRides({ profile }) {
                     </Typography>
                     </Grid>
                     <CardContent
-                      sx={{backgroundColor:'#C65858'}}>
+                      sx={{backgroundColor:'#FFD100'}}>
                       <AvatarGroup max={3}>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
@@ -142,6 +142,6 @@ export default function MyRides({ profile }) {
             ))}
             </Grid>
         </Box>
-      </div>
+      </Box>
     )
 }
