@@ -23,14 +23,14 @@ This app was created using the following technologies:
 Run the following commands in terminal in the directory you wish to clone this repository:
 
 ```
-git clone https://github.com/lablueprint/friends-of-the-children.git
+git clone https://github.com/rolandyangg/BruinShare.git
 cd BruinShare
 npm install --save
 ```
 
 ## Running the Web App
 
-To start up the client-side view, run the following commands in the project directory:
+To start up the client-side view, run the following commands in the project directory BruinShare:
 
 ```
 cd frontend
@@ -39,16 +39,16 @@ npm run dev
 
 Go to [http://localhost:3000](http://localhost:3000) to view it in the app in your browser.
 
-To start up the server, run:
+To start up the server, run the following commands in the project directory BruinShare:
 
 ```
 cd backend
 npm start
 ```
 
-## Firebase
+### Setting Up Firebase
 
-To connect to the Firebase backend, create an env.js file in the root of the backend directory and fill it with the appropriate environment variables. These can be found in the Firebase console for the friends-of-the-children Firebase app.
+To connect to the Firebase backend, create an env.js file in the root of the backend directory and fill it with the appropriate environment variables. These can be found in the Firebase console for the BruinShare Firebase app.
 
 ```
 REACT_APP_FIREBASE_API_KEY=xxxxx
