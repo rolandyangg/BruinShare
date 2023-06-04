@@ -1,3 +1,10 @@
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Node.js]: https://nodejs.org/static/images/logo.svg
+[Node-url]: https://nodejs.org/en
+
 # BruinShare
 
 This is the Github repository for the web app BruinShare, created for the class CS35L (Software Construction Lab) by team members Joyce Chen, Subham Kumar, Peony Mong, Roland Yang, and Florence Zhao.
@@ -11,6 +18,7 @@ BruinShare is a web app designed to streamline the process of ridesharing for UC
 This app was created using the following technologies:
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
+* [![Node][Node.js]][Node-url]
 
 Run the following commands in terminal in the directory you wish to clone this repository:
 
@@ -40,7 +48,7 @@ npm start
 
 ## Firebase
 
-To connect to the Firebase backend, create an env.js file in the root of the backend directory and fill it with the appropriate environment variables. These can be found in the Firebase console for the Bruin-Share Firebase app.
+To connect to the Firebase backend, create an env.js file in the root of the backend directory and fill it with the appropriate environment variables. These can be found in the Firebase console for the friends-of-the-children Firebase app.
 
 ```
 REACT_APP_FIREBASE_API_KEY=xxxxx
