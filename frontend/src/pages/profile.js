@@ -1,11 +1,16 @@
 import { useState } from "react";
 import styles from "@/styles/Profile.module.css";
 import Image from "next/image";
+import * as api from "../pages/api/profile.js";
 
 export default function Profile({ profile }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({
-    description: profile.description,
+    description: profile.description || "This user has not put a description of themselves :(",
+    email: profile.email || "",
+    phone: profile.phone || "",
+    location: profile.location || "",
+    interests: profile.interests || "",
   });
 
   const handleEditProfile = () => {
@@ -14,14 +19,18 @@ export default function Profile({ profile }) {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedProfile({ description: profile.description });
+    setEditedProfile({
+      description: profile.description || "This user has not put a description of themselves :(",
+      email: profile.email || "",
+      phone: profile.phone || "",
+      location: profile.location || "",
+      interests: profile.interests || "",
+    });
   };
 
-  const handleSaveProfile = () => {
-    // Perform the necessary logic to save the edited profile
-    // ...
-
-    setIsEditing(false);
+  const handleSaveProfile = async () => {
+    console.log(editedProfile)
+    api.updateProfile(editedProfile);
   };
 
   const handleInputChange = (e) => {
@@ -30,6 +39,7 @@ export default function Profile({ profile }) {
       ...prevState,
       [name]: value,
     }));
+    console.log(value);
   };
 
   const handleImageChange = (e) => {
@@ -90,13 +100,13 @@ export default function Profile({ profile }) {
               Edit Profile
             </button>
           ) : (
-            <div>
-              <button className={styles.profile_button} onClick={handleSaveProfile}>
-                Save
-              </button>
-              <button className={styles.profile_button} onClick={handleCancelEdit}>
-                Cancel
-              </button>
+            <div className={styles.button_group}>
+                <button className={styles.profile_button} onClick={handleSaveProfile}>
+                  Save
+                </button>
+                <button className={styles.profile_button} onClick={handleCancelEdit}>
+                  Cancel
+                </button>
             </div>
           )}
           <div className={styles.profile_info}>

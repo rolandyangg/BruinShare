@@ -94,6 +94,15 @@
   cursor: pointer;
 }
 
+.button_group {
+  display: flex;
+  gap: 10px; 
+}
+
+.profile_description textarea{
+  font-family: 'Work Sans';
+}
+
 .profile_info input {
   width: 100%;
   padding: 8px;
