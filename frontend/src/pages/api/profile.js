@@ -3,7 +3,6 @@ const url = 'http://localhost:4000/bruinshare';
 
 export const updateProfile = async (userID, newProfile) => {
     try {
-        console.log("HERE")
         const updatedUser = await axios.post(`${url}/editProfile`, {userID, newProfile});
         return updatedUser;
     } catch (error) {

@@ -3,21 +3,23 @@ import styles from "@/styles/Profile.module.css";
 import Image from "next/image";
 import * as api from "../pages/api/profile.js";
 import * as userApi from "../pages/api/api.js";
+import {storage, db, app} from "../../../backend/firebase.js"
+import { ref, uploadBytes } from "firebase/storage";
 
 export default function Profile({ profile }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({});
-
+  
   useEffect(() => {
     userApi.getUserByID(profile.username).then((response) => {
-        if(response){
-          console.log(response.data);
-          setEditedProfile(response.data);
-        }
+      if (response) {
+        console.log(response.data);
+        setEditedProfile(response.data);
+      }
     });
   }, []);
 
-  console.log(editedProfile)
+  console.log(editedProfile);
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -26,7 +28,8 @@ export default function Profile({ profile }) {
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditedProfile({
-      description: profile.description || "This user has not put a description of themselves :(",
+      description:
+        profile.description || "This user has not put a description of themselves :(",
       email: profile.email || "",
       phone: profile.phone || "",
       location: profile.location || "",
@@ -36,6 +39,11 @@ export default function Profile({ profile }) {
 
   const handleSaveProfile = async () => {
     console.log(editedProfile);
+    if (editedProfile.profilePicture) {
+      console.log(profile.username);
+      const fileRef = ref(storage, `profilePictures/${profile.username}`);
+      await uploadBytes(fileRef, editedProfile.profilePicture);
+    }
     api.updateProfile(profile.username, editedProfile);
     userApi.getUserByID(profile.username);
     setIsEditing(false);
@@ -52,16 +60,15 @@ export default function Profile({ profile }) {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setEditedProfile((prevState) => ({
-        ...prevState,
-        profilePicture: reader.result,
-      }));
-    };
 
     if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditedProfile((prevState) => ({
+          ...prevState,
+          profilePicture: reader.result,
+        }));
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -109,12 +116,12 @@ export default function Profile({ profile }) {
             </button>
           ) : (
             <div className={styles.button_group}>
-                <button className={styles.profile_button} onClick={handleSaveProfile}>
-                  Save
-                </button>
-                <button className={styles.profile_button} onClick={handleCancelEdit}>
-                  Cancel
-                </button>
+              <button className={styles.profile_button} onClick={handleSaveProfile}>
+                Save
+              </button>
+              <button className={styles.profile_button} onClick={handleCancelEdit}>
+                Cancel
+              </button>
             </div>
           )}
           <div className={styles.profile_info}>
