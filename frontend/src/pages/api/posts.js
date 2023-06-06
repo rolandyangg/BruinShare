@@ -109,3 +109,19 @@ export const deletePost = async (postID) => {
   }
   return null;
 }
+
+// export const auto_complete = async (input)=>{
+//   // console.log("lol"+input)
+//   try {
+//     // const posts = await axios.get(`http://localhost:4000/places-autocomplete`, { input });
+//     const posts = await axios.get('http://localhost:4000/places-autocomplete', {
+//       params: { input }
+//     });
+//     // console.log(posts);
+//     return posts;
+//   } catch (error) {
+//     console.error(error.message);
+//     console.error('could not autocomplete!');
+//   }
+//   return null;
+// }

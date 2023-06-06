@@ -3,8 +3,6 @@ import Image from "next/image";
 import styles from "@/styles/Login.module.css";
 import bcrypt from 'bcryptjs';
 import * as api from "./api/api.js";
-
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -57,101 +55,7 @@ export default function SignUp() {
   }
 
   return (
-    // <div>
-    //   <div className={styles.flex_container}>
-    //     <div className={styles.login_left}>
-    //         <Image
-    //             src="/icons/carpool.svg"
-    //             alt="Carpool Logo"
-    //             width={700}
-    //             height={700}
-    //             priority
-    //         />
-    //     </div>
-    //     <div className={styles.login_right}>
-    //       <h1>Sign Up Page</h1>
-    //       <p>BruinShare: Say Goodbye to Expensive Rides! 💸</p>
-    //       <form className={styles.login_form} onSubmit={(e) => handleSignup(e)}>
-    //         <div className={styles.input_block}>
-    //           <div className={styles.text_block}>
-    //             <p>first name</p>
-    //             <TextField
-    //               name="firstname" label="First Name" sx={{ width: '110%' }} required
-    //             />
-    //           </div>
-    //           <div className={styles.text_block}>
-    //             <p>last name</p>
-    //             <TextField
-    //               name="lastname" label="Last Name" sx={{ width: '110%' }}required
-    //             />
-    //           </div>
-    //         </div>
-    //         <div className={styles.input_block}>
-    //           <div className={styles.text_block}>
-    //             <p>username</p>
-    //             <TextField
-    //               name="username" label="Username"  sx={{ width: '110%' }} required
-    //             />
-    //           </div>
-    //           <div className={styles.text_block}> 
-    //             <p>password</p>
-    //             <TextField
-    //               name="password" label="Password" type="password"  sx={{ width: '110%' }} required
-    //             />
-    //           </div>
-    //         </div>
-    //         <div className={styles.input_block}>
-    //           <div className={styles.text_block}>
-    //             <p>ucla email</p>
-    //             <TextField
-    //               name="email" label="UCLA Email" type="email"  sx={{ width: '110%' }} required
-    //             />
-    //           </div>
-    //           <div className={styles.text_block}>
-    //             <p>phone number</p>
-    //             <TextField
-    //               name="phone" label="Phone Number" type="tel"  sx={{ width: '110%' }} required
-    //             />
-    //           </div>
-    //         </div>
-    //         <br></br>
-    //         <input type="submit" value="SIGN UP" className={`${styles.signup_button} ${styles.login_button}`}></input>
-    //         <p>Already have an account? <Link className={styles.signup_link} href="/login">Log in</Link></p>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
     <div>
-      {/* <div className={styles.flex_container}>
-          <div className={styles.login_left}>
-              <Image
-                  src="/icons/carpool.svg"
-                  alt="Carpool Logo"
-                  // className={styles.vercelLogo}
-                  width={700}
-                  height={700}
-                  priority
-              />
-          </div>
-          <div className={styles.login_right}>
-              <h1>Login</h1>
-              <p>Welcome back to BruinShare! 🚙</p>
-              <form className={styles.login_form} onSubmit={(e) => handleLogin(e)}>
-                  <p>username</p>
-                  <TextField
-                      type="text" name="username" className={`${styles.full_width}`} required
-                  />
-                  <p>password</p>
-                  <TextField
-                      type="password" name="password" className={`${styles.full_width}`} required
-                  />
-                  <br></br>
-                  <input type="submit" value="LOG IN" className={styles.login_button}></input>
-                  <p>{"Don't"} have an account? <Link className={styles.signup_link} href="/signup">Sign up</Link></p>
-              </form>
-          </div>
-      </div> */}
-      {/* <ThemeProvider theme={defaultTheme}> */}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -160,10 +64,8 @@ export default function SignUp() {
           sm={4}
           md={6.2}
           sx={{
-            // backgroundImage: 'url(https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80)',
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundColor: 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -171,7 +73,6 @@ export default function SignUp() {
           <Image
             src="/icons/carpool.svg"
             alt="Carpool Logo"
-            // className={styles.vercelLogo}
             width={700}
             height={700}
             priority
@@ -187,14 +88,12 @@ export default function SignUp() {
               alignItems: 'center',
             }}
           >
-            <img src="/icons/logo.svg" alt="logo" />
-            {/* <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                          <LockOutlinedIcon />
-                      </Avatar>
-                      <Typography component="h1" variant="h5">
-                          Sign in
-                      </Typography> */}
+            {/* <img src="/icons/logo.svg" alt="logo" /> */}
             <Box component="form" onSubmit={(e) => handleSignup(e)} sx={{ mt: 1 }}>
+            <div className={styles.heading}>
+                <h1 className={styles.login_title}>Sign Up</h1>
+                <p>BruinShare: Say Goodbye to Expensive Rides! 💸</p>
+            </div>
               <Grid container columnSpacing={2}>
                 <Grid item xs={6}>
                   <TextField
@@ -296,12 +195,10 @@ export default function SignUp() {
                   </Link>
                 </Grid>
               </Grid>
-              {/* <Copyright sx={{ mt: 5 }} /> */}
             </Box>
           </Box>
         </Grid>
       </Grid>
-      {/* </ThemeProvider> */}
     </div>
   );
 }

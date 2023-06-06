@@ -48,6 +48,22 @@
   flex-wrap: wrap;
 }
 
+.myrides_heading{
+  font-size: 2.5rem;
+}
+
+.posting_heading{
+  font-size: 2.5rem;
+  margin: 0;
+  display: inline-block;
+}
+
+.create_button{
+  display: inline-block;
+  position: absolute;
+  right: 40px;
+}
+
 .post {
   box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 25px;
