@@ -339,7 +339,7 @@ export default function CustomizedDialogs({ profile }) {
       <Divider/>
 
       {/* defining the dialog */}
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} maxWidth="md">
         <DialogTitle id="alert-dialog-title">
           Create Post
         </DialogTitle>
