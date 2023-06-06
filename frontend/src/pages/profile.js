@@ -6,13 +6,7 @@ import * as userApi from "../pages/api/api.js";
 
 export default function Profile({ profile }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedProfile, setEditedProfile] = useState({
-    description: profile.description || "This user has not put a description of themselves :(",
-    email: profile.email || "",
-    phone: profile.phone || "",
-    location: profile.location || "",
-    interests: profile.interests || "",
-  });
+  const [editedProfile, setEditedProfile] = useState({});
 
   useEffect(() => {
     userApi.getUserByID(profile.username).then((response) => {
@@ -44,6 +38,7 @@ export default function Profile({ profile }) {
     console.log(editedProfile);
     api.updateProfile(profile.username, editedProfile);
     userApi.getUserByID(profile.username);
+    setIsEditing(false);
   };
 
   const handleInputChange = (e) => {
@@ -93,7 +88,7 @@ export default function Profile({ profile }) {
               />
             )}
           </div>
-          <h1 className={styles.profile_name}>{editedProfile.firstname}</h1>
+          <h1 className={styles.profile_name}>{`${editedProfile.firstname} ${editedProfile.lastname}`}</h1>
           <p className={styles.profile_username}>{editedProfile.username}</p>
           <p className={styles.profile_description}>
             {isEditing ? (
@@ -124,7 +119,7 @@ export default function Profile({ profile }) {
           )}
           <div className={styles.profile_info}>
             <div className={styles.info_row}>
-              <span className={styles.info_label}>Email</span>
+              <h3 className={styles.info_label}>Email:</h3>
               {isEditing ? (
                 <input
                   type="text"
@@ -138,7 +133,7 @@ export default function Profile({ profile }) {
               )}
             </div>
             <div className={styles.info_row}>
-              <span className={styles.info_label}>Phone</span>
+              <h3 className={styles.info_label}>Phone Number:</h3>
               {isEditing ? (
                 <input
                   type="text"
@@ -152,7 +147,7 @@ export default function Profile({ profile }) {
               )}
             </div>
             <div className={styles.info_row}>
-              <span className={styles.info_label}>Living Location</span>
+              <h3 className={styles.info_label}>Living Location:</h3>
               {isEditing ? (
                 <input
                   type="text"
@@ -166,7 +161,7 @@ export default function Profile({ profile }) {
               )}
             </div>
             <div className={styles.info_row}>
-              <span className={styles.info_label}>Interests &amp; Hobbies</span>
+              <h3 className={styles.info_label}>Interests &amp; Hobbies:</h3>
               {isEditing ? (
                 <input
                   type="text"
