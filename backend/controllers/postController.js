@@ -104,6 +104,7 @@ const leaveGroup = async (req, res) => {
   }
 };
 
+//deletes a post given the post's ID
 const deletePost = async (req, res) => {
   try {
     const { postID } = req.body;

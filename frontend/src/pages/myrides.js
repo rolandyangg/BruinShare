@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as api from "../pages/api/posts.js";
-import { grey } from '@mui/material/colors';
 import styles from '@/styles/post.module.css';
 import {
     Box,
@@ -20,6 +19,7 @@ export default function MyRides({ profile }) {
     const [posts, setPosts] = useState([]);
     const [joined, setJoined] = useState([]);
 
+    //getting posts that were created by this user
     const getPosts = () => {
         api.getUserPosts(username).then((response) => {
             if(response){
@@ -31,17 +31,20 @@ export default function MyRides({ profile }) {
         });
     }
 
+    //get posts upon first render
     useEffect(() => {
         getPosts();
       }, []);
     
 
+    //when user clicks leave group button
     const leaveGroup = (postID) => {
         api.leaveGroup(username, postID).then(() => {
             getPosts();
         })
     }
 
+    //when user decides to delete their post
     const deletePost = (postID) => {
         api.deletePost(postID).then(() => {
             getPosts();
@@ -50,7 +53,7 @@ export default function MyRides({ profile }) {
     
     return (
         <Box p={4}>
-            <h1>My Posts</h1>
+            <h1 className={styles.myrides_heading}>My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {posts.map((post) => (
@@ -80,20 +83,28 @@ export default function MyRides({ profile }) {
                       </Grid>
                     </Grid>
                     <CardContent>
+                      <AvatarGroup sx={{marginTop: '-10px', marginBottom: '10px'}} max={3}>
+                        {post.data.userName !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        }
+                        {post.data.members !== undefined && post.data.members.map((member) => (
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
+                        ))}
+                        {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
+                      </AvatarGroup>
                       <Typography gutterBottom variant="h5" component="div">
-                        {post.data.departDate}
+                        Departing <b>{post.data.departDate}</b>
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Group Creator: {post.data.creator}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Time: {post.data.departTime}
+                        Departure Time: {post.data.departTime} on {post.data.departDate}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Location: {post.data.departLoc}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Destination: {post.data.dest}
+                        Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -106,7 +117,7 @@ export default function MyRides({ profile }) {
             </Grid>
             </Box>
 
-            <h1>Joined Groups</h1>
+            <h1 className={styles.myrides_heading}>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
@@ -136,20 +147,28 @@ export default function MyRides({ profile }) {
                       </Grid>
                     </Grid>
                     <CardContent>
+                    <AvatarGroup sx={{marginTop: '-10px', marginBottom: '10px'}} max={3}>
+                        {post.data.userName !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        }
+                        {post.data.members !== undefined && post.data.members.map((member) => (
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
+                        ))}
+                        {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
+                      </AvatarGroup>
                       <Typography gutterBottom variant="h5" component="div">
-                        {post.data.departDate}
+                        Departing <b>{post.data.departDate}</b>
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Group Creator: {post.data.creator}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Time: {post.data.departTime}
+                        Departure Time: {post.data.departTime} on {post.data.departDate}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Location: {post.data.departLoc}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Destination: {post.data.dest}
+                        Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
                       </Typography>
                     </CardContent>
                   </CardActionArea>

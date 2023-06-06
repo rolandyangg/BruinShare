@@ -15,7 +15,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
 export default function Login({ user }) {
-// export default function Login() {
     const [allUsers, setAllUsers] = useState([]);
     const router = useRouter();
 
@@ -55,118 +54,89 @@ export default function Login({ user }) {
 
     return (
         <div>
-            {/* <div className={styles.flex_container}>
-                <div className={styles.login_left}>
+            <Grid container component="main" sx={{ height: '100vh' }}>
+            <CssBaseline />
+                <Grid
+                    item
+                    xs={false}
+                    sm={4}
+                    md={6.2}
+                    sx={{
+                        backgroundRepeat: 'no-repeat',
+                        backgroundColor: 'white',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}>
                     <Image
-                        src="/icons/carpool.svg"
-                        alt="Carpool Logo"
-                        // className={styles.vercelLogo}
-                        width={700}
-                        height={700}
-                        priority
+                    src="/icons/carpool.svg"
+                    alt="Carpool Logo"
+                    width={700}
+                    height={700}
+                    priority
                     />
-                </div>
-                <div className={styles.login_right}>
-                    <h1>Login</h1>
-                    <p>Welcome back to BruinShare! 🚙</p>
-                    <form className={styles.login_form} onSubmit={(e) => handleLogin(e)}>
-                        <p>username</p>
-                        <TextField
-                            type="text" name="username" className={`${styles.full_width}`} required
-                        />
-                        <p>password</p>
-                        <TextField
-                            type="password" name="password" className={`${styles.full_width}`} required
-                        />
-                        <br></br>
-                        <input type="submit" value="LOG IN" className={styles.login_button}></input>
-                        <p>{"Don't"} have an account? <Link className={styles.signup_link} href="/signup">Sign up</Link></p>
-                    </form>
-                </div>
-            </div> */}
-                <Grid container component="main" sx={{ height: '100vh' }}>
-                    <CssBaseline />
-                    <Grid
-                        item
-                        xs={false}
-                        sm={4}
-                        md={6.2}
-                        sx={{
-                            backgroundRepeat: 'no-repeat',
-                            backgroundColor: 'white',
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}>
-                        <Image
-                        src="/icons/carpool.svg"
-                        alt="Carpool Logo"
-                        width={700}
-                        height={700}
-                        priority
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={8} md={5.5} elevation={6} square>
-                        <Box
-                            sx={{
-                                my: 8,
-                                mx: 4,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}
-                        >
-                            {/* <img src = "/icons/logo.svg" alt="logo"/> */}
-                            <Box component="form" noValidate onSubmit={(e) => handleLogin(e)} sx={{ mt: 1 }}>
-                                <div className={styles.heading}>
-                                    <h1 className={styles.login_title}>Login</h1>
-                                    <p>Welcome back to BruinShare! 🚙</p>
-                                </div>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="username"
-                                    label="Username"
-                                    name="username"
-                                    autoComplete="username"
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"><PersonIcon/></InputAdornment>,
-                                    }}
-                                    autoFocus
-                                />
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="password"
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start"><LockIcon/></InputAdornment>,
-                                    }}
-                                />
-                                <Button
-                                    fullWidth
-                                    type="submit"
-                                    size="large"
-                                    variant="contained"
-                                    sx={{ mt: 2, mb: 2 }}
-                                >
-                                    Sign In
-                                </Button>
-                                <Grid container justifyContent="center" alignItems="center">
-                                    <Grid item>
-                                        <Link href="/signup" variant="body2">
-                                            {"Don't have an account? Sign Up"}
-                                        </Link>
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                        </Box>
-                    </Grid>
                 </Grid>
+                <Grid item xs={12} sm={8} md={5.5} elevation={6} square>
+                    <Box
+                        sx={{
+                            my: 8,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        {/* <img src = "/icons/logo.svg" alt="logo"/> */}
+                        <Box component="form" noValidate onSubmit={(e) => handleLogin(e)} sx={{ mt: 1 }}>
+                            <div className={styles.heading}>
+                                <h1 className={styles.login_title}>Login</h1>
+                                <p>Welcome back to BruinShare! 🚙</p>
+                            </div>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"><PersonIcon/></InputAdornment>,
+                                }}
+                                autoFocus
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="password"
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start"><LockIcon/></InputAdornment>,
+                                }}
+                            />
+                            <Button
+                                fullWidth
+                                type="submit"
+                                size="large"
+                                variant="contained"
+                                sx={{ mt: 2, mb: 2 }}
+                            >
+                                Sign In
+                            </Button>
+                            <Grid container justifyContent="center" alignItems="center">
+                                <Grid item>
+                                    <Link href="/signup" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
         </div>
     );
 }

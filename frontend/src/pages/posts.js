@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid, FormControl, MenuItem, Select, TextField, InputAdornment, InputLabel, Card, Divider, CardHeader, CardMedia, CardContent, CardActions, NumberField, CardActionArea, Collapse, Avatar, AvatarGroup, IconButton, Typography, Paper
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
-
 
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
@@ -17,10 +15,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "./api/posts.js";
-import { Margin } from '@mui/icons-material';
 
 import LocationAutocomplete from '../components/LocationAutocomplete.js'
 import Autocomplete from "react-google-autocomplete";
+import styles from '../styles/post.module.css'
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
@@ -228,10 +226,12 @@ export default function CustomizedDialogs({ profile }) {
   };
 
   const username = profile.username;
+  // when a user clicks join group
   const joinGroup = (postID, creator) => {
     if(creator !== null && creator !== profile.username){
       console.log(creator);
       api.joinGroup(username, postID).then(() => {
+        //after joining group, get all posts again to reflect the change on the bulletin
         api.getPosts().then((response) => {
           if(response !== null)
             setPosts(response.data);
@@ -245,8 +245,11 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
-      <Box m={2} mt={4}>
-        <h1>Current Postings</h1>
+      <Box sx={{textAlign: 'center'}} m={2} mt={4}>
+        <h1 className={styles.posting_heading}>Current Postings</h1>
+          <Grid className={styles.create_button} item xs={1.71}>
+            <Button onClick={handleClickOpen} fullWidth variant="contained" size="large" startIcon={<AddIcon />}  style={{ height: 55 }}>Create Post</Button>
+          </Grid>
       </Box>
 
       {/* filter/search bar */}
@@ -362,7 +365,7 @@ export default function CustomizedDialogs({ profile }) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker 
                     fullwidth
-                    slotProps={{ textField: { fullWidth: true } }} 
+                    slotProps={{ textField: { fullWidth: true, error: false} }} 
                     label="Depart Time" value={formData.departTime}  
                     onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
                     required
@@ -395,7 +398,7 @@ export default function CustomizedDialogs({ profile }) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <TimePicker 
                       fullwidth
-                      slotProps={{ textField: { fullWidth: true } }}
+                      slotProps={{ textField: { fullWidth: true, error: false} }} 
                       label="Flight Time"
                       name="flightTime"
                       value={formData.flightTime}
@@ -423,20 +426,15 @@ export default function CustomizedDialogs({ profile }) {
 
       {/* sort by and create post + display posts */}
       <Box m={4}>
-        <Box sx={{textAlign: "right"}}>
-          <Button variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
-        </Box>
         <Grid container spacing={4} mt={2} pb={5}>
           {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
-                  <CardActionArea>
+                  <CardActionArea onClick={() => {handleInfoClickOpen(post.id)}}>
                     <Grid 
-                      // item xs display="flex" 
                       container
                       justifyContent="center" 
                       alignItems="center" 
-                      // sx={{ backgroundColor: grey[200] }} 
                       p={3}
                       sx={{
                         backgroundColor:
@@ -449,43 +447,46 @@ export default function CustomizedDialogs({ profile }) {
                       >
 
                       <Grid sx={{height: '60px'}} item xs={12}>
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {post.data.departLoc}
-                        {`  →  `}
-                        {post.data.dest}
+                      {post.data.members !== undefined && (post.data.members).length === post.data.groupSize ? (
+                        <Typography variant="h5" color="text.secondary">
+                          GROUP IS FULL.
                         </Typography>
+                      )
+                      :
+                       (
+                        <Typography variant="h5" textAlgin="center" color="text.secondary">
+                          {post.data.departLoc}
+                          {`  →  `}
+                          {post.data.dest}
+                        </Typography>
+                       ) 
+                      }
                       </Grid>
                     </Grid>
-                    <CardContent
-                      // sx={{
-                      //   backgroundColor:
-                      //     post.data.userName === username
-                      //       ? '#DED9E2'
-                      //       : post.data.members !== undefined && post.data.members.includes(username)
-                      //       ? "#FFD100" // gold  // '#C65858' red
-                      //       : '#3595de', // blue //  '#3AE46D', green
-                      // }}
-                    >
-                      {/* <AvatarGroup max={3}>
-                        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                    <CardContent>
+                      <AvatarGroup sx={{marginTop: '-10px', marginBottom: '10px'}} max={3}>
+                        {post.data.userName !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        }
+                        {post.data.members !== undefined && post.data.members.map((member) => (
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
+                        ))}
+                        {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                      </AvatarGroup> */}
+                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
+                      </AvatarGroup>
+                      
                       <Typography gutterBottom variant="h5" component="div">
-                        {post.data.departDate}
+                        Departing <b>{post.data.departDate}</b>
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Group Creator: {post.data.creator}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Time: {post.data.departTime}
+                        Departure Time: {post.data.departTime} on {post.data.departDate}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Location: {post.data.departLoc}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Destination: {post.data.dest}
+                        Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -506,16 +507,6 @@ export default function CustomizedDialogs({ profile }) {
                       }}>Details</Button>
                       <Typography variant="body2" color="text.secondary">
                       You have joined this group. 
-                      </Typography>
-                    </CardActions>
-                  }
-                  {post.data.members !== undefined && (post.data.members).length === post.data.groupSize && 
-                    <CardActions>
-                      <Button size="small" onClick={() => {
-                        handleInfoClickOpen(post.id)
-                      }}>Details</Button>
-                      <Typography variant="body2" color="text.secondary">
-                      Group is full.
                       </Typography>
                     </CardActions>
                   }
@@ -542,31 +533,26 @@ export default function CustomizedDialogs({ profile }) {
           {post.data.creator}'s Trip Details
         </DialogTitle>
         <DialogContent>
-          <Typography variant="body2" color="text.secondary">
-            Time: {post.data.departTime}
+          <Typography variant="h6" color="text.secondary">
+            {post.data.departLoc} To {post.data.dest}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Location: {post.data.departLoc}
+          <Typography variant="h6" color="text.secondary">
+            Departure Time: {post.data.departTime}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Destination: {post.data.dest}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" color="text.secondary">
             Flight Number: {post.data.flightNumber}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Group Size: {post.data.members === undefined ? 1 : (post.data.members.length + 1)/(post.data.groupSize)}
+          <Typography variant="h6" color="text.secondary">
+            Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
           </Typography>
-          
-          <Typography variant="body2" color="text.secondary">
-            Other members:
+          <Typography variant="h6" color="text.secondary">
+            Current members:
           </Typography>
           {post.data.members !== undefined && post.data.members.map((member) => (
-            <Typography variant="body2" color="text.secondary">
-                {member}
+            <Typography variant="h6" color="text.secondary">
+                <li>{member}</li>
             </Typography>
           ))}
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleInfoClose}>Close</Button>
