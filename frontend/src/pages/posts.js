@@ -16,10 +16,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 // import styles from '@/styles/post.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import * as api from "../pages/api/posts.js";
+import * as api from "./api/posts.js";
 import { Margin } from '@mui/icons-material';
 
-import LocationAutocomplete from './LocationAutocomplete.js'
+import LocationAutocomplete from '../components/LocationAutocomplete.js'
 import Autocomplete from "react-google-autocomplete";
 
 export default function CustomizedDialogs({ profile }) {
@@ -129,7 +129,7 @@ export default function CustomizedDialogs({ profile }) {
   const sortPosts = (filter) => {
     console.log("Sorting...");
     console.log(filter);
-    let sortedPosts = [...posts] // We have to make a copy because we can't directly mutate posts
+    let sortedPosts = [...posts] // We have to make a copy beitem xs={1.7}cause we can't directly mutate posts
     // console.log(new Date(sortedPosts[0].data.timeObject.seconds));
     if (filter == "Time/Newest") {
       sortedPosts.sort((a, b) => a.data.timeObject.seconds - b.data.timeObject.seconds); 
@@ -148,18 +148,6 @@ export default function CustomizedDialogs({ profile }) {
   const handleCreatePost = (e) => {
     e.preventDefault();
 
-
-    // console.log("0: " + e.target[0].value);
-    // console.log("1: " + e.target[1].value);
-    // console.log("2: " + e.target[2].value);
-    // console.log("3: " + e.target[3].value);
-    // console.log("4: " + e.target[4].value);
-    // console.log("5: " + e.target[5].value);
-    // console.log("6: " + e.target[6].value);
-    // console.log("7: " + e.target[7].value);
-    // console.log("Squidda: "+ e.target.form.departLoc);
-    // console.log("Squidda: "+ e.target.form.dest);
-
     //format departure date
     const iDateString = formData.departTime;
     const date = new Date(iDateString);
@@ -171,10 +159,6 @@ export default function CustomizedDialogs({ profile }) {
 
     // Formatting the date as mm/dd/yyyy
     const formattedDD = `${month}/${day}/${year}`;
-
-    // if (duplicate.length !== 0) {
-    //   alert("your username is taken! pick another one!")
-    // }
 
     // Create the post using the form data
     const newPost = {
@@ -262,14 +246,14 @@ export default function CustomizedDialogs({ profile }) {
   return (
     <div>
       <Box m={2} mt={4}>
-        <h1>📌 Current Postings</h1>
+        <h1>Current Postings</h1>
       </Box>
 
       {/* filter/search bar */}
-      <Box m={4}>
+      <Box sx={{textAlign: "center"}} m={4}>
       <form onSubmit={handleFilterFormSubmit}>
         <Grid container spacing={2} mt={4}>
-          <Grid item xs={1.5}>
+          <Grid item xs={1.71}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
@@ -282,7 +266,7 @@ export default function CustomizedDialogs({ profile }) {
               }}
             >Search</TextField>
           </Grid>
-          <Grid item xs={1.5}>
+          <Grid item xs={1.71}>
             <TextField
               fullWidth
               id="outlined-start-adornment"
@@ -295,43 +279,29 @@ export default function CustomizedDialogs({ profile }) {
               }}
             >Search</TextField>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.71}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker 
                 fullwidth
-                slotProps={{ textField: { fullWidth: true } }} 
+                slotProps={{ textField: { fullWidth: true, error: false } }} 
                 label="Start Date Range" value={formData.departTime}  
                 onChange={(date) => handleFilterInputChange({ target: { name: 'startTimeRange', value: date } })}
                 required
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.71}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker 
                 fullwidth
-                slotProps={{ textField: { fullWidth: true } }} 
+                slotProps={{ textField: { fullWidth: true, error: false} }} 
                 label="End Date Range" value={formData.departTime}  
                 onChange={(date) => handleFilterInputChange({ target: { name: 'endTimeRange', value: date } })}
                 required
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={1.5}>
-            <TextField
-              fullWidth
-              type="number"
-              id="outlined-start-adornment"
-              label="Group Size Minimum"
-              name="groupSizeMin"
-              value={filterForm.groupSizeMin}
-              onChange={handleFilterInputChange}
-              InputProps={{
-                startAdornment: <InputAdornment position="start"></InputAdornment>,
-              }}
-            >Group Size Minimimum</TextField>
-          </Grid>
-          <Grid item xs={1.5}>
+          <Grid item xs={1.71}>
             <TextField
               fullWidth
               type="number"
@@ -345,7 +315,18 @@ export default function CustomizedDialogs({ profile }) {
               }}
             >Group Size Maximum</TextField>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.71}>
+            <FormControl sx={{width: '100%', textAlign: 'center'}}>
+                <InputLabel id="sort-posts">Sort By</InputLabel>
+                <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
+                onChange={(event) => { sortPosts(event.target.value); }
+                }>
+                  <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
+                  <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
+                </Select>
+              </FormControl>
+          </Grid>
+          <Grid item xs={1.71}>
             <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
           </Grid>
         </Grid>
@@ -369,33 +350,13 @@ export default function CustomizedDialogs({ profile }) {
                 <LocationAutocomplete
                   label="Departure Location"
                   name="departLoc"
-                  // value={formData.departLoc}
-                  // onChange={handleInputChange}
                 />
-                {/* <TextField
-                  fullWidth
-                  label="Departure Location"
-                  name="departLoc"
-                  value={formData.departLoc}
-                  onChange={handleInputChange}
-                  required
-                /> */}
               </Grid>
               <Grid item xs={6}>
                 <LocationAutocomplete
                   label="Destination"
                   name="dest"
-                  // value={formData.dest}
-                  // onChange={handleInputChange}
                 />
-                {/* <TextField
-                  fullWidth
-                  label="Destination"
-                  name="dest"
-                  value={formData.dest}
-                  onChange={handleInputChange}
-                  required
-                /> */}
               </Grid>
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -462,16 +423,7 @@ export default function CustomizedDialogs({ profile }) {
 
       {/* sort by and create post + display posts */}
       <Box m={4}>
-        <Box sx={{textAlign: "center"}}>
-          <FormControl sx={{width: '300px', marginRight: '20px', textAlign: 'center'}}>
-            <InputLabel id="sort-posts">Sort By</InputLabel>
-            <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
-            onChange={(event) => { sortPosts(event.target.value); }
-            }>
-              <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
-              <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
-            </Select>
-          </FormControl>
+        <Box sx={{textAlign: "right"}}>
           <Button variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
         </Box>
         <Grid container spacing={4} mt={2} pb={5}>
@@ -495,35 +447,14 @@ export default function CustomizedDialogs({ profile }) {
                             : '#d0dfff', // blue //  '#3AE46D', green
                       }}
                       >
-                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`🚙 `}
-                        </Typography>
-                      </Grid> */}
-                      <Grid item xs={12} alignItems="center" justifyContent="center">
+
+                      <Grid sx={{height: '60px'}} item xs={12}>
                         <Typography variant="h5" textAlgin="center" color="text.secondary">
                         {post.data.departLoc}
-                        </Typography>
-                      </Grid>
-                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`  ➪  `}
-                        </Typography>
-                      </Grid> */}
-                      <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`  ➪  `}
+                        {`  →  `}
                         {post.data.dest}
                         </Typography>
                       </Grid>
-                      {/* <CardMedia
-                        center="true"
-                        style={{ borderRadius: '50%', height: '20vh', width: '20vh'}}
-                        padding="0"
-                        component="img"
-                        alt="title"
-                        height="20"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" /> */}
                     </Grid>
                     <CardContent
                       // sx={{
@@ -642,27 +573,6 @@ export default function CustomizedDialogs({ profile }) {
         </DialogActions>
         </Dialog>
       ))}
-
-      {/* popup for details */}
-      {/* <Dialog
-        open={openInfo}
-        onClose={handleInfoClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Creator's trip to Destination from Departure Location
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Other Group Members
-            clickable avatars
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleInfoClose}>Close</Button>
-        </DialogActions>
-      </Dialog> */}
     </div>
   );
 }

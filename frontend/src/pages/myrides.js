@@ -50,7 +50,7 @@ export default function MyRides({ profile }) {
     
     return (
         <Box p={4}>
-            <h1>✏️ My Posts</h1>
+            <h1>My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {posts.map((post) => (
@@ -58,11 +58,9 @@ export default function MyRides({ profile }) {
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                   <Grid 
-                      // item xs display="flex" 
                       container
                       justifyContent="center" 
                       alignItems="center" 
-                      // sx={{ backgroundColor: grey[200] }} 
                       p={3}
                       sx={{
                         backgroundColor:
@@ -73,45 +71,15 @@ export default function MyRides({ profile }) {
                             : '#d0dfff', // blue //  '#3AE46D', green
                       }}
                       >
-                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`🚙 `}
-                        </Typography>
-                      </Grid> */}
-                      <Grid item xs={12} alignItems="center" justifyContent="center">
+                      <Grid sx={{height: '60px'}} item xs={12}>
                         <Typography variant="h5" textAlgin="center" color="text.secondary">
                         {post.data.departLoc}
-                        </Typography>
-                      </Grid>
-                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`  ➪  `}
-                        </Typography>
-                      </Grid> */}
-                      <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`  ➪  `}
+                        {`  →  `}
                         {post.data.dest}
                         </Typography>
                       </Grid>
-                      {/* <CardMedia
-                        center="true"
-                        style={{ borderRadius: '50%', height: '20vh', width: '20vh'}}
-                        padding="0"
-                        component="img"
-                        alt="title"
-                        height="20"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" /> */}
                     </Grid>
-                    <CardContent
-                      // sx={{backgroundColor:'#DED9E2'}}
-                    >
-                      {/* <AvatarGroup max={3}>
-                        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                      </AvatarGroup> */}
+                    <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         {post.data.departDate}
                       </Typography>
@@ -138,7 +106,7 @@ export default function MyRides({ profile }) {
             </Grid>
             </Box>
 
-            <h1>🚙 <span>Joined Groups</span></h1>
+            <h1>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
@@ -146,11 +114,9 @@ export default function MyRides({ profile }) {
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
                   <Grid 
-                      // item xs display="flex" 
                       container
                       justifyContent="center" 
                       alignItems="center" 
-                      // sx={{ backgroundColor: grey[200] }} 
                       p={3}
                       sx={{
                         backgroundColor:
@@ -161,45 +127,15 @@ export default function MyRides({ profile }) {
                             : '#d0dfff', // blue //  '#3AE46D', green
                       }}
                       >
-                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`🚙 `}
-                        </Typography>
-                      </Grid> */}
-                      <Grid item xs={12} alignItems="center" justifyContent="center">
+                      <Grid sx={{height: '60px'}} item xs={12}>
                         <Typography variant="h5" textAlgin="center" color="text.secondary">
                         {post.data.departLoc}
-                        </Typography>
-                      </Grid>
-                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`  ➪  `}
-                        </Typography>
-                      </Grid> */}
-                      <Grid item xs={12} alignItems="center" justifyContent="center">
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                        {`  ➪  `}
+                        {`  →  `}
                         {post.data.dest}
                         </Typography>
                       </Grid>
-                      {/* <CardMedia
-                        center="true"
-                        style={{ borderRadius: '50%', height: '20vh', width: '20vh'}}
-                        padding="0"
-                        component="img"
-                        alt="title"
-                        height="20"
-                        image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" /> */}
                     </Grid>
-                    <CardContent
-                      // sx={{backgroundColor:'#FFD100'}}
-                      >
-                      {/* <AvatarGroup max={3}>
-                        <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                      </AvatarGroup> */}
+                    <CardContent>
                       <Typography gutterBottom variant="h5" component="div">
                         {post.data.departDate}
                       </Typography>
