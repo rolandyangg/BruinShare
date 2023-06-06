@@ -14,10 +14,35 @@ export const getPosts = async () => {
   return null;
 };
 
+export const getPost = async (postID) => {
+  try {
+    console.log("WORK: " + postID)
+    const post = await axios.post(`${url}/getPost`, {postID});
+    return post;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not get the post!');
+  }
+  return null;
+};
+
+
 export const createPost = async (newPost) => {
   try {
     const newPosting = await axios.post(`${url}/createPost`, newPost);
     return newPosting;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not create a new post!');
+  }
+  return null;
+};
+
+export const updatePost = async (updatedPost) => {
+  try {
+    console.log(updatedPost);
+    const post = await axios.post(`${url}/updatePost`, updatedPost);
+    return post;
   } catch (error) {
     console.error(error.message);
     console.error('could not create a new post!');

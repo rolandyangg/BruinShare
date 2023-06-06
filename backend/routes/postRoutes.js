@@ -2,12 +2,15 @@ import express from 'express';
 
 import{
     getPosts,
+    getPost,
+    updatePost,
     getFilteredPosts,
     createPost,
     getUserPosts,
     joinGroup,
     leaveGroup,
     deletePost,
+    // editPost,
 } from '../controllers/postController.js'
   
   const router = express.Router();
@@ -18,6 +21,10 @@ import{
   
   //get all posts
   router.get('/getPosts', getPosts);
+
+  router.post('/getPost', getPost);
+
+  router.post('/updatePost', updatePost);
 
   //get filterest posts
   router.post('/getFilteredPosts', getFilteredPosts);
@@ -36,6 +43,9 @@ import{
 
   //delete a post
   router.post('/deletePost', deletePost);
+
+  //delete a post
+  // router.post('/editPost', editPost);
   
   export default router;
   
