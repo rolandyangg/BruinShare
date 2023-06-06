@@ -227,11 +227,11 @@ const getFilteredPosts = async (req, res) => {
       queries.push(where("timeObject", "<=", endTimeRange));
 
     // Group Size Min & Max
-    if (!isNaN(groupSizeMin))
-      queries.push(where("groupSize", "<=", groupSizeMin));
+    // if (!isNaN(groupSizeMin))
+    //   queries.push(where("groupSize", ">=", groupSizeMin));
     
-    if (!isNaN(groupSizeMax))
-      queries.push(where("groupSize", "<=", groupSizeMax));
+    // if (!isNaN(groupSizeMax))
+    //   queries.push(where("groupSize", "<=", groupSizeMax));
 
     getDocs(query(collection(db, "posts"), ...queries
     )).then((sc)=> {
@@ -239,8 +239,15 @@ const getFilteredPosts = async (req, res) => {
       sc.forEach((doc) => {
         const data = doc.data();
         posts.push({id: doc.id, data: data});
-        // console.log("FOUND QUERY MATCH: ");
       }) 
+      // Filter by group size (We can't make a query for it because firebase is stupid and limits the amoount of queries you can perform...)
+      // Solution... Filter manually!!!
+      if (!isNaN(groupSizeMin))
+        posts.filter((post) => post.data.groupSize >= groupSizeMin); // queries.push(where("groupSize", ">=", groupSizeMin));
+      
+      if (!isNaN(groupSizeMax))
+        posts.filter((post) => post.data.groupSize <= groupSizeMax); // queries.push(where("groupSize", "<=", groupSizeMax));
+        
       res.status(202).json(posts);
     });
   } catch (error) {
