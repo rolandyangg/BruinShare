@@ -24,7 +24,7 @@ import Autocomplete from "react-google-autocomplete";
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
-  const [openInfo, setOpenInfo] = React.useState(false);
+  const [openInfo, setOpenInfo] = React.useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -60,13 +60,13 @@ export default function CustomizedDialogs({ profile }) {
   })
 
   //open dialog
-  const handleInfoClickOpen = () => {
-    setOpenInfo(true);
+  const handleInfoClickOpen = (id) => {
+    setOpenInfo(id);
   };
 
   //close dialog
   const handleInfoClose = () => {
-    setOpenInfo(false);
+    setOpenInfo(null);
   };
 
   //open dialog
@@ -559,7 +559,9 @@ export default function CustomizedDialogs({ profile }) {
                   </CardActionArea>
                   {post.data.userName === username && 
                     <CardActions>
-                      <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                      <Button size="small" onClick={() => {
+                        handleInfoClickOpen(post.id)
+                      }}>Details</Button>
                       <Typography variant="body2" color="text.secondary">
                         You are the group creator.
                       </Typography>
@@ -567,7 +569,9 @@ export default function CustomizedDialogs({ profile }) {
                   }
                   {post.data.members !== undefined && post.data.members.includes(username) && 
                     <CardActions>
-                      <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                      <Button size="small" onClick={() => {
+                        handleInfoClickOpen(post.id)
+                      }}>Details</Button>
                       <Typography variant="body2" color="text.secondary">
                       You have joined this group. 
                       </Typography>
@@ -575,15 +579,17 @@ export default function CustomizedDialogs({ profile }) {
                   }
                   {post.data.members !== undefined && (post.data.members).length === post.data.groupSize && 
                     <CardActions>
-                      <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                      <Button size="small" onClick={() => {
+                        handleInfoClickOpen(post.id)
+                      }}>Details</Button>
                       <Typography variant="body2" color="text.secondary">
                       Group is full.
                       </Typography>
                     </CardActions>
                   }
                   {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName !== username  && 
-                    <CardActions>
-                    <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                  <CardActions>
+                    <Button size="small" onClick={() => handleInfoClickOpen(post.id)}>Details</Button>
                     <Button size="small" onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
                   </CardActions>
                   }
@@ -592,9 +598,52 @@ export default function CustomizedDialogs({ profile }) {
             ))}
           </Grid>
       </Box>
+      
+      {posts.map((post) => (
+        <Dialog
+          open={openInfo === post.id}
+          onClose={handleInfoClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {post.data.creator}'s Trip Details
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" color="text.secondary">
+            Time: {post.data.departTime}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Location: {post.data.departLoc}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Destination: {post.data.dest}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Flight Number: {post.data.flightNumber}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Group Size: {post.data.members.length + 1} /  {post.data.groupSize}
+          </Typography>
+          
+          <Typography variant="body2" color="text.secondary">
+            Other members:
+          </Typography>
+          {post.data.members.map((member) => (
+            <Typography variant="body2" color="text.secondary">
+                {member}
+            </Typography>
+          ))}
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleInfoClose}>Close</Button>
+        </DialogActions>
+        </Dialog>
+      ))}
 
       {/* popup for details */}
-      <Dialog
+      {/* <Dialog
         open={openInfo}
         onClose={handleInfoClose}
         aria-labelledby="alert-dialog-title"
@@ -612,7 +661,7 @@ export default function CustomizedDialogs({ profile }) {
         <DialogActions>
           <Button onClick={handleInfoClose}>Close</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
