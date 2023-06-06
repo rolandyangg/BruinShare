@@ -30,7 +30,7 @@ export default function Profile({ profile }) {
 
   const handleSaveProfile = async () => {
     console.log(editedProfile)
-    api.updateProfile(editedProfile);
+    api.updateProfile(profile.username, editedProfile);
   };
 
   const handleInputChange = (e) => {

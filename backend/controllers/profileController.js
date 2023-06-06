@@ -1,20 +1,29 @@
 import { db } from "../firebase.js";
-import { doc, collection, getDoc, getDocs, addDoc, arrayUnion, updateDoc } from "firebase/firestore";
+import { doc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
 
 const editProfile = async (req, res) => {
   console.log("Edit Profile request received");
-  const { id, description, email, phone, location, interests } = req.body;
+  const {userID, newProfile} = req.body;
+  const {description, email, phone, location, interests} = newProfile;
+  // const { id, description, email, phone, location, interests } = req.body;
 
+  console.log(req.body)
   try {
-    console.log("SDJFKLSDJKLRSJDFOSJOFI")
-    const userRef = db.collection("users").doc(id);
-    await userRef.update({
+    const usersCollectionRef = collection(db, "users");
+    const q = query(usersCollectionRef, where('username', '==', userID));
+    const querySnapshot = await getDocs(q);
+    const documentId = querySnapshot.docs[0].id;
+    const userRef = doc(db, "users", documentId);
+
+    const newData = { 
       description,
       email,
       phone,
       location,
       interests,
-    });
+     };
+
+    await updateDoc(userRef, newData);
 
     res.json({ message: "Profile updated successfully" });
   } catch (error) {
