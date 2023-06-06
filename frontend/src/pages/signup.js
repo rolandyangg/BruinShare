@@ -122,36 +122,6 @@ export default function SignUp() {
     //   </div>
     // </div>
     <div>
-      {/* <div className={styles.flex_container}>
-          <div className={styles.login_left}>
-              <Image
-                  src="/icons/carpool.svg"
-                  alt="Carpool Logo"
-                  // className={styles.vercelLogo}
-                  width={700}
-                  height={700}
-                  priority
-              />
-          </div>
-          <div className={styles.login_right}>
-              <h1>Login</h1>
-              <p>Welcome back to BruinShare! 🚙</p>
-              <form className={styles.login_form} onSubmit={(e) => handleLogin(e)}>
-                  <p>username</p>
-                  <TextField
-                      type="text" name="username" className={`${styles.full_width}`} required
-                  />
-                  <p>password</p>
-                  <TextField
-                      type="password" name="password" className={`${styles.full_width}`} required
-                  />
-                  <br></br>
-                  <input type="submit" value="LOG IN" className={styles.login_button}></input>
-                  <p>{"Don't"} have an account? <Link className={styles.signup_link} href="/signup">Sign up</Link></p>
-              </form>
-          </div>
-      </div> */}
-      {/* <ThemeProvider theme={defaultTheme}> */}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -160,10 +130,8 @@ export default function SignUp() {
           sm={4}
           md={6.2}
           sx={{
-            // backgroundImage: 'url(https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80)',
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundColor: 'white',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -171,7 +139,6 @@ export default function SignUp() {
           <Image
             src="/icons/carpool.svg"
             alt="Carpool Logo"
-            // className={styles.vercelLogo}
             width={700}
             height={700}
             priority
@@ -187,14 +154,12 @@ export default function SignUp() {
               alignItems: 'center',
             }}
           >
-            <img src="/icons/logo.svg" alt="logo" />
-            {/* <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                          <LockOutlinedIcon />
-                      </Avatar>
-                      <Typography component="h1" variant="h5">
-                          Sign in
-                      </Typography> */}
+            {/* <img src="/icons/logo.svg" alt="logo" /> */}
             <Box component="form" onSubmit={(e) => handleSignup(e)} sx={{ mt: 1 }}>
+            <div className={styles.heading}>
+                <h1 className={styles.login_title}>Sign Up</h1>
+                <p>BruinShare: Say Goodbye to Expensive Rides! 💸</p>
+            </div>
               <Grid container columnSpacing={2}>
                 <Grid item xs={6}>
                   <TextField
@@ -296,12 +261,10 @@ export default function SignUp() {
                   </Link>
                 </Grid>
               </Grid>
-              {/* <Copyright sx={{ mt: 5 }} /> */}
             </Box>
           </Box>
         </Grid>
       </Grid>
-      {/* </ThemeProvider> */}
     </div>
   );
 }

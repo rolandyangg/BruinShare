@@ -13,15 +13,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-import styles from '@/styles/post.module.css';
+// import styles from '@/styles/post.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "../pages/api/posts.js";
 import { Margin } from '@mui/icons-material';
 
+import LocationAutocomplete from './LocationAutocomplete.js'
+import Autocomplete from "react-google-autocomplete";
+
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
-  const [openInfo, setOpenInfo] = React.useState(false);
+  const [openInfo, setOpenInfo] = React.useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -57,13 +60,13 @@ export default function CustomizedDialogs({ profile }) {
   })
 
   //open dialog
-  const handleInfoClickOpen = () => {
-    setOpenInfo(true);
+  const handleInfoClickOpen = (id) => {
+    setOpenInfo(id);
   };
 
   //close dialog
   const handleInfoClose = () => {
-    setOpenInfo(false);
+    setOpenInfo(null);
   };
 
   //open dialog
@@ -145,6 +148,18 @@ export default function CustomizedDialogs({ profile }) {
   const handleCreatePost = (e) => {
     e.preventDefault();
 
+
+    // console.log("0: " + e.target[0].value);
+    // console.log("1: " + e.target[1].value);
+    // console.log("2: " + e.target[2].value);
+    // console.log("3: " + e.target[3].value);
+    // console.log("4: " + e.target[4].value);
+    // console.log("5: " + e.target[5].value);
+    // console.log("6: " + e.target[6].value);
+    // console.log("7: " + e.target[7].value);
+    // console.log("Squidda: "+ e.target.form.departLoc);
+    // console.log("Squidda: "+ e.target.form.dest);
+
     //format departure date
     const iDateString = formData.departTime;
     const date = new Date(iDateString);
@@ -165,8 +180,10 @@ export default function CustomizedDialogs({ profile }) {
     const newPost = {
         userName: userName,
         creator: creator,
-        departLoc: formData.departLoc,
-        dest: formData.dest,
+        // departLoc: formData.departLoc,
+        departLoc: e.target[0].value.split(",")[0],
+        // dest: formData.dest,
+        dest: e.target[4].value.split(",")[0],
         departDate: formattedDD,
         departTime: departTime,
         timeObject: new Date(formData.departTime),
@@ -207,8 +224,6 @@ export default function CustomizedDialogs({ profile }) {
   const handleFilterFormSubmit = (e) => {
     e.preventDefault();
 
-    // console.log(filterForm)
-
     const filter = {
       startLocation: filterForm.startLocation,
       endLocation: filterForm.endLocation,
@@ -246,12 +261,12 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
-      <Box m={2}>
-        <h1>Current Postings</h1>
+      <Box m={2} mt={4}>
+        <h1>📌 Current Postings</h1>
       </Box>
 
       {/* filter/search bar */}
-      <Box m={2}>
+      <Box m={4}>
       <form onSubmit={handleFilterFormSubmit}>
         <Grid container spacing={2} mt={4}>
           <Grid item xs={1.5}>
@@ -351,24 +366,36 @@ export default function CustomizedDialogs({ profile }) {
             </DialogContentText>
             <Grid container spacing={2} mt={0} mb={2}>
             <Grid item xs={6}>
-                <TextField
+                <LocationAutocomplete
+                  label="Departure Location"
+                  name="departLoc"
+                  // value={formData.departLoc}
+                  // onChange={handleInputChange}
+                />
+                {/* <TextField
                   fullWidth
                   label="Departure Location"
                   name="departLoc"
                   value={formData.departLoc}
                   onChange={handleInputChange}
                   required
-                />
+                /> */}
               </Grid>
               <Grid item xs={6}>
-                <TextField
+                <LocationAutocomplete
+                  label="Destination"
+                  name="dest"
+                  // value={formData.dest}
+                  // onChange={handleInputChange}
+                />
+                {/* <TextField
                   fullWidth
                   label="Destination"
                   name="dest"
                   value={formData.dest}
                   onChange={handleInputChange}
                   required
-                />
+                /> */}
               </Grid>
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -434,26 +461,61 @@ export default function CustomizedDialogs({ profile }) {
       </Dialog>
 
       {/* sort by and create post + display posts */}
-      <Box m={2} sx={{textAlign: 'center'}}>
-        <FormControl sx={{width: '300px', marginRight: '20px'}}>
-          <InputLabel id="sort-posts">Sort By</InputLabel>
-          <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
-          onChange={(event) => { sortPosts(event.target.value); }
-          }>
-            <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
-            <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
-          </Select>
-        </FormControl>
-        <Button variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
+      <Box m={4}>
+        <Box sx={{textAlign: "center"}}>
+          <FormControl sx={{width: '300px', marginRight: '20px', textAlign: 'center'}}>
+            <InputLabel id="sort-posts">Sort By</InputLabel>
+            <Select labelId="sort-posts" fullWidth variant="outlined" size="large" label="sort-posts"
+            onChange={(event) => { sortPosts(event.target.value); }
+            }>
+              <MenuItem value={'Time/Newest'}>Date/Time (Newest to Oldest)</MenuItem>
+              <MenuItem value={'Time/Oldest'}>Date/Time (Oldest to Newest)</MenuItem>
+            </Select>
+          </FormControl>
+          <Button variant="contained" size="large" onClick={handleClickOpen} startIcon={<AddIcon />} style={{ height: 55 }}>Create Post</Button>
+        </Box>
         <Grid container spacing={4} mt={2} pb={5}>
           {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea>
-                    <Grid item xs display="flex" justifyContent="center" alignItems="center" sx={{ backgroundColor: grey[200] }} p={3}>
-                      <Typography variant="h5" color="text.secondary">
-                      {`🚙 `} {post.data.departLoc} {`  ➪  `} {post.data.dest} 
-                      </Typography>
+                    <Grid 
+                      // item xs display="flex" 
+                      container
+                      justifyContent="center" 
+                      alignItems="center" 
+                      // sx={{ backgroundColor: grey[200] }} 
+                      p={3}
+                      sx={{
+                        backgroundColor:
+                          post.data.userName === username
+                            ? '#DED9E2'
+                            : post.data.members !== undefined && post.data.members.includes(username)
+                            ? "#fff1a8" // gold  // '#C65858' red
+                            : '#d0dfff', // blue //  '#3AE46D', green
+                      }}
+                      >
+                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
+                        <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {`🚙 `}
+                        </Typography>
+                      </Grid> */}
+                      <Grid item xs={12} alignItems="center" justifyContent="center">
+                        <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {post.data.departLoc}
+                        </Typography>
+                      </Grid>
+                      {/* <Grid item xs={12} alignItems="center" justifyContent="center">
+                        <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {`  ➪  `}
+                        </Typography>
+                      </Grid> */}
+                      <Grid item xs={12} alignItems="center" justifyContent="center">
+                        <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {`  ➪  `}
+                        {post.data.dest}
+                        </Typography>
+                      </Grid>
                       {/* <CardMedia
                         center="true"
                         style={{ borderRadius: '50%', height: '20vh', width: '20vh'}}
@@ -464,26 +526,25 @@ export default function CustomizedDialogs({ profile }) {
                         image="https://images.unsplash.com/photo-1631153127293-8588327c515c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2574&q=80" /> */}
                     </Grid>
                     <CardContent
-                      sx={{
-                        backgroundColor:
-                          post.data.userName === username
-                            ? '#DED9E2'
-                            : post.data.members !== undefined && post.data.members.includes(username)
-                            ? "#FFD100" // gold  // '#C65858' red
-                            : '#3595de', // blue //  '#3AE46D', green
-                      }}
+                      // sx={{
+                      //   backgroundColor:
+                      //     post.data.userName === username
+                      //       ? '#DED9E2'
+                      //       : post.data.members !== undefined && post.data.members.includes(username)
+                      //       ? "#FFD100" // gold  // '#C65858' red
+                      //       : '#3595de', // blue //  '#3AE46D', green
+                      // }}
                     >
-                      <AvatarGroup max={3}>
-                        {/* TODO: MAP EACH AVATAR TO EACH MEMBER IN THE GROUP */}
+                      {/* <AvatarGroup max={3}>
                         <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
                         <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
                         <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                      </AvatarGroup>
+                      </AvatarGroup> */}
                       <Typography gutterBottom variant="h5" component="div">
                         {post.data.departDate}
                       </Typography>
-                      <Typography variant="body1" color="text.secondary">
+                      <Typography variant="body2" color="text.secondary">
                         Group Creator: {post.data.creator}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
@@ -499,22 +560,37 @@ export default function CustomizedDialogs({ profile }) {
                   </CardActionArea>
                   {post.data.userName === username && 
                     <CardActions>
-                      You are the group creator.
+                      <Button size="small" onClick={() => {
+                        handleInfoClickOpen(post.id)
+                      }}>Details</Button>
+                      <Typography variant="body2" color="text.secondary">
+                        You are the group creator.
+                      </Typography>
                     </CardActions>
                   }
                   {post.data.members !== undefined && post.data.members.includes(username) && 
                     <CardActions>
-                      You have joined this group.
+                      <Button size="small" onClick={() => {
+                        handleInfoClickOpen(post.id)
+                      }}>Details</Button>
+                      <Typography variant="body2" color="text.secondary">
+                      You have joined this group. 
+                      </Typography>
                     </CardActions>
                   }
                   {post.data.members !== undefined && (post.data.members).length === post.data.groupSize && 
                     <CardActions>
-                      Maximum # of people reached.
+                      <Button size="small" onClick={() => {
+                        handleInfoClickOpen(post.id)
+                      }}>Details</Button>
+                      <Typography variant="body2" color="text.secondary">
+                      Group is full.
+                      </Typography>
                     </CardActions>
                   }
                   {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName !== username  && 
-                    <CardActions>
-                    <Button size="small" onClick={handleInfoClickOpen}>Details</Button>
+                  <CardActions>
+                    <Button size="small" onClick={() => handleInfoClickOpen(post.id)}>Details</Button>
                     <Button size="small" onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
                   </CardActions>
                   }
@@ -523,9 +599,52 @@ export default function CustomizedDialogs({ profile }) {
             ))}
           </Grid>
       </Box>
+      
+      {posts.map((post) => (
+        <Dialog
+          open={openInfo === post.id}
+          onClose={handleInfoClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {post.data.creator}'s Trip Details
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" color="text.secondary">
+            Time: {post.data.departTime}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Location: {post.data.departLoc}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Destination: {post.data.dest}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Flight Number: {post.data.flightNumber}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Group Size: {post.data.members === undefined ? 1 : (post.data.members.length + 1)/(post.data.groupSize)}
+          </Typography>
+          
+          <Typography variant="body2" color="text.secondary">
+            Other members:
+          </Typography>
+          {post.data.members !== undefined && post.data.members.map((member) => (
+            <Typography variant="body2" color="text.secondary">
+                {member}
+            </Typography>
+          ))}
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleInfoClose}>Close</Button>
+        </DialogActions>
+        </Dialog>
+      ))}
 
       {/* popup for details */}
-      <Dialog
+      {/* <Dialog
         open={openInfo}
         onClose={handleInfoClose}
         aria-labelledby="alert-dialog-title"
@@ -543,7 +662,7 @@ export default function CustomizedDialogs({ profile }) {
         <DialogActions>
           <Button onClick={handleInfoClose}>Close</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
