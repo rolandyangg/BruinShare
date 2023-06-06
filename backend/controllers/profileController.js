@@ -5,9 +5,7 @@ const editProfile = async (req, res) => {
   console.log("Edit Profile request received");
   const {userID, newProfile} = req.body;
   const {description, email, phone, location, interests} = newProfile;
-  // const { id, description, email, phone, location, interests } = req.body;
 
-  console.log(req.body)
   try {
     const usersCollectionRef = collection(db, "users");
     const q = query(usersCollectionRef, where('username', '==', userID));

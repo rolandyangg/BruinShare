@@ -14,6 +14,17 @@ export const getUsers = async () => {
   return null;
 };
 
+export const getUserByID = async (userID) => {
+  try {
+    const user = await axios.post(`${url}/getUserByID`, {userID});
+    return user;
+  } catch (error) {
+    console.error(error.message);
+    console.error('could not get this user!');
+  }
+  return null;
+}
+
 export const createUser = async (newProfile) => {
   try {
     console.log(newProfile)

@@ -1,5 +1,5 @@
 import { db } from "../firebase.js";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { doc, collection, getDocs, getDoc, addDoc, where, query } from "firebase/firestore";
 
 //returns an array of all the users
 const getUsers = async (req, res) => {
@@ -30,7 +30,25 @@ const createUser = async(req, res) => {
   }
 }
 
+const getUserByID = async(req, res) => {
+  try {
+    const {userID} = req.body;
+    const usersCollectionRef = collection(db, "users");
+    const q = query(usersCollectionRef, where('username', '==', userID));
+    const querySnapshot = await getDocs(q);
+    
+    const documentId = querySnapshot.docs[0].id;
+    const userRef = doc(db, "users", documentId);
+    
+    const user = await getDoc(userRef)
+    res.status(202).json(user.data());
+  } catch(error){
+    res.status(400).json(error)
+  }
+}
+
   export {
     getUsers,
-    createUser
+    createUser,
+    getUserByID,
   }

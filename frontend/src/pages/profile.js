@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "@/styles/Profile.module.css";
 import Image from "next/image";
 import * as api from "../pages/api/profile.js";
+import * as userApi from "../pages/api/api.js";
 
 export default function Profile({ profile }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,6 +13,17 @@ export default function Profile({ profile }) {
     location: profile.location || "",
     interests: profile.interests || "",
   });
+
+  useEffect(() => {
+    userApi.getUserByID(profile.username).then((response) => {
+        if(response){
+          console.log(response.data);
+          setEditedProfile(response.data);
+        }
+    });
+  }, []);
+
+  console.log(editedProfile)
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -29,8 +41,9 @@ export default function Profile({ profile }) {
   };
 
   const handleSaveProfile = async () => {
-    console.log(editedProfile)
+    console.log(editedProfile);
     api.updateProfile(profile.username, editedProfile);
+    userApi.getUserByID(profile.username);
   };
 
   const handleInputChange = (e) => {
@@ -80,8 +93,8 @@ export default function Profile({ profile }) {
               />
             )}
           </div>
-          <h1 className={styles.profile_name}>{profile.firstname}</h1>
-          <p className={styles.profile_username}>{profile.username}</p>
+          <h1 className={styles.profile_name}>{editedProfile.firstname}</h1>
+          <p className={styles.profile_username}>{editedProfile.username}</p>
           <p className={styles.profile_description}>
             {isEditing ? (
               <textarea
@@ -90,7 +103,7 @@ export default function Profile({ profile }) {
                 onChange={handleInputChange}
               ></textarea>
             ) : (
-              profile.description
+              editedProfile.description
             )}
           </p>
         </div>
@@ -121,7 +134,7 @@ export default function Profile({ profile }) {
                   className={styles.edit_profile_input}
                 />
               ) : (
-                <span className={styles.info_value}>{profile.email}</span>
+                <span className={styles.info_value}>{editedProfile.email}</span>
               )}
             </div>
             <div className={styles.info_row}>
@@ -135,7 +148,7 @@ export default function Profile({ profile }) {
                   className={styles.edit_profile_input}
                 />
               ) : (
-                <span className={styles.info_value}>{profile.phone}</span>
+                <span className={styles.info_value}>{editedProfile.phone}</span>
               )}
             </div>
             <div className={styles.info_row}>
@@ -149,7 +162,7 @@ export default function Profile({ profile }) {
                   className={styles.edit_profile_input}
                 />
               ) : (
-                <span className={styles.info_value}>{profile.location}</span>
+                <span className={styles.info_value}>{editedProfile.location}</span>
               )}
             </div>
             <div className={styles.info_row}>
@@ -163,7 +176,7 @@ export default function Profile({ profile }) {
                   className={styles.edit_profile_input}
                 />
               ) : (
-                <span className={styles.info_value}>{profile.interests}</span>
+                <span className={styles.info_value}>{editedProfile.interests}</span>
               )}
             </div>
           </div>
