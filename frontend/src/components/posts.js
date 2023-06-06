@@ -624,13 +624,13 @@ export default function CustomizedDialogs({ profile }) {
             Flight Number: {post.data.flightNumber}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Group Size: {post.data.members.length + 1} /  {post.data.groupSize}
+            Group Size: {post.data.members === undefined ? 1 : (post.data.members.length + 1)/(post.data.groupSize)}
           </Typography>
           
           <Typography variant="body2" color="text.secondary">
             Other members:
           </Typography>
-          {post.data.members.map((member) => (
+          {post.data.members !== undefined && post.data.members.map((member) => (
             <Typography variant="body2" color="text.secondary">
                 {member}
             </Typography>

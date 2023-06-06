@@ -174,10 +174,11 @@ const LocationAutocomplete = (props) => {
       value={value}
       noOptionsText="No locations."
       onChange={(event, newValue) => {
-        setOptions(newValue ? [newValue, ...options] : options);
-        console.log(newValue.description);
-        setValue(newValue.description);
-        console.log(value);
+        if(newValue){
+          setOptions(newValue ? [newValue, ...options] : options);
+          setValue(newValue.description);
+        }
+        
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
