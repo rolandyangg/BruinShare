@@ -1,10 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Grid, FormControl, MenuItem, Select, TextField, InputAdornment, InputLabel, Card, Divider, CardHeader, CardMedia, CardContent, CardActions, NumberField, CardActionArea, Collapse, Avatar, AvatarGroup, IconButton, Typography, Paper
+ Box,
+ Button,
+ Dialog,
+ DialogTitle,
+ DialogContent,
+ DialogContentText,
+ DialogActions,
+ Grid,
+ FormControl,
+ MenuItem,
+ Select,
+ TextField,
+ InputAdornment,
+ InputLabel,
+ Card,
+ Divider,
+ CardHeader,
+ CardMedia,
+ CardContent,
+ CardActions,
+ NumberField,
+ CardActionArea,
+ Collapse,
+ Avatar,
+ AvatarGroup,
+ IconButton,
+ Typography,
+ Paper
 } from '@mui/material';
+
+
 
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -20,42 +50,48 @@ import LocationAutocomplete from '../components/LocationAutocomplete.js'
 import Autocomplete from "react-google-autocomplete";
 import styles from '../styles/post.module.css'
 
+
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(null);
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    api.getPosts().then((response) => {
-      if(response !== null)
-        setPosts(response.data);
-    });
-  }, []);
+
+ useEffect(() => {
+   api.getPosts().then((response) => {
+     if(response !== null)
+       setPosts(response.data);
+   });
+ }, []);
 
 
-  //define our form
-  const [formData, setFormData] = React.useState({
-    userName: '',
-    creator: '',
-    departLoc: '',
-    dest: '',
-    departDate: '',
-    departTime: '',
-    flightTime: '',
-    flightNumber: '',
-    //flightDest: '',
-    groupSize: 0
-  });
 
-  // define our filter
-  const [filterForm, setFilterForm] = React.useState({
-    startLocation: '',
-    endLocation: '',
-    startTimeRange: '',
-    endTimeRange: '',
-    groupSizeMin: '',
-    groupSizeMax: '',
-  })
+
+ //define our form
+ const [formData, setFormData] = React.useState({
+   userName: '',
+   creator: '',
+   departLoc: '',
+   dest: '',
+   departDate: '',
+   rawDepartTime: null,
+   departTime: '',
+   flightTime: '',
+   flightNumber: '',
+   //flightDest: '',
+   groupSize: 0
+ });
+
+
+ // define our filter
+ const [filterForm, setFilterForm] = React.useState({
+   startLocation: '',
+   endLocation: '',
+   startTimeRange: '',
+   endTimeRange: '',
+   groupSizeMin: '',
+   groupSizeMax: '',
+ })
 
   //open dialog
   const handleInfoClickOpen = (id) => {
@@ -67,93 +103,98 @@ export default function CustomizedDialogs({ profile }) {
     setOpenInfo(null);
   };
 
-  //open dialog
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  //close dialog
-  const handleClose = () => {
-    setOpen(false);
-  };
+ //open dialog
+ const handleClickOpen = () => {
+   setOpen(true);
+ };
 
-  //handle changes in input
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-  
+
+ //close dialog
+ const handleClose = () => {
+   setOpen(false);
+ };
+
+
+ //handle changes in input
+ const handleInputChange = (event) => {
+   const { name, value } = event.target;
     // Check if the name includes a dot (.)
-    if (name.includes('.')) {
-      const [nestedName, subName] = name.split('.');
-  
+   if (name.includes('.')) {
+     const [nestedName, subName] = name.split('.');
       setFormData((prevFormData) => ({
-        ...prevFormData,
-        [nestedName]: {
-          ...prevFormData[nestedName],
-          [subName]: value,
-        },
-      }));
-    } else {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
-  };
+       ...prevFormData,
+       [nestedName]: {
+         ...prevFormData[nestedName],
+         [subName]: value,
+       },
+     }));
+   } else {
+     setFormData((prevFormData) => ({
+       ...prevFormData,
+       [name]: value,
+     }));
+   }
+ };
 
-  //handle changes in input
-  const handleFilterInputChange = (event) => {
-    const { name, value } = event.target;
-  
+
+ //handle changes in input
+ const handleFilterInputChange = (event) => {
+   const { name, value } = event.target;
     // Check if the name includes a dot (.)
-    if (name.includes('.')) {
-      const [nestedName, subName] = name.split('.');
-  
+   if (name.includes('.')) {
+     const [nestedName, subName] = name.split('.');
       setFilterForm((prevFormData) => ({
-        ...prevFormData,
-        [nestedName]: {
-          ...prevFormData[nestedName],
-          [subName]: value,
-        },
-      }));
-    } else {
-      setFilterForm((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
-  };
-
-  // sort posts
-  const sortPosts = (filter) => {
-    console.log("Sorting...");
-    console.log(filter);
-    let sortedPosts = [...posts] // We have to make a copy beitem xs={1.7}cause we can't directly mutate posts
-    // console.log(new Date(sortedPosts[0].data.timeObject.seconds));
-    if (filter == "Time/Newest") {
-      sortedPosts.sort((a, b) => a.data.timeObject.seconds - b.data.timeObject.seconds); 
-    } else if (filter == "Time/Oldest") {
-      sortedPosts.sort((a, b) => b.data.timeObject.seconds - a.data.timeObject.seconds);
-    }
-    setPosts(sortedPosts);
-  }
+       ...prevFormData,
+       [nestedName]: {
+         ...prevFormData[nestedName],
+         [subName]: value,
+       },
+     }));
+   } else {
+     setFilterForm((prevFormData) => ({
+       ...prevFormData,
+       [name]: value,
+     }));
+   }
+ };
 
 
-  let userName = profile.username;
-  let creator = `${profile.firstname} ${profile.lastname}`;
-  let timeString = formData.departTime;
-  let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  //submit form
-  const handleCreatePost = (e) => {
-    e.preventDefault();
+ // sort posts
+ const sortPosts = (filter) => {
+   console.log("Sorting...");
+   console.log(filter);
+   let sortedPosts = [...posts] // We have to make a copy because we can't directly mutate posts
+   // console.log(new Date(sortedPosts[0].data.timeObject.seconds));
+   if (filter == "Time/Newest") {
+     sortedPosts.sort((a, b) => a.data.timeObject.seconds - b.data.timeObject.seconds);
+   } else if (filter == "Time/Oldest") {
+     sortedPosts.sort((a, b) => b.data.timeObject.seconds - a.data.timeObject.seconds);
+   }
+   setPosts(sortedPosts);
+ }
 
-    //format departure date
-    const iDateString = formData.departTime;
-    const date = new Date(iDateString);
 
-    // Extracting the date components
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+
+
+ let userName = profile.username;
+ let creator = `${profile.firstname} ${profile.lastname}`;
+ let timeString = formData.departTime;
+ let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+ //submit form
+ const handleCreatePost = (e) => {
+   e.preventDefault();
+
+
+   //format departure date
+   const iDateString = formData.departTime;
+   const date = new Date(iDateString);
+
+
+   // Extracting the date components
+   const year = date.getFullYear();
+   const month = String(date.getMonth() + 1).padStart(2, '0');
+   const day = String(date.getDate()).padStart(2, '0');
 
     // Formatting the date as mm/dd/yyyy
     const formattedDD = `${month}/${day}/${year}`;
@@ -167,6 +208,7 @@ export default function CustomizedDialogs({ profile }) {
         // dest: formData.dest,
         dest: e.target[4].value.split(",")[0],
         departDate: formattedDD,
+        rawDepartTime: formData.departTime,
         departTime: departTime,
         timeObject: new Date(formData.departTime),
         flightTime: formData.flightTime,
@@ -175,55 +217,67 @@ export default function CustomizedDialogs({ profile }) {
         groupSize: formData.groupSize,
     };
 
-    // Call a function or API to save the post to the database
-    const id = api.createPost(newPost);
 
-    const newpost2 = {};
-    newpost2.id = id;
-    newpost2.data = newPost;
+   // Call a function or API to save the post to the database
+   const id = api.createPost(newPost);
 
-    const tempPosts = [...posts, newpost2]
-    setPosts(tempPosts);
 
-    api.getPosts().then(() => {
-      // Reset the form after saving the post
-      userName = '';
-      creator = '';
-      formData.departLoc = '';
-      formData.dest = '';
-      formData.departDate = '';
-      formData.departTime = '';
-      formData.flightTime = '';
-      formData.flightNumber = '';
-      //formData.flightDest = '';
-      formData.groupSize = 0;
+   const newpost2 = {};
+   newpost2.id = id;
+   newpost2.data = newPost;
 
-      handleClose();
-    })
+
+   const tempPosts = [...posts, newpost2]
+   setPosts(tempPosts);
+
+
+   api.getPosts().then(() => {
+     // Reset the form after saving the post
+     userName = '';
+     creator = '';
+     formData.departLoc = '';
+     formData.dest = '';
+     formData.departDate = '';
+     formData.rawDepartTime = null;
+     formData.departTime = '';
+     formData.flightTime = '';
+     formData.flightNumber = '';
+     //formData.flightDest = '';
+     formData.groupSize = 0;
+
+
+     handleClose();
+   })
   };
 
-  // Filter form submit
-  const handleFilterFormSubmit = (e) => {
-    e.preventDefault();
 
-    const filter = {
-      startLocation: filterForm.startLocation,
-      endLocation: filterForm.endLocation,
-      startTimeRange: filterForm.startTimeRange,
-      endTimeRange: filterForm.endTimeRange,
-      groupSizeMin: filterForm.groupSizeMin,
-      groupSizeMax: filterForm.groupSizeMax,
-    }
+ // Filter form submit
+ const handleFilterFormSubmit = (e) => {
+   e.preventDefault();
 
-    const res = api.getFilteredPosts(filter).then((response) => {
-      if (response !== null) {
-        console.log("successfully received");
-        // console.log(response);
-        setPosts(response);
-        console.log(posts);
-      }
-    })    
-  };
+
+   // console.log(filterForm)
+
+
+   const filter = {
+     startLocation: filterForm.startLocation,
+     endLocation: filterForm.endLocation,
+     startTimeRange: filterForm.startTimeRange,
+     endTimeRange: filterForm.endTimeRange,
+     groupSizeMin: filterForm.groupSizeMin,
+     groupSizeMax: filterForm.groupSizeMax,
+   }
+
+
+   const res = api.getFilteredPosts(filter).then((response) => {
+     if (response !== null) {
+       console.log("successfully received");
+       // console.log(response);
+       setPosts(response);
+       console.log(posts);
+     }
+   })   
+ };
 
   const username = profile.username;
   // when a user clicks join group
@@ -562,4 +616,8 @@ export default function CustomizedDialogs({ profile }) {
     </div>
   );
 }
+
+
+
+
 
