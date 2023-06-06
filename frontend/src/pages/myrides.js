@@ -50,7 +50,7 @@ export default function MyRides({ profile }) {
     
     return (
         <Box p={4}>
-            <h1>My Posts</h1>
+            <h1>✏️ My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {posts.map((post) => (
@@ -90,6 +90,7 @@ export default function MyRides({ profile }) {
                       </Grid> */}
                       <Grid item xs={12} alignItems="center" justifyContent="center">
                         <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {`  ➪  `}
                         {post.data.dest}
                         </Typography>
                       </Grid>
@@ -137,7 +138,7 @@ export default function MyRides({ profile }) {
             </Grid>
             </Box>
 
-            <h1>Joined Groups</h1>
+            <h1>🚙 <span>Joined Groups</span></h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
@@ -177,6 +178,7 @@ export default function MyRides({ profile }) {
                       </Grid> */}
                       <Grid item xs={12} alignItems="center" justifyContent="center">
                         <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {`  ➪  `}
                         {post.data.dest}
                         </Typography>
                       </Grid>

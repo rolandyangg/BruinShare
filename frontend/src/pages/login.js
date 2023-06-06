@@ -84,7 +84,6 @@ export default function Login({ user }) {
                     </form>
                 </div>
             </div> */}
-            {/* <ThemeProvider theme={defaultTheme}> */}
                 <Grid container component="main" sx={{ height: '100vh' }}>
                     <CssBaseline />
                     <Grid
@@ -93,17 +92,14 @@ export default function Login({ user }) {
                         sm={4}
                         md={6.2}
                         sx={{
-                            // backgroundImage: '/images/carpool.png',
                             backgroundRepeat: 'no-repeat',
-                            backgroundColor: (t) =>
-                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                            backgroundColor: 'white',
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                         }}>
                         <Image
                         src="/icons/carpool.svg"
                         alt="Carpool Logo"
-                        // className={styles.vercelLogo}
                         width={700}
                         height={700}
                         priority
@@ -119,14 +115,12 @@ export default function Login({ user }) {
                                 alignItems: 'center',
                             }}
                         >
-                            <img src = "/icons/logo.svg" alt="logo"/>
-                            {/* <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                                <LockOutlinedIcon />
-                            </Avatar>
-                            <Typography component="h1" variant="h5">
-                                Sign in
-                            </Typography> */}
+                            {/* <img src = "/icons/logo.svg" alt="logo"/> */}
                             <Box component="form" noValidate onSubmit={(e) => handleLogin(e)} sx={{ mt: 1 }}>
+                                <div className={styles.heading}>
+                                    <h1 className={styles.login_title}>Login</h1>
+                                    <p>Welcome back to BruinShare! 🚙</p>
+                                </div>
                                 <TextField
                                     margin="normal"
                                     required
@@ -169,12 +163,10 @@ export default function Login({ user }) {
                                         </Link>
                                     </Grid>
                                 </Grid>
-                                {/* <Copyright sx={{ mt: 5 }} /> */}
                             </Box>
                         </Box>
                     </Grid>
                 </Grid>
-            {/* </ThemeProvider> */}
         </div>
     );
 }

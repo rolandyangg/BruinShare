@@ -262,7 +262,7 @@ export default function CustomizedDialogs({ profile }) {
   return (
     <div>
       <Box m={2} mt={4}>
-        <h1>Current Postings</h1>
+        <h1>📌 Current Postings</h1>
       </Box>
 
       {/* filter/search bar */}
@@ -512,6 +512,7 @@ export default function CustomizedDialogs({ profile }) {
                       </Grid> */}
                       <Grid item xs={12} alignItems="center" justifyContent="center">
                         <Typography variant="h5" textAlgin="center" color="text.secondary">
+                        {`  ➪  `}
                         {post.data.dest}
                         </Typography>
                       </Grid>
