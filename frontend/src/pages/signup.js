@@ -57,7 +57,6 @@ export default function SignUp() {
   return (
     <div>
       <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
         <Grid
           item
           xs={false}
