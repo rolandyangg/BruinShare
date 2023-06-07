@@ -50,4 +50,5 @@ const getUserByID = async(req, res) => {
     getUsers,
     createUser,
     getUserByID,
+<<<<<<< HEAD
   }
