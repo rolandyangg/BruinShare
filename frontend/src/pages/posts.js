@@ -298,11 +298,17 @@ export default function CustomizedDialogs({ profile }) {
   }
 
   return (
-    <div>
-      <Box sx={{textAlign: 'center'}} m={2} mt={6}>
+    <div >
+      <Box sx={{textAlign: 'center'}} m={2} mt={4}>
         <h1 className={styles.posting_heading}>Current Postings</h1>
           <Grid className={styles.create_button} item xs={1.71}>
-            <Button onClick={handleClickOpen} fullWidth variant="contained" size="large" startIcon={<AddIcon />}  style={{ height: 55 }}>Create Post</Button>
+            <Button   
+              style={{
+                backgroundColor: '#4399e6', // Change the background color
+                color: 'white', // Change the text color
+                height: 55
+              }}
+              onClick={handleClickOpen} fullWidth variant="contained" size="large" startIcon={<AddIcon />} >Create Post</Button>
           </Grid>
       </Box>
 
@@ -314,7 +320,7 @@ export default function CustomizedDialogs({ profile }) {
             <TextField
               fullWidth
               id="outlined-start-adornment"
-              label="Start Location"
+              label="Leaving From"
               name="startLocation"
               value={filterForm.startLocation}
               onChange={handleFilterInputChange}
@@ -327,7 +333,7 @@ export default function CustomizedDialogs({ profile }) {
             <TextField
               fullWidth
               id="outlined-start-adornment"
-              label="End Location"
+              label="Going To"
               name="endLocation"
               value={filterForm.endLocation}
               onChange={handleFilterInputChange}
@@ -384,7 +390,12 @@ export default function CustomizedDialogs({ profile }) {
               </FormControl>
           </Grid>
           <Grid item xs={1.71}>
-            <Button fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />} style={{ height: 55 }}>Search</Button>
+            <Button style={{
+                backgroundColor: '#4399e6', // Change the background color
+                color: 'white', // Change the text color
+                height: 55
+              }}
+              fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />}>Search</Button>
           </Grid>
         </Grid>
         </form>
@@ -478,7 +489,7 @@ export default function CustomizedDialogs({ profile }) {
 
 
       {/* sort by and create post + display posts */}
-      <Box m={4}>
+      <Box m={4} >
         <Grid container spacing={4} mt={2} pb={5}>
           {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
@@ -492,27 +503,29 @@ export default function CustomizedDialogs({ profile }) {
                       sx={{
                         backgroundColor:
                           post.data.userName === username
-                            ? '#DED9E2'
+                            ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
-                            ? "#fff1a8" // gold  // '#C65858' red
-                            : '#d0dfff', // blue //  '#3AE46D', green
+                            ? "#e1f2fc" // gold  // '#C65858' red
+                            : '#95c5ed', // blue //  '#3AE46D', green
                       }}
                       >
 
                       <Grid sx={{height: '60px'}} item xs={12}>
                       {post.data.members !== undefined && (post.data.members).length === post.data.groupSize ? (
-                       <Typography variant="h5" color="text.secondary" style={{ textAlign: 'center' }}>
+                       <Typography variant="h5" color="text.secondary" style={{ fontSize: "1.9rem", align: "center", textAlign: "center", paddingTop: "10px"}}>
                        FULL
                      </Typography>
                      
                       )
                       :
                        (
-                        <Typography variant="h5" textAlgin="center" color="text.secondary">
-                          {post.data.departLoc}
-                          {`  →  `}
-                          {post.data.dest}
-                        </Typography>
+                    
+                       <Typography variant="h5" textAlgin="center" centercolor="text.secondary" style={{ fontSize: "1.5rem", align: "center"}}>
+                       {post.data.departLoc}
+                       {`  →  `}
+                       {post.data.dest}
+                     </Typography>
+
                        ) 
                       }
                       </Grid>
@@ -536,40 +549,34 @@ export default function CustomizedDialogs({ profile }) {
                         Departing <b>{post.data.departDate}</b>
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Group Creator: {post.data.creator}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Departure Time: {post.data.departTime} on {post.data.departDate}
+                        Departure Time: {post.data.departTime} 
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
                       </Typography>
+                      
                     </CardContent>
                   </CardActionArea>
                   {post.data.userName === username && 
-                    <CardActions>
+                    <CardActions style={{ justifyContent: 'flex-end' }}>
                       <Button size="small" onClick={() => {
                         handleInfoClickOpen(post.id)
                       }}>Details</Button>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography styles={{ paddingRight: '20px'}} variant="body2" color="text.secondary" >
                         YOUR POST
                       </Typography>
                     </CardActions>
                   }
                   {post.data.members !== undefined && post.data.members.includes(username) && 
-                    <CardActions>
-                      <Button size="small" onClick={() => {
-                        handleInfoClickOpen(post.id)
-                      }}>Details</Button>
-                      <Typography variant="body2" color="text.secondary">
-                      JOINED
-                      </Typography>
+                    <CardActions style={{ justifyContent: 'flex-end', paddingRight: '20px' }}>
+                      <Button size="small" onClick={() => handleInfoClickOpen(post.id)}>Details</Button>
+                      <Typography variant="body2" color="text.secondary">JOINED</Typography>
                     </CardActions>
                   }
                   {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName !== username  && 
-                  <CardActions>
+                  <CardActions style={{ justifyContent: 'flex-end' }} >
                     <Button size="small" onClick={() => handleInfoClickOpen(post.id)}>Details</Button>
-                    <Button size="small" onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
+                    <Button size="small" styles={{ paddingRight: '10px'}} onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
                   </CardActions>
                   }
                 </Card>
@@ -584,9 +591,10 @@ export default function CustomizedDialogs({ profile }) {
           onClose={handleInfoClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          PaperProps={{ style: { width: '80vh', height: '75vh' } }}
         >
-        <DialogTitle id="alert-dialog-title">
-          {post.data.creator}'s Trip Details
+        <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.5rem', paddingTop: '30px' }}>
+          Trip Details
         </DialogTitle>
         <DialogContent>
           <Typography variant="h6" color="text.secondary">
