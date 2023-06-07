@@ -25,4 +25,21 @@ const editProfile = async (req, res) => {
   }
 };
 
-export { editProfile };
+const getUserProfile = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const snapshot = await db.collection('users').where('username', '==', username).get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const profile = snapshot.docs[0].data();
+    return res.json(profile);
+  } catch (error) {
+    console.error('Error retrieving user profile:', error);
+    return res.status(500).json({ error: 'Failed to retrieve user profile' });
+  }
+};
+
+export { editProfile, getUserProfile };

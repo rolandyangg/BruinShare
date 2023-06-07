@@ -11,3 +11,13 @@ export const updateProfile = async (userID, newProfile, picRef) => {
   }
   return null;
 };
+
+export const getUserByUsername = async (username) => {
+    try {
+      const response = await axios.get(`${url}/profile/${username}`);
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('Failed to fetch user profile');
+    }
+  };
