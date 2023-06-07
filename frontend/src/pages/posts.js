@@ -299,7 +299,7 @@ export default function CustomizedDialogs({ profile }) {
 
   return (
     <div>
-      <Box sx={{textAlign: 'center'}} m={2} mt={4}>
+      <Box sx={{textAlign: 'center'}} m={2} mt={6}>
         <h1 className={styles.posting_heading}>Current Postings</h1>
           <Grid className={styles.create_button} item xs={1.71}>
             <Button onClick={handleClickOpen} fullWidth variant="contained" size="large" startIcon={<AddIcon />}  style={{ height: 55 }}>Create Post</Button>

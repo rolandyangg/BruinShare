@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import Navbar from "../components/Navbar";
+import Head from "next/head";
 import {useState, useEffect} from 'react';
 import { useRouter } from 'next/router';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -20,7 +21,10 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     // retrieve user information from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (typeof window !== 'undefined' && !storedUser && router.asPath !== '/signup') {
+    if (typeof window !== 'undefined' && !storedUser && router.asPath !== '/signup' && router.asPath !== '/login') {
+      router.push('/');
+    }
+    else if (typeof window !== 'undefined' && !storedUser && router.asPath !== '/signup') {
       router.push('/login');
     } else{
       setUser(storedUser);
@@ -45,18 +49,24 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+    <Head>
+        <title>BruinShare</title>
+        <meta name="description" content="Ridesharing made easy with your fellow bruins!"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+    </Head>
+    <ThemeProvider theme={theme}>
     {
       user && 
       <>
-        <ThemeProvider theme={theme}>
           <Navbar profile={user} />
           <Component {...pageProps} profile={user}/>
-        </ThemeProvider>
       </>
     }
     {
-      !user && (router.asPath === '/login' || router.asPath == '/signup') && <Component {...pageProps} profile={user}/>
+      !user && (router.asPath === '/login' || router.asPath == '/signup' || router.asPath == '/') && <Component {...pageProps} profile={user}/>
     }
+    </ThemeProvider>
       
     </>
   )

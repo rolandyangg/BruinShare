@@ -41,29 +41,18 @@ export default function Profile({ profile }) {
     });
   }, []);
 
-  console.log(editedProfile);
-
   const handleEditProfile = () => {
     setIsEditing(true);
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedProfile({
-      description:
-        profile.description || "This user has not put a description of themselves :(",
-      email: profile.email || "",
-      phone: profile.phone || "",
-      location: profile.location || "",
-      interests: profile.interests || "",
-    });
   };
 
   const handleSaveProfile = async () => {
     let picRef = null;
     //set profile picture
     if (image) {
-      console.log("EKLRJWELKRJSLK")
       const fileRef = ref(storage, `profilePictures/${profile.username}`);
       const snapshot = await uploadBytes(fileRef, editedProfile.profilePicture);
       picRef = snapshot.ref;
@@ -122,7 +111,7 @@ export default function Profile({ profile }) {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname}</Typography>
+                      <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname} {profile.lastname}</Typography>
                       <Typography variant="subtitle1" gutterBottom textAlign="center">{profile.username}</Typography>
                     </Grid>
                     <Grid item xs={12} mt={2} alignItems="center" justifyContent="center">
@@ -144,7 +133,7 @@ export default function Profile({ profile }) {
                   <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>
                       <Avatar
-                        src="profilePic.png"
+                        src={editedProfile.profilePicture}
                         alt={editedProfile.firstname}
                         sx={{
                           width: '300px',
@@ -155,7 +144,7 @@ export default function Profile({ profile }) {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname}</Typography>
+                      <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname} {profile.lastname}</Typography>
                       <Typography variant="subtitle1" gutterBottom textAlign="center" mb={3}>{profile.username}</Typography>
                       <Box sx={{width: "400px"}}>
                         <Typography variant="body" gutterBottom textAlign="center">{editedProfile.description}</Typography>
@@ -165,7 +154,7 @@ export default function Profile({ profile }) {
                 </div>
               )}
             </Grid>
-            <Grid container item md={6} direction="column">
+            <Grid container sx={{textAlign: "left"}} item md={6} direction="column">
               <Grid item m={2}>
                 {isEditing ? (
                   <TextField
