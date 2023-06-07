@@ -1,12 +1,11 @@
-import { app, db, storage } from "../firebase.js";
+import { db } from "../firebase.js";
 import {doc, collection, query, where, getDocs, updateDoc,} from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
+import {storage} from '../firebase.js'
 
 const editProfile = async (req, res) => {
   console.log("Edit Profile request received");
-  const { userID, newProfile } = req.body;
-  const { description, email, phone, location, interests, profilePicture } =
-    newProfile;
+  const { userID, newProfile, picRef } = req.body;
 
   try {
     const usersCollectionRef = collection(db, "users");
@@ -14,26 +13,11 @@ const editProfile = async (req, res) => {
     const querySnapshot = await getDocs(q);
     const documentId = querySnapshot.docs[0].id;
     const userRef = doc(db, "users", documentId);
-
-    const newData = {
-      description,
-      email,
-      phone,
-      location,
-      interests,
-    };
-
-    if (profilePicture) {
-      const fileRef = ref(storage, `profilePictures/${userID}`);
-      await uploadBytes(fileRef, Buffer.from(profilePicture, "base64"));
-
-      const downloadURL = await fileRef.getDownloadURL();
-      newData.profilePicture = downloadURL;
-      console.log("profile pic");
+    if (picRef) {
+      const url = await getDownloadURL(ref(storage, `profilePictures/${userID}`));
+      newProfile.profilePicture = url.toString();
     }
-
-    await updateDoc(userRef, newData);
-
+    await updateDoc(userRef, newProfile);
     res.json({ message: "Profile updated successfully" });
   } catch (error) {
     console.error("Error updating profile:", error);

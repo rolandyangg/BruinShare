@@ -3,12 +3,13 @@ import styles from "@/styles/Profile.module.css";
 import Image from "next/image";
 import * as api from "../pages/api/profile.js";
 import * as userApi from "../pages/api/api.js";
-import {storage, db, app} from "../../../backend/firebase.js"
 import { ref, uploadBytes } from "firebase/storage";
+import {storage} from "../firebase.js"
 
 export default function Profile({ profile }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({});
+  const [image, setImage] = useState(false);
   
   useEffect(() => {
     userApi.getUserByID(profile.username).then((response) => {
@@ -38,15 +39,22 @@ export default function Profile({ profile }) {
   };
 
   const handleSaveProfile = async () => {
-    console.log(editedProfile);
-    if (editedProfile.profilePicture) {
-      console.log(profile.username);
+    let picRef = null;
+    //set profile picture
+    if (image) {
+      console.log("EKLRJWELKRJSLK")
       const fileRef = ref(storage, `profilePictures/${profile.username}`);
-      await uploadBytes(fileRef, editedProfile.profilePicture);
+      const snapshot = await uploadBytes(fileRef, editedProfile.profilePicture); 
+      picRef = snapshot.ref;
+      setImage(false);
     }
-    api.updateProfile(profile.username, editedProfile);
-    userApi.getUserByID(profile.username);
-    setIsEditing(false);
+    //update the user's profile
+    await api.updateProfile(profile.username, editedProfile, picRef);
+    //get the user again to update the page
+    userApi.getUserByID(profile.username).then((profile) => {
+      setEditedProfile(profile.data);
+      setIsEditing(false);
+    });
   };
 
   const handleInputChange = (e) => {
@@ -60,16 +68,16 @@ export default function Profile({ profile }) {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setEditedProfile((prevState) => ({
           ...prevState,
-          profilePicture: reader.result,
+          profilePicture: file,
         }));
       };
       reader.readAsDataURL(file);
+      setImage(true);
     }
   };
 
