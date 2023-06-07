@@ -8,7 +8,7 @@ function Navbar ({profile}) {
 
   const logout = () => {
     localStorage.clear();
-    router.push('/login');
+    router.push('/');
   }
 
   return (
@@ -22,7 +22,7 @@ function Navbar ({profile}) {
                     <Link href="/posts"><Typography variant='h6'>Postings</Typography></Link>
                     <Link href="/myrides"><Typography variant='h6'>MyRides</Typography></Link>
                     <Link href="/profile"><Typography variant='h6'>Profile</Typography></Link>
-                    <Link href="/login" onClick={logout}><Typography variant='h6'>Logout</Typography></Link>
+                    <Link href="/" onClick={logout}><Typography variant='h6'>Logout</Typography></Link>
                 </Stack>
                 }
                 {!profile && 

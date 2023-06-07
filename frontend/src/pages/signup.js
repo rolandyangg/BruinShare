@@ -12,10 +12,16 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
 import Navbar from "@/components/Navbar.js";
+import { useRouter } from 'next/router';
 
 export default function SignUp({profile}) {
+  const router = useRouter();
+  
+  // Prevent access to signup page when logged in already
+  if (profile)
+      router.push('/posts')
 
   const handleSignup = (e) => {
     e.preventDefault();

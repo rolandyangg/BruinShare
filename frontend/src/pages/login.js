@@ -15,13 +15,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
 import Navbar from "@/components/Navbar.js";
 
-export default function Login({ user }) {
+export default function Login({ profile }) {
     const [allUsers, setAllUsers] = useState([]);
     const router = useRouter();
 
+    // Prevent access to login page when logged in already
+    // BUGGED TRY TO FIX LATER
+    if (profile)
+        router.push('/posts')
+
     useEffect(() => {
-        api.getUsers().then((users) => {
-            setAllUsers(users.data);
+        api.getUsers().then((profile) => {
+            setAllUsers(profile.data);
         });
     }, []);
 
@@ -42,7 +47,7 @@ export default function Login({ user }) {
                     //set user info in local storage for login persistence
                     localStorage.setItem('user', JSON.stringify(user));
                     //once logged in, immediately go to home page
-                    router.push("/");
+                    router.push("/posts");
                 } else {
                     alert("your password is incorrect! try again");
                 }
@@ -55,7 +60,7 @@ export default function Login({ user }) {
 
     return (
         <>
-        <Navbar profile={user}/>
+        <Navbar profile={profile}/>
         <Grid container component="main" sx={{ height: '100vh' }}>
             <CssBaseline/>
             <Grid
