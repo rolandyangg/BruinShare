@@ -273,12 +273,13 @@ export default function MyRides({ profile }) {
                     </CardContent>
                   </CardActionArea>
                   <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '6px' }}>
                       <Button size="small" onClick={() => { handleInfoClickOpen(post.id) }}>Details</Button>
                       <Button size="small" onClick={() => { deletePost(post.id) }}>Delete</Button>
                       <Button size="small" onClick={() => { editPost(post.id) }}>Edit</Button>
                     </div>
                   </CardActions>
+
 
 
 
