@@ -45,6 +45,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import * as api from "./api/posts.js";
+import * as userApi from "./api/api.js";
 
 import LocationAutocomplete from '../components/LocationAutocomplete.js'
 import Autocomplete from "react-google-autocomplete";
@@ -177,7 +178,7 @@ export default function CustomizedDialogs({ profile }) {
 
 
 
- let userName = profile.username;
+ let userName = profile;
  let creator = `${profile.firstname} ${profile.lastname}`;
  let timeString = formData.departTime;
  let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -233,7 +234,7 @@ export default function CustomizedDialogs({ profile }) {
 
    api.getPosts().then(() => {
      // Reset the form after saving the post
-     userName = '';
+     userName = {};
      creator = '';
      formData.departLoc = '';
      formData.dest = '';
@@ -284,7 +285,7 @@ export default function CustomizedDialogs({ profile }) {
   const joinGroup = (postID, creator) => {
     if(creator !== null && creator !== profile.username){
       console.log(creator);
-      api.joinGroup(username, postID).then(() => {
+      api.joinGroup(profile.username, postID).then(() => {
         //after joining group, get all posts again to reflect the change on the bulletin
         api.getPosts().then((response) => {
           if(response !== null)
@@ -502,7 +503,7 @@ export default function CustomizedDialogs({ profile }) {
                       p={3}
                       sx={{
                         backgroundColor:
-                          post.data.userName === username
+                          post.data.userName.username === username
                             ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
                             ? "#e1f2fc" // gold  // '#C65858' red
@@ -533,8 +534,8 @@ export default function CustomizedDialogs({ profile }) {
                     <CardContent>
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
-                        {post.data.userName !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        {post.data.userName.username !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
@@ -557,7 +558,7 @@ export default function CustomizedDialogs({ profile }) {
                       
                     </CardContent>
                   </CardActionArea>
-                  {post.data.userName === username && 
+                  {post.data.userName.username === username && 
                     <CardActions style={{ justifyContent: 'flex-end' }}>
                       <Button size="small" onClick={() => {
                         handleInfoClickOpen(post.id)
@@ -573,10 +574,10 @@ export default function CustomizedDialogs({ profile }) {
                       <Typography variant="body2" color="text.secondary">JOINED</Typography>
                     </CardActions>
                   }
-                  {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName !== username  && 
+                  {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName.username !== username  && 
                   <CardActions style={{ justifyContent: 'flex-end' }} >
                     <Button size="small" onClick={() => handleInfoClickOpen(post.id)}>Details</Button>
-                    <Button size="small" styles={{ paddingRight: '10px'}} onClick={() => {joinGroup(post.id, post.data.userName)}}>Join</Button>
+                    <Button size="small" styles={{ paddingRight: '10px'}} onClick={() => {joinGroup(post.id, post.data.userName.username)}}>Join</Button>
                   </CardActions>
                   }
                 </Card>
@@ -597,6 +598,15 @@ export default function CustomizedDialogs({ profile }) {
           Trip Details
         </DialogTitle>
         <DialogContent>
+          <Typography variant="h6" color="text.secondary">
+            Group Creator: {post.data.userName.username}
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Creator Phone #: {post.data.userName.phone}
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Creator Email: {post.data.userName.email}
+          </Typography>
           <Typography variant="h6" color="text.secondary">
             {post.data.departLoc} To {post.data.dest}
           </Typography>

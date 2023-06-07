@@ -55,7 +55,7 @@ export default function MyRides({ profile }) {
   };
 
   const [formData, setFormData] = React.useState({
-    userName: '',
+    userName: {},
     creator: '',
     departLoc: '',
     dest: '',
@@ -89,7 +89,7 @@ export default function MyRides({ profile }) {
     e.preventDefault();
      //define our form
 
-    let userName = profile.username;
+    let userName = profile;
     let creator = `${profile.firstname} ${profile.lastname}`;
     let timeString = formData.departTime;
     let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -137,7 +137,7 @@ export default function MyRides({ profile }) {
      // Reset the form after saving the post
      setPosts(newposts.posts);
      getPosts();
-     userName = '';
+     userName = {};
      creator = '';
      formData.departLoc = '';
      formData.dest = '';
@@ -234,7 +234,7 @@ export default function MyRides({ profile }) {
                       p={3}
                       sx={{
                         backgroundColor:
-                          post.data.userName === username
+                          post.data.userName.username === username
                             ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
                             ? "#edf5fa" // gold  // '#C65858' red
@@ -252,8 +252,8 @@ export default function MyRides({ profile }) {
                     <CardContent>
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
-                        {post.data.userName !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        {post.data.userName.username !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
@@ -309,7 +309,7 @@ export default function MyRides({ profile }) {
                       p={3}
                       sx={{
                         backgroundColor:
-                          post.data.userName === username
+                          post.data.userName.username === username
                             ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
                             ? "#e1f2fc" // gold  // '#C65858' red
@@ -327,8 +327,8 @@ export default function MyRides({ profile }) {
                     <CardContent>
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
-                        {post.data.userName !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        {post.data.userName.username !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
