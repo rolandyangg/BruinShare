@@ -15,9 +15,9 @@ export default function Home({profile}) {
     <>
       <Navbar profile={profile}/>
       {/* HERO */}
-      <Box display="flex" width="100%" height="90vh">
+      <Box display="flex" width="100%" height="80vh">
         <Grid container>
-          <Grid item xs={12} md={6} p={5} display="flex">
+          <Grid item xs={12} md={6} p={7} display="flex">
             <Stack display="flex" alignItems="left" justifyContent="center" spacing={2}>
               <Typography variant="h2" sx={{fontWeight:1000}}>Ride together, thrive together</Typography>
               <Typography variant="h6">Connecting Bruins for hassle-free & affordable journeys! 🐻</Typography>
