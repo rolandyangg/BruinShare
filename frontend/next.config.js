@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: false,
-}
+const withImages = require('next-images');
 
-module.exports = nextConfig
+module.exports = withImages({
+  reactStrictMode: false,
+  images: {
+    domains: ['firebasestorage.googleapis.com'],
+  },
+});
