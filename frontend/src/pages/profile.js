@@ -108,7 +108,7 @@ export default function Profile({ profile }) {
       <div>
         <Box m={2} mt={10}>
           <Grid container columnSpacing={3} textAlign="center">
-            <Grid container item sm={6} direction="column" alignItems="center" justifyContent="center">
+            <Grid container item md={6} direction="column" alignItems="center" justifyContent="center">
               {isEditing ? (
                 <div>
                   <Grid container direction="row">
@@ -165,7 +165,7 @@ export default function Profile({ profile }) {
                 </div>
               )}
             </Grid>
-            <Grid container item sm={6} direction="column">
+            <Grid container item md={6} direction="column">
               <Grid item m={2}>
                 {isEditing ? (
                   <TextField
