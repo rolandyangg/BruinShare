@@ -218,7 +218,7 @@ export default function MyRides({ profile }) {
     return (
         <div>
         <Box p={4}>
-            <h1 className={styles.myrides_heading}>My Posts</h1>
+            <h1 className={styles.myrides_heading} style={{ textAlign: 'left' }}>My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {posts.map((post) => (
@@ -235,10 +235,10 @@ export default function MyRides({ profile }) {
                       sx={{
                         backgroundColor:
                           post.data.userName === username
-                            ? '#DED9E2'
+                            ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
-                            ? "#fff1a8" // gold  // '#C65858' red
-                            : '#d0dfff', // blue //  '#3AE46D', green
+                            ? "#edf5fa" // gold  // '#C65858' red
+                            : '#4ea5f0', // blue //  '#3AE46D', green
                       }}
                       >
                       <Grid sx={{height: '60px'}} item xs={12}>
@@ -293,7 +293,7 @@ export default function MyRides({ profile }) {
      {/* defining the dialog */}
      
   
-            <h1 className={styles.myrides_heading}>Joined Groups</h1>
+            <h1 className={styles.myrides_heading} style={{ textAlign: 'left' }}>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
@@ -310,10 +310,10 @@ export default function MyRides({ profile }) {
                       sx={{
                         backgroundColor:
                           post.data.userName === username
-                            ? '#DED9E2'
+                            ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
-                            ? "#fff1a8" // gold  // '#C65858' red
-                            : '#d0dfff', // blue //  '#3AE46D', green
+                            ? "#e1f2fc" // gold  // '#C65858' red
+                            : '#95c5ed', // blue //  '#3AE46D', green
                       }}
                       >
                       <Grid sx={{height: '60px'}} item xs={12}>
@@ -352,11 +352,13 @@ export default function MyRides({ profile }) {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                    <CardActions>
-                      <Button size="small" onClick={() => {
-                        handleInfoClickOpen(post.id)
-                      }}>Details</Button>
-                      <Button size="small" onClick={() => {leaveGroup(post.id)}}>Leave Group</Button>
+                    <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '6px' }}>
+                        <Button size="small" onClick={() => {leaveGroup(post.id)}}>Leave Group</Button>
+                        <Button size="small" onClick={() => {
+                          handleInfoClickOpen(post.id)
+                        }}>Details</Button>
+                      </div>
                     </CardActions>
                 </Card>
               </Grid>
