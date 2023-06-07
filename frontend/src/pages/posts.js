@@ -393,90 +393,92 @@ export default function CustomizedDialogs({ profile }) {
       <Divider/>
 
       {/* defining the dialog */}
-      <Dialog open={open} onClose={handleClose} maxWidth="md">
-        <DialogTitle id="alert-dialog-title">
-          Create Post
-        </DialogTitle>
-        <form onSubmit={handleCreatePost}>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Fill out the following to create your own post.
-            </DialogContentText>
-            <Grid container spacing={2} mt={0} mb={2}>
-            <Grid item xs={6}>
-                <LocationAutocomplete
-                  label="Departure Location"
-                  name="departLoc"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <LocationAutocomplete
-                  label="Destination"
-                  name="dest"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateTimePicker 
-                    fullwidth
-                    slotProps={{ textField: { fullWidth: true, error: false} }} 
-                    label="Depart Time" value={formData.departTime}  
-                    onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
-                    required
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="group-size">Group Size</InputLabel>
-                  <Select
-                    labelId="group-size"
-                    id="group-size-selection"
-                    label="Group Size"
-                    value={formData.groupSize}
-                    onChange={(event) =>
-                      handleInputChange({
-                        target: { name: 'groupSize', value: event.target.value },
-                      })
-                    }
-                  >
-                    <MenuItem value={2}>Two</MenuItem>
-                    <MenuItem value={3}>Three</MenuItem>
-                    <MenuItem value={4}>Four</MenuItem>
-                    <MenuItem value={5}>Five</MenuItem>
-                    <MenuItem value={6}>Six</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <TimePicker 
-                      fullwidth
-                      slotProps={{ textField: { fullWidth: true, error: false} }} 
-                      label="Flight Time"
-                      name="flightTime"
-                      value={formData.flightTime}
-                      onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time } })}
-                    />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label="Flight Number"
-                  name="flightNumber"
-                  value={formData.flightNumber}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-            </Grid>
-            <DialogActions>
-              <Button onClick={handleClose} variant="outlined">Cancel</Button>
-              <Button type="submit" variant="contained" autoFocus>Submit</Button>
-            </DialogActions>
-          </DialogContent>
-        </form>
-      </Dialog>
+      <Dialog open={open} onClose={handleClose} maxWidth="md" PaperProps={{ style: { height: '70vh' } }}>
+  <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.5rem', paddingTop: '30px' }}>
+    Create Post
+  </DialogTitle>
+  <form onSubmit={handleCreatePost}>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+        Fill out the following to create your own post.
+      </DialogContentText>
+      <Grid container spacing={2} mt={0} mb={2}>
+        <Grid item xs={6} style={{ marginTop: '10px' }}>
+          <LocationAutocomplete
+            label="Departure Location"
+            name="departLoc"
+          />
+        </Grid>
+        <Grid item xs={6} style={{ marginTop: '10px' }}>
+          <LocationAutocomplete
+            label="Destination"
+            name="dest"
+          />
+        </Grid>
+        <Grid item xs={6} style={{ marginTop: '25px' }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker 
+              fullwidth
+              slotProps={{ textField: { fullWidth: true, error: false } }} 
+              label="Depart Time"
+              value={formData.departTime}
+              onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+              required
+            />
+          </LocalizationProvider>
+        </Grid>
+        <Grid item xs={6} style={{ marginTop: '25px' }}>
+          <FormControl fullWidth>
+            <InputLabel id="group-size">Group Size</InputLabel>
+            <Select
+              labelId="group-size"
+              id="group-size-selection"
+              label="Group Size"
+              value={formData.groupSize}
+              onChange={(event) =>
+                handleInputChange({
+                  target: { name: 'groupSize', value: event.target.value },
+                })
+              }
+            >
+              <MenuItem value={2}>Two</MenuItem>
+              <MenuItem value={3}>Three</MenuItem>
+              <MenuItem value={4}>Four</MenuItem>
+              <MenuItem value={5}>Five</MenuItem>
+              <MenuItem value={6}>Six</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6} style={{ marginTop: '25px' }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker 
+              fullwidth
+              slotProps={{ textField: { fullWidth: true, error: false } }} 
+              label="Flight Time"
+              name="flightTime"
+              value={formData.flightTime}
+              onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time } })}
+            />
+          </LocalizationProvider>
+        </Grid>
+        <Grid item xs={6} style={{ marginTop: '25px' }}>
+          <TextField
+            fullWidth
+            label="Flight Number"
+            name="flightNumber"
+            value={formData.flightNumber}
+            onChange={handleInputChange}
+          />
+        </Grid>
+      </Grid>
+      <DialogActions style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '50px', paddingBottom: '20px' }}>
+        <Button onClick={handleClose} variant="outlined">Cancel</Button>
+        <Button type="submit" variant="contained" autoFocus>Submit</Button>
+      </DialogActions>
+    </DialogContent>
+  </form>
+</Dialog>
+
 
       {/* sort by and create post + display posts */}
       <Box m={4}>
@@ -502,9 +504,10 @@ export default function CustomizedDialogs({ profile }) {
 
                       <Grid sx={{height: '60px'}} item xs={12}>
                       {post.data.members !== undefined && (post.data.members).length === post.data.groupSize ? (
-                        <Typography variant="h5" color="text.secondary">
-                          GROUP IS FULL.
-                        </Typography>
+                       <Typography variant="h5" color="text.secondary" style={{ textAlign: 'center' }}>
+                       FULL
+                     </Typography>
+                     
                       )
                       :
                        (
@@ -550,7 +553,7 @@ export default function CustomizedDialogs({ profile }) {
                         handleInfoClickOpen(post.id)
                       }}>Details</Button>
                       <Typography variant="body2" color="text.secondary">
-                        You are the group creator.
+                        YOUR POST
                       </Typography>
                     </CardActions>
                   }
@@ -560,7 +563,7 @@ export default function CustomizedDialogs({ profile }) {
                         handleInfoClickOpen(post.id)
                       }}>Details</Button>
                       <Typography variant="body2" color="text.secondary">
-                      You have joined this group. 
+                      JOINED
                       </Typography>
                     </CardActions>
                   }
