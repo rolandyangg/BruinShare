@@ -65,7 +65,7 @@ export default function App({ Component, pageProps }) {
       </>
     }
     {
-      !user && (router.asPath === '/login' || router.asPath == '/signup') && <Component {...pageProps} profile={user}/>
+      !user && (router.asPath === '/login' || router.asPath == '/signup' || router.asPath == '/') && <Component {...pageProps} profile={user}/>
     }
       
     </>

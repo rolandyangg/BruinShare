@@ -13,6 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
+import Navbar from "@/components/Navbar.js";
 
 export default function Login({ user }) {
     const [allUsers, setAllUsers] = useState([]);
@@ -53,6 +54,8 @@ export default function Login({ user }) {
     }
 
     return (
+        <>
+        <Navbar profile={user}/>
         <Grid container component="main" sx={{ height: '100vh' }}>
             <CssBaseline/>
             <Grid
@@ -136,5 +139,6 @@ export default function Login({ user }) {
                 </Box>
             </Grid>
         </Grid>
+        </>
     );
 }
