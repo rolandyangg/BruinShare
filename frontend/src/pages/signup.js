@@ -13,8 +13,9 @@ import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography'
+import Navbar from "@/components/Navbar.js";
 
-export default function SignUp() {
+export default function SignUp({profile}) {
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -56,6 +57,7 @@ export default function SignUp() {
 
   return (
     <Box>
+      <Navbar profile={profile}/>
       <CssBaseline/>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <Grid
