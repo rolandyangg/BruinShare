@@ -287,7 +287,7 @@ export default function MyRides({ profile }) {
      {/* defining the dialog */}
      
   
-            <h1>Joined Groups</h1>
+          <h1 className={styles.myrides_heading}>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
