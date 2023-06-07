@@ -16,7 +16,6 @@ import {
   TextField,
   InputLabel,
   Card,
-  CardMedia,
   CardContent,
   CardActions,
   CardActionArea,
@@ -279,116 +278,15 @@ export default function MyRides({ profile }) {
                       <Button size="small" onClick={() => { editPost(post.id) }}>Edit</Button>
                     </div>
                   </CardActions>
-
-
-
-
-
                 </Card>
               </Grid>
             ))}
-            </Grid>
-            </Box>
+          </Grid>
+        </Box>
 
-               {/* defining the dialog */}
-    
-     <Dialog open={open} onClose={handleClose}>
-       <DialogTitle id="alert-dialog-title">
-         Edit Post
-       </DialogTitle>
-       {posts.map((post) => (
-       <form onSubmit={(e) => handleUpdatePost(e, post.id)}>
-       {/* <form > */}
-         <DialogContent>
-           <DialogContentText id="alert-dialog-description">
-             Fill out the following to create your own post.
-           </DialogContentText>
-           <Grid container spacing={2} mt={0} mb={2}>
-           <Grid item xs={6}>
-               <TextField
-                 fullWidth
-                 label="Departure Location"
-                 name="departLoc"
-                 value={formData.departLoc}
-                 onChange={handleInputChange}
-                 required
-               />
-             </Grid>
-             <Grid item xs={6}>
-               <TextField
-                 fullWidth
-                 label="Destination"
-                 name="dest"
-                 value={formData.dest}
-                 onChange={handleInputChange}
-                 required
-               />
-             </Grid>
-             <Grid item xs={6}>
-               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                 <DateTimePicker
-                   fullwidth
-                   slotProps={{ textField: { fullWidth: true, error: false } }}
-                   label="Depart Time" value={formData.departTime} 
-                   onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
-                   required
-                 />
-               </LocalizationProvider>
-             </Grid>
-             <Grid item xs={6}>
-               <FormControl fullWidth>
-                 <InputLabel id="group-size">Group Size</InputLabel>
-                 <Select
-                   labelId="group-size"
-                   id="group-size-selection"
-                   label="Group Size"
-                   value={formData.groupSize}
-                   onChange={(event) =>
-                     handleInputChange({
-                       target: { name: 'groupSize', value: event.target.value },
-                     })
-                   }
-                 >
-                   <MenuItem value={2}>Two</MenuItem>
-                   <MenuItem value={3}>Three</MenuItem>
-                   <MenuItem value={4}>Four</MenuItem>
-                   <MenuItem value={5}>Five</MenuItem>
-                   <MenuItem value={6}>Six</MenuItem>
-                 </Select>
-               </FormControl>
-             </Grid>
-             <Grid item xs={6}>
-               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                   <TimePicker
-                     fullwidth
-                     slotProps={{ textField: { fullWidth: true, error: false } }}
-                     label="Flight Time"
-                     name="flightTime"
-                     value={formData.flightTime}
-                     onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time } })}
-                   />
-               </LocalizationProvider>
-             </Grid>
-             <Grid item xs={6}>
-               <TextField
-                 fullWidth
-                 label="Flight Number"
-                 name="flightNumber"
-                 value={formData.flightNumber}
-                 onChange={handleInputChange}
-               />
-             </Grid>
-           </Grid>
-           <DialogActions>
-             <Button onClick={handleClose} variant="outlined">Cancel</Button>
-             <Button type="submit" variant="contained" autoFocus>Save</Button>
-           </DialogActions>
-         </DialogContent>
-       </form>
-         ))}
-     </Dialog>
+     {/* defining the dialog */}
+     
   
-
             <h1>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
@@ -498,42 +396,139 @@ export default function MyRides({ profile }) {
       ))}
 
       {posts.map((post) => (
-      <Dialog
-        open={openInfo === post.id}
-        onClose={handleInfoClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-      <DialogTitle id="alert-dialog-title">
-        {post.data.creator}'s Trip Details
-      </DialogTitle>
-      <DialogContent>
-        <Typography variant="h6" color="text.secondary">
-          {post.data.departLoc} To {post.data.dest}
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Departure Time: {post.data.departTime}
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Flight Number: {post.data.flightNumber}
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Current members:
-        </Typography>
-        {post.data.members !== undefined && post.data.members.map((member) => (
+      <>
+        {/* the post details popup */}
+        <Dialog
+          open={openInfo === post.id}
+          onClose={handleInfoClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {post.data.creator}'s Trip Details
+        </DialogTitle>
+        <DialogContent>
           <Typography variant="h6" color="text.secondary">
-              <li>{member}</li>
+            {post.data.departLoc} To {post.data.dest}
           </Typography>
-        ))}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleInfoClose}>Close</Button>
-      </DialogActions>
-      </Dialog>
+          <Typography variant="h6" color="text.secondary">
+            Departure Time: {post.data.departTime}
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Flight Number: {post.data.flightNumber}
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Current members:
+          </Typography>
+          {post.data.members !== undefined && post.data.members.map((member) => (
+            <Typography variant="h6" color="text.secondary">
+                <li>{member}</li>
+            </Typography>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleInfoClose}>Close</Button>
+        </DialogActions>
+        </Dialog>
+
+      {/* the edit form popup */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle id="alert-dialog-title">
+          Edit Post
+        </DialogTitle>
+          <form onSubmit={(e) => handleUpdatePost(e, post.id)}>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Fill out the following to create your own post.
+              </DialogContentText>
+              <Grid container spacing={2} mt={0} mb={2}>
+              <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    label="Departure Location"
+                    name="departLoc"
+                    value={formData.departLoc}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    label="Destination"
+                    name="dest"
+                    value={formData.dest}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                      fullwidth
+                      slotProps={{ textField: { fullWidth: true, error: false } }}
+                      label="Depart Time" value={formData.departTime} 
+                      onChange={(date) => handleInputChange({ target: { name: 'departTime', value: date } })}
+                      required
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="group-size">Group Size</InputLabel>
+                    <Select
+                      labelId="group-size"
+                      id="group-size-selection"
+                      label="Group Size"
+                      value={formData.groupSize}
+                      onChange={(event) =>
+                        handleInputChange({
+                          target: { name: 'groupSize', value: event.target.value },
+                        })
+                      }
+                    >
+                      <MenuItem value={2}>Two</MenuItem>
+                      <MenuItem value={3}>Three</MenuItem>
+                      <MenuItem value={4}>Four</MenuItem>
+                      <MenuItem value={5}>Five</MenuItem>
+                      <MenuItem value={6}>Six</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        fullwidth
+                        slotProps={{ textField: { fullWidth: true, error: false } }}
+                        label="Flight Time"
+                        name="flightTime"
+                        value={formData.flightTime}
+                        onChange={(time) => handleInputChange({ target: { name: 'flightTime', value: time } })}
+                      />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    label="Flight Number"
+                    name="flightNumber"
+                    value={formData.flightNumber}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+              </Grid>
+              <DialogActions>
+                <Button onClick={handleClose} variant="outlined">Cancel</Button>
+                <Button type="submit" variant="contained" autoFocus>Save</Button>
+              </DialogActions>
+            </DialogContent>
+          </form>
+        </Dialog>
+      </>
       ))}
-      </div>
-    ); 
-  }
+    </div>
+  ); 
+}
