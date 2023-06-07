@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import styles from "@/styles/Login.module.css";
 import * as api from "./api/api.js";
 import { useRouter } from 'next/router';
 import bcrypt from 'bcryptjs';
@@ -13,6 +12,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography'
 
 export default function Login({ user }) {
     const [allUsers, setAllUsers] = useState([]);
@@ -54,6 +54,7 @@ export default function Login({ user }) {
 
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
+            <CssBaseline/>
             <Grid
                 item
                 xs={false}
@@ -85,10 +86,10 @@ export default function Login({ user }) {
                 >
                     {/* <img src = "/icons/logo.svg" alt="logo"/> */}
                     <Box component="form" noValidate onSubmit={(e) => handleLogin(e)} sx={{ mt: 1 }}>
-                        <div className={styles.heading}>
-                            <h1 className={styles.login_title}>Login</h1>
-                            <p>Welcome back to BruinShare! 🚙</p>
-                        </div>
+                        <Box pb={5}>
+                            <Typography variant="h2" fontFamily="Work Sans" sx={{fontWeight: 1000}}>Login</Typography>
+                            <Typography fontFamily="Work Sans">Welcome back to BruinShare! 🚙</Typography>
+                        </Box>
                         <TextField
                             margin="normal"
                             required

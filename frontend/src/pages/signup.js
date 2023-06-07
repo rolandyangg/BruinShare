@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import styles from "@/styles/Login.module.css";
 import bcrypt from 'bcryptjs';
 import * as api from "./api/api.js";
 import Button from '@mui/material/Button';
@@ -13,6 +12,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LockIcon from '@mui/icons-material/Lock';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography'
 
 export default function SignUp() {
 
@@ -55,7 +55,8 @@ export default function SignUp() {
   }
 
   return (
-    <div>
+    <Box>
+      <CssBaseline/>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <Grid
           item
@@ -89,10 +90,10 @@ export default function SignUp() {
           >
             {/* <img src="/icons/logo.svg" alt="logo" /> */}
             <Box component="form" onSubmit={(e) => handleSignup(e)} sx={{ mt: 1 }}>
-            <div className={styles.heading}>
-                <h1 className={styles.login_title}>Sign Up</h1>
-                <p>BruinShare: Say Goodbye to Expensive Rides! 💸</p>
-            </div>
+            <Box pb={4}>
+                <Typography variant="h2" fontFamily="Work Sans" sx={{fontWeight: 1000}}>Sign Up</Typography>
+                <Typography fontFamily="Work Sans">BruinShare: Say Goodbye to Expensive Rides! 💸</Typography>
+            </Box>
               <Grid container columnSpacing={2}>
                 <Grid item xs={6}>
                   <TextField
@@ -198,6 +199,6 @@ export default function SignUp() {
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
