@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import serverRoutes from './routes/requests.js';
 import postRoutes from './routes/postRoutes.js';
+import profileRoutes from './routes/profile.js';
 
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 
 app.use('/bruinshare', serverRoutes);
 app.use('/bruinshare', postRoutes);
+app.use('/bruinshare', profileRoutes);
 
 // app.get('/places-autocomplete', async (req, res) => {
 //     // console.log(req);

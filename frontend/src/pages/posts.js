@@ -404,29 +404,26 @@ export default function CustomizedDialogs({ profile }) {
       <Divider/>
 
       {/* defining the dialog */}
-      <Dialog open={open} onClose={handleClose} maxWidth="md" PaperProps={{ style: { height: '70vh' } }}>
-  <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.5rem', paddingTop: '30px' }}>
+      <Dialog open={open} onClose={handleClose} maxWidth="md">
+  <DialogTitle id="alert-dialog-title" textAlign='center' mt={3} style={{ fontSize: '2.5rem' }}>
     Create Post
   </DialogTitle>
   <form onSubmit={handleCreatePost}>
     <DialogContent>
-      <DialogContentText id="alert-dialog-description">
-        Fill out the following to create your own post.
-      </DialogContentText>
-      <Grid container spacing={2} mt={0} mb={2}>
-        <Grid item xs={6} style={{ marginTop: '10px' }}>
+      <Grid container spacing={2} mb={2}>
+        <Grid item xs={6} mt={2}>
           <LocationAutocomplete
             label="Departure Location"
             name="departLoc"
           />
         </Grid>
-        <Grid item xs={6} style={{ marginTop: '10px' }}>
+        <Grid item xs={6} mt={2}>
           <LocationAutocomplete
             label="Destination"
             name="dest"
           />
         </Grid>
-        <Grid item xs={6} style={{ marginTop: '25px' }}>
+        <Grid item xs={6} mt={2}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker 
               fullwidth
@@ -438,7 +435,7 @@ export default function CustomizedDialogs({ profile }) {
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={6} style={{ marginTop: '25px' }}>
+        <Grid item xs={6} mt={2}>
           <FormControl fullWidth>
             <InputLabel id="group-size">Group Size</InputLabel>
             <Select
@@ -460,7 +457,7 @@ export default function CustomizedDialogs({ profile }) {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} style={{ marginTop: '25px' }}>
+        <Grid item xs={6} mt={2}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker 
               fullwidth
@@ -472,7 +469,7 @@ export default function CustomizedDialogs({ profile }) {
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={6} style={{ marginTop: '25px' }}>
+        <Grid item xs={6} mt={2}>
           <TextField
             fullWidth
             label="Flight Number"
@@ -482,11 +479,11 @@ export default function CustomizedDialogs({ profile }) {
           />
         </Grid>
       </Grid>
-      <DialogActions style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '50px', paddingBottom: '20px' }}>
+    </DialogContent>
+    <DialogActions style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginRight: '20px', marginBottom: '40px' }}>
         <Button onClick={handleClose} variant="outlined">Cancel</Button>
         <Button type="submit" variant="contained" autoFocus>Submit</Button>
-      </DialogActions>
-    </DialogContent>
+    </DialogActions>
   </form>
 </Dialog>
 
@@ -534,7 +531,8 @@ export default function CustomizedDialogs({ profile }) {
                       </Grid>
                     </Grid>
                     <CardContent>
-                      <AvatarGroup sx={{marginTop: '-10px', marginBottom: '10px'}} max={3}>
+                      <Grid container mb={2}>
+                      <AvatarGroup sx={{float: 'left'}} max={3}>
                         {post.data.userName !== undefined &&
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
                         }
@@ -545,6 +543,7 @@ export default function CustomizedDialogs({ profile }) {
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
                         <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
                       </AvatarGroup>
+                      </Grid>
                       
                       <Typography gutterBottom variant="h5" component="div">
                         Departing <b>{post.data.departDate}</b>

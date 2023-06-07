@@ -33,6 +33,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
 
+import LocationAutocomplete from '../components/LocationAutocomplete.js'
+
 export default function MyRides({ profile }) {
   const username = profile.username;
   const [open, setOpen] = React.useState(false);
@@ -108,8 +110,10 @@ export default function MyRides({ profile }) {
       postID: postID,
       userName,
       creator,
-      departLoc: formData.departLoc,
-      dest: formData.dest,
+      // departLoc: formData.departLoc,
+      departLoc: e.target[0].value.split(",")[0],
+      // dest: formData.dest,
+      dest: e.target[4].value.split(",")[0],
       departDate: formattedDD,
       rawDepartTime: formData.departTime,
       departTime: departTime,
@@ -246,7 +250,8 @@ export default function MyRides({ profile }) {
                       </Grid>
                     </Grid>
                     <CardContent>
-                      <AvatarGroup sx={{marginTop: '-10px', marginBottom: '10px'}} max={3}>
+                      <Grid container mb={2}>
+                      <AvatarGroup sx={{float: 'left'}} max={3}>
                         {post.data.userName !== undefined &&
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
                         }
@@ -257,6 +262,7 @@ export default function MyRides({ profile }) {
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
                         <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
                       </AvatarGroup>
+                      </Grid>
                       <Typography gutterBottom variant="h5" component="div">
                         Departing <b>{post.data.departDate}</b>
                       </Typography>
@@ -319,7 +325,8 @@ export default function MyRides({ profile }) {
                       </Grid>
                     </Grid>
                     <CardContent>
-                    <AvatarGroup sx={{marginTop: '-10px', marginBottom: '10px'}} max={3}>
+                      <Grid container mb={2}>
+                      <AvatarGroup sx={{float: 'left'}} max={3}>
                         {post.data.userName !== undefined &&
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
                         }
@@ -330,6 +337,7 @@ export default function MyRides({ profile }) {
                         <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
                         <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
                       </AvatarGroup>
+                      </Grid>
                       <Typography gutterBottom variant="h5" component="div">
                         Departing <b>{post.data.departDate}</b>
                       </Typography>
@@ -437,37 +445,42 @@ export default function MyRides({ profile }) {
         </Dialog>
 
       {/* the edit form popup */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle id="alert-dialog-title">
-          Edit Post
-        </DialogTitle>
+      <Dialog open={open} onClose={handleClose} maxWidth="md">
+      <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.5rem', paddingTop: '30px' }}>
+        Edit Post
+      </DialogTitle>
           <form onSubmit={(e) => handleUpdatePost(e, post.id)}>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Fill out the following to create your own post.
-              </DialogContentText>
-              <Grid container spacing={2} mt={0} mb={2}>
-              <Grid item xs={6}>
-                  <TextField
+              <Grid container spacing={2} mb={2}>
+              <Grid item xs={6} mt={2}>
+                  <LocationAutocomplete
+                    label="Departure Location"
+                    name="departLoc"
+                  />
+                  {/* <TextField
                     fullWidth
                     label="Departure Location"
                     name="departLoc"
                     value={formData.departLoc}
                     onChange={handleInputChange}
                     required
-                  />
+                  /> */}
                 </Grid>
-                <Grid item xs={6}>
-                  <TextField
+                <Grid item xs={6} mt={2}>
+                  <LocationAutocomplete
+                    label="Destination"
+                    name="dest"
+                  />
+                  {/* <TextField
                     fullWidth
                     label="Destination"
                     name="dest"
                     value={formData.dest}
                     onChange={handleInputChange}
                     required
-                  />
+                  /> */}
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} mt={2}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateTimePicker
                       fullwidth
@@ -478,7 +491,7 @@ export default function MyRides({ profile }) {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} mt={2}>
                   <FormControl fullWidth>
                     <InputLabel id="group-size">Group Size</InputLabel>
                     <Select
@@ -500,7 +513,7 @@ export default function MyRides({ profile }) {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} mt={2}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <TimePicker
                         fullwidth
@@ -512,7 +525,7 @@ export default function MyRides({ profile }) {
                       />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} mt={2}>
                   <TextField
                     fullWidth
                     label="Flight Number"
@@ -522,11 +535,11 @@ export default function MyRides({ profile }) {
                   />
                 </Grid>
               </Grid>
-              <DialogActions>
+            </DialogContent>
+            <DialogActions style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginRight: '20px', marginBottom: '40px' }}>
                 <Button onClick={handleClose} variant="outlined">Cancel</Button>
                 <Button type="submit" variant="contained" autoFocus>Save</Button>
-              </DialogActions>
-            </DialogContent>
+            </DialogActions>
           </form>
         </Dialog>
       </>

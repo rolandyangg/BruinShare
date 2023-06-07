@@ -2,14 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 70px
+  margin-top: 50px
 }
 
 .profile_left {
-  width: 50%;
-  padding: 50px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-
+  text-align: center;
+  width: 45%;
 }
 
 .profile_image img {
@@ -39,7 +40,7 @@
 }
 
 .profile_right {
-  width: 50%;
+  width: 55%;
   padding: 20px;
 }
 
@@ -50,7 +51,7 @@
 .info_row {
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px; /* Increased spacing between sections */
+  margin-bottom: 60px; /* Increased spacing between sections */
 }
 
 .info_label {
@@ -83,3 +84,57 @@
   background-color: #ddd;
 }
 
+.choose_file_button {
+  margin-bottom: 10px;
+  font-family: 'Work Sans';
+  background-color: #5A5A5A;
+  border: none;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.button_group {
+  display: flex;
+  gap: 10px; 
+}
+
+.profile_description textarea{
+  font-family: 'Work Sans';
+}
+
+.profile_info input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: 'Work Sans';
+  margin-bottom: 10px;
+}
+
+.profile_info textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: 'Work Sans';
+  margin-bottom: 10px;
+}
+
+.edit_profile_file_input {
+  padding: 5px;
+  height: 300px;
+  width: 400px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.edit_profile_file_input::placeholder {
+  color: #999;
+}
