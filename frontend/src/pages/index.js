@@ -21,7 +21,9 @@ export default function Home({profile}) {
             <Stack display="flex" alignItems="left" justifyContent="center" spacing={2}>
               <Typography variant="h2" sx={{fontWeight:1000}}>Ride together, thrive together</Typography>
               <Typography variant="h6">Connecting Bruins for hassle-free & affordable journeys! 🐻</Typography>
-              <Link href="/login"><Button variant="contained">Get Started</Button></Link>
+              {!profile ? <Link href="/login"><Button variant="contained">Get Started</Button></Link> : 
+              <Link href="/posts"><Button variant="contained">View Posts</Button></Link>
+              }
             </Stack>
           </Grid>
           <Grid item xs={12} md={6} p={5} display="flex" justifyContent="center">

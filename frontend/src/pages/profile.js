@@ -73,6 +73,7 @@ export default function Profile({ profile }) {
       ...prevState,
       [name]: value,
     }));
+    
     console.log(value);
   };
 

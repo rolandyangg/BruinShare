@@ -123,7 +123,7 @@ const getUserPosts = async (req, res) => {
       const joined = [];
       sc.forEach((doc) => {
         const data = doc.data();
-        if((data.userName !== undefined && data.userName === username)){
+        if((data.userName.username !== undefined && data.userName.username === username)){
           posts.push({id: doc.id, data: data});
         }
         else if(data.members !== undefined && (data.members).includes(username)){
@@ -151,7 +151,6 @@ const joinGroup = async (req, res) => {
         res.status(202).json({});
       });
     }
-    // res.status(202).json(data);
   } catch (error) {
     res.status(400).json(error);
   }

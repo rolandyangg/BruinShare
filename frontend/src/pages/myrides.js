@@ -55,7 +55,7 @@ export default function MyRides({ profile }) {
   };
 
   const [formData, setFormData] = React.useState({
-    userName: '',
+    userName: {},
     creator: '',
     departLoc: '',
     dest: '',
@@ -89,7 +89,7 @@ export default function MyRides({ profile }) {
     e.preventDefault();
      //define our form
 
-    let userName = profile.username;
+    let userName = profile;
     let creator = `${profile.firstname} ${profile.lastname}`;
     let timeString = formData.departTime;
     let departTime = new Date(timeString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -137,7 +137,7 @@ export default function MyRides({ profile }) {
      // Reset the form after saving the post
      setPosts(newposts.posts);
      getPosts();
-     userName = '';
+     userName = {};
      creator = '';
      formData.departLoc = '';
      formData.dest = '';
@@ -218,7 +218,7 @@ export default function MyRides({ profile }) {
     return (
         <div>
         <Box p={4}>
-            <h1 className={styles.myrides_heading}>My Posts</h1>
+            <h1 className={styles.myrides_heading} style={{ textAlign: 'left' }}>My Posts</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {posts.map((post) => (
@@ -234,11 +234,11 @@ export default function MyRides({ profile }) {
                       p={3}
                       sx={{
                         backgroundColor:
-                          post.data.userName === username
-                            ? '#DED9E2'
+                          post.data.userName.username === username
+                            ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
-                            ? "#fff1a8" // gold  // '#C65858' red
-                            : '#d0dfff', // blue //  '#3AE46D', green
+                            ? "#edf5fa" // gold  // '#C65858' red
+                            : '#4ea5f0', // blue //  '#3AE46D', green
                       }}
                       >
                       <Grid sx={{height: '60px'}} item xs={12}>
@@ -252,8 +252,8 @@ export default function MyRides({ profile }) {
                     <CardContent>
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
-                        {post.data.userName !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        {post.data.userName.username !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
@@ -293,7 +293,7 @@ export default function MyRides({ profile }) {
      {/* defining the dialog */}
      
   
-            <h1 className={styles.myrides_heading}>Joined Groups</h1>
+            <h1 className={styles.myrides_heading} style={{ textAlign: 'left' }}>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
             {joined.map((post) => (
@@ -309,11 +309,11 @@ export default function MyRides({ profile }) {
                       p={3}
                       sx={{
                         backgroundColor:
-                          post.data.userName === username
-                            ? '#DED9E2'
+                          post.data.userName.username === username
+                            ? '#fff1a8'
                             : post.data.members !== undefined && post.data.members.includes(username)
-                            ? "#fff1a8" // gold  // '#C65858' red
-                            : '#d0dfff', // blue //  '#3AE46D', green
+                            ? "#e1f2fc" // gold  // '#C65858' red
+                            : '#95c5ed', // blue //  '#3AE46D', green
                       }}
                       >
                       <Grid sx={{height: '60px'}} item xs={12}>
@@ -327,8 +327,8 @@ export default function MyRides({ profile }) {
                     <CardContent>
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
-                        {post.data.userName !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName} src="/static/images/avatar/2.jpg"/>
+                        {post.data.userName.username !== undefined &&
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
                           <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
@@ -352,11 +352,13 @@ export default function MyRides({ profile }) {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
-                    <CardActions>
-                      <Button size="small" onClick={() => {
-                        handleInfoClickOpen(post.id)
-                      }}>Details</Button>
-                      <Button size="small" onClick={() => {leaveGroup(post.id)}}>Leave Group</Button>
+                    <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '6px' }}>
+                        <Button size="small" onClick={() => {leaveGroup(post.id)}}>Leave Group</Button>
+                        <Button size="small" onClick={() => {
+                          handleInfoClickOpen(post.id)
+                        }}>Details</Button>
+                      </div>
                     </CardActions>
                 </Card>
               </Grid>
