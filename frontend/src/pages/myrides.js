@@ -272,9 +272,16 @@ export default function MyRides({ profile }) {
                       <Typography variant="body2" color="text.secondary">
                         Departure Time: {post.data.departTime} on {post.data.departDate}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
-                      </Typography>
+                      {post.data.members === undefined || (post.data.members).length !== post.data.groupSize ? (
+                        <Typography variant="body2" color="text.secondary">
+                          Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
+                        </Typography>
+                      ) : (
+                        <Typography variant="body2" color="text.secondary">
+                          Full Group.
+                        </Typography>
+                      )}
+                      
                     </CardContent>
                   </CardActionArea>
                   <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
