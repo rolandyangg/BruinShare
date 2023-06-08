@@ -9,6 +9,12 @@
 
 This is the Github repository for the web app BruinShare, created for the class CS35L (Software Construction Lab) by team members Joyce Chen, Subham Kumar, Peony Mong, Roland Yang, and Florence Zhao.
 
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/bc1815ab-e238-4873-885b-e5febb4c8c18">
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/007897ad-f7ad-4d6a-9bde-bb0fcf02386c">
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/eb829aae-570a-4f06-846e-9b1b5f47f4d4">
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/b006aa44-1924-433b-9da7-020873181491">
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/2e45d312-4a4f-4725-a99d-ef4d0262bb1d">
+
 ## About the Project
 
 BruinShare is a web app designed to streamline the process of ridesharing for UCLA students.
