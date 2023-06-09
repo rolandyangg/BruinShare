@@ -13,6 +13,8 @@ import {
  Select,
  TextField,
  InputAdornment,
+ ListItemIcon, 
+ Icon,
  InputLabel,
  Card,
  Divider,
@@ -51,6 +53,7 @@ import LocationAutocomplete from '../components/LocationAutocomplete.js'
 import Autocomplete from "react-google-autocomplete";
 import styles from '../styles/post.module.css'
 
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
@@ -251,6 +254,7 @@ export default function CustomizedDialogs({ profile }) {
    })
   };
 
+
  // Filter form submit
  const handleFilterFormSubmit = (e) => {
    e.preventDefault();
@@ -304,7 +308,6 @@ export default function CustomizedDialogs({ profile }) {
           <Grid className={styles.create_button} item xs={1.71}>
             <Button   
               style={{
-                backgroundColor: '#4399e6', // Change the background color
                 color: 'white', // Change the text color
                 height: 55
               }}
@@ -345,7 +348,7 @@ export default function CustomizedDialogs({ profile }) {
           <Grid item xs={1.71}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker 
-                fullwidth
+                fullWidth
                 slotProps={{ textField: { fullWidth: true, error: false } }} 
                 label="Start Date Range" value={formData.departTime}  
                 onChange={(date) => handleFilterInputChange({ target: { name: 'startTimeRange', value: date } })}
@@ -356,7 +359,7 @@ export default function CustomizedDialogs({ profile }) {
           <Grid item xs={1.71}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker 
-                fullwidth
+                fullWidth
                 slotProps={{ textField: { fullWidth: true, error: false} }} 
                 label="End Date Range" value={formData.departTime}  
                 onChange={(date) => handleFilterInputChange({ target: { name: 'endTimeRange', value: date } })}
@@ -391,7 +394,6 @@ export default function CustomizedDialogs({ profile }) {
           </Grid>
           <Grid item xs={1.71}>
             <Button style={{
-                backgroundColor: '#4399e6', // Change the background color
                 color: 'white', // Change the text color
                 height: 55
               }}
@@ -511,11 +513,23 @@ export default function CustomizedDialogs({ profile }) {
                       >
 
                       <Grid sx={{height: '60px'}} item xs={12}>
-                        <Typography variant="h5" textAlgin="center" centercolor="text.secondary" style={{ fontSize: "1.5rem", align: "center"}}>
-                          {post.data.departLoc}
-                          {`  →  `}
-                          {post.data.dest}
-                        </Typography>
+                      {post.data.members !== undefined && (post.data.members).length === post.data.groupSize ? (
+                       <Typography variant="h5" color="text.secondary" style={{ fontSize: "1.9rem", align: "center", textAlign: "center", paddingTop: "10px"}}>
+                       FULL
+                     </Typography>
+                     
+                      )
+                      :
+                       (
+                    
+                       <Typography variant="h5" textAlgin="center" centercolor="text.secondary" style={{ fontSize: "1.5rem", align: "center"}}>
+                       {post.data.departLoc}
+                       {`  →  `}
+                       {post.data.dest}
+                     </Typography>
+
+                       ) 
+                      }
                       </Grid>
                     </Grid>
                     <CardContent>
@@ -579,45 +593,66 @@ export default function CustomizedDialogs({ profile }) {
           onClose={handleInfoClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
-          PaperProps={{ style: { width: '80vh', height: '75vh' } }}
+          PaperProps={{ style: { width: '80vw', height: '80vh', borderRadius: '10px', } }}
+          key={post.id}
         >
-        <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.5rem', paddingTop: '30px' }}>
+        <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.3rem', paddingTop: '28px' }}>
           Trip Details
         </DialogTitle>
         <DialogContent>
-          <Typography variant="h6" color="text.secondary">
+        <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px"}}>
+           Creator Inforamtion:
+          </Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Group Creator: {post.data.userName.username}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Creator Phone #: {post.data.userName.phone}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 1, pl: 2 }}>
             Creator Email: {post.data.userName.email}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
-            {post.data.departLoc} To {post.data.dest}
+
+          <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2}}>
+           Travel Info:
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+            Depart to Dest: {post.data.departLoc} to {post.data.dest}
+          </Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Departure Time: {post.data.departTime}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Flight Number: {post.data.flightNumber}
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 1, pl: 2 }}>
             Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
           </Typography>
-          <Typography variant="h6" color="text.secondary">
+          <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
             Current members:
           </Typography>
           {post.data.members !== undefined && post.data.members.map((member) => (
-            <Typography variant="h6" color="text.secondary">
-                <li>{member}</li>
-            </Typography>
-          ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleInfoClose}>Close</Button>
-        </DialogActions>
+         <Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.4, pl: 2 }}>
+         <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
+           <Icon>
+             <PersonIcon />
+           </Icon>
+         </ListItemIcon>
+         {member}
+       </Typography>
+      ))}
+    </DialogContent>
+
+
+    <DialogActions
+      sx={{
+        justifyContent: 'flex-end',
+        mb: 2,
+        pr: 3, 
+      }}
+    >
+      <Button onClick={handleInfoClose}>Close</Button>
+    </DialogActions>
         </Dialog>
       ))}
     </div>
