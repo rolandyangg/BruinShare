@@ -55,6 +55,8 @@ export default function SignUp({profile}) {
           }
           //add user into firebase
           api.createUser(data);
+          alert("Successfully created account: " + username);
+          router.push('/login')
         });
         e.target.reset();
       }
