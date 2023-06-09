@@ -308,7 +308,7 @@ export default function CustomizedDialogs({ profile }) {
           <Grid className={styles.create_button} item xs={1.71}>
             <Button   
               style={{
-                color: 'white', // Change the text color
+                color: 'white',
                 height: 55
               }}
               onClick={handleClickOpen} fullWidth variant="contained" size="large" startIcon={<AddIcon />} >Create Post</Button>
@@ -394,7 +394,7 @@ export default function CustomizedDialogs({ profile }) {
           </Grid>
           <Grid item xs={1.71}>
             <Button style={{
-                color: 'white', // Change the text color
+                color: 'white',
                 height: 55
               }}
               fullWidth type="submit" variant="contained" size="large" startIcon={<SearchIcon />}>Search</Button>
