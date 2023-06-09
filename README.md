@@ -20,25 +20,14 @@ cd BruinShare
 npm install --save
 ```
 
-### Built With
+## Built With
 
 This app was created using the following technologies:
 * [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
 * [![Node][Node.js]][Node-url]
 
-### Main Features
-#### Landing Page
-<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/bc1815ab-e238-4873-885b-e5febb4c8c18">
-#### Main Rideshare Postings Bulletin Page
-<img width="1440" alt="Screen Shot 2023-06-09 at 11 02 43 AM" src="https://github.com/rolandyangg/BruinShare/assets/64048278/afcee13a-23c3-4bf2-9614-0c6ce247dc33">
-### MyRides Page to see groups you joined and created
-<img width="1440" alt="Screen Shot 2023-06-09 at 11 03 13 AM" src="https://github.com/rolandyangg/BruinShare/assets/64048278/1704464c-ae54-4f7f-aacc-17b427a91f1e">
-### Log In and Sign Up Functionality
-<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/b006aa44-1924-433b-9da7-020873181491">
-<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/2e45d312-4a4f-4725-a99d-ef4d0262bb1d">
-
-## Running the Web App
+Running the Web App
 To start up the client-side view, run the following commands in the project directory BruinShare:
 
 ```
@@ -55,7 +44,7 @@ cd backend
 npm start
 ```
 
-### Setting Up Firebase
+## Setting Up Firebase
 
 To connect to the Firebase backend, create an env.js file in the root of the backend directory and fill it with the appropriate environment variables. These can be found in the Firebase console for the BruinShare Firebase app.
 
@@ -68,3 +57,14 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=xxxxx
 REACT_APP_FIREBASE_APP_ID=xxxxx
 REACT_APP_FIREBASE_MEASUREMENT_ID=xxxxx
 ```
+
+## Main Features
+* Landing Page
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/bc1815ab-e238-4873-885b-e5febb4c8c18">
+* Main Rideshare Postings Bulletin Page
+<img width="1440" alt="Screen Shot 2023-06-09 at 11 02 43 AM" src="https://github.com/rolandyangg/BruinShare/assets/64048278/afcee13a-23c3-4bf2-9614-0c6ce247dc33">
+* MyRides Page to see groups you joined and created
+<img width="1440" alt="Screen Shot 2023-06-09 at 11 03 13 AM" src="https://github.com/rolandyangg/BruinShare/assets/64048278/1704464c-ae54-4f7f-aacc-17b427a91f1e">
+* Log In and Sign Up Functionality
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/b006aa44-1924-433b-9da7-020873181491">
+<img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/2e45d312-4a4f-4725-a99d-ef4d0262bb1d">
