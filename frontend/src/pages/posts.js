@@ -59,12 +59,38 @@ export default function CustomizedDialogs({ profile }) {
   const [open, setOpen] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(null);
   const [posts, setPosts] = useState([]);
+  const [profilePictures, setProfilePictures] = useState({});
 
 
  useEffect(() => {
    api.getPosts().then((response) => {
-     if(response !== null)
-       setPosts(response.data);
+     if (response !== null) {
+      // Set the posts
+      setPosts(response.data);
+
+      // Collect all the usernames mentioned in all the posts
+      let usernames = [];
+      for (let post of posts) {
+        post = post.data;
+        if (!usernames.includes(post.userName.username))
+          usernames.push(post.userName.username);
+        for (let member of post.members) {
+          if (!usernames.includes(member))
+            usernames.push(member);
+        }
+      }
+
+      // Create a dictionary of all the relevant user images to render them
+      // (We do this because it is more space efficient and reduces amount of API calls made)
+      let newProfilePics = {};
+      userApi.getUsers().then((userRes) => {
+        for (let user of userRes.data) {
+          if (usernames.includes(user.data.username))
+            newProfilePics[user.data.username] = user.data.profilePicture;
+        }
+        setProfilePictures(newProfilePics);
+      })
+     }
    });
  }, []);
 
@@ -536,14 +562,11 @@ export default function CustomizedDialogs({ profile }) {
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
                         {post.data.userName.username !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src={profilePictures[post.data.userName.username]}/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src={profilePictures[member]} />
                         ))}
-                        {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
                       </AvatarGroup>
                       </Grid>
                       
@@ -633,14 +656,15 @@ export default function CustomizedDialogs({ profile }) {
           </Typography>
           {post.data.members !== undefined && post.data.members.length > 0 ? (
   post.data.members.map((member) => (
-    <Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
-      <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
-        <Icon>
-          <PersonIcon />
-        </Icon>
-      </ListItemIcon>
-      {member}
-    </Typography>
+    <Typography display="flex" variant="h6" alignItems='center' color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
+        <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
+          {/* <Icon>
+            <PersonIcon />
+          </Icon> */}
+          <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={member} src={profilePictures[member]} />
+        </ListItemIcon>
+        {member}
+      </Typography>
   ))
 ) : (
   <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
