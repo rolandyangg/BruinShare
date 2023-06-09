@@ -639,7 +639,7 @@ export default function CustomizedDialogs({ profile }) {
           </Typography>
 
           <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2}}>
-           Travel Info:
+           Travel Information:
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Depart to Dest: {post.data.departLoc} to {post.data.dest}
