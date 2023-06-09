@@ -600,16 +600,16 @@ export default function CustomizedDialogs({ profile }) {
           Trip Details
         </DialogTitle>
         <DialogContent>
-        <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px"}}>
-           Creator Inforamtion:
+        <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
+           Creator Informtion:
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Group Creator: {post.data.userName.username}
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
-            Creator Phone #: {post.data.userName.phone}
-          </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ mb: 1, pl: 2 }}>
+          Creator Phone #: {post.data.userName.phone ? post.data.userName.phone : 'Phone number not provided'}
+        </Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
             Creator Email: {post.data.userName.email}
           </Typography>
 
@@ -625,22 +625,29 @@ export default function CustomizedDialogs({ profile }) {
           <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Flight Number: {post.data.flightNumber}
           </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ mb: 1, pl: 2 }}>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
             Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
           </Typography>
           <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
             Current members:
           </Typography>
-          {post.data.members !== undefined && post.data.members.map((member) => (
-         <Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.4, pl: 2 }}>
-         <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
-           <Icon>
-             <PersonIcon />
-           </Icon>
-         </ListItemIcon>
-         {member}
-       </Typography>
-      ))}
+          {post.data.members !== undefined && post.data.members.length > 0 ? (
+  post.data.members.map((member) => (
+    <Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
+      <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
+        <Icon>
+          <PersonIcon />
+        </Icon>
+      </ListItemIcon>
+      {member}
+    </Typography>
+  ))
+) : (
+  <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+    No members currently.
+  </Typography>
+)}
+
     </DialogContent>
 
 
@@ -658,8 +665,3 @@ export default function CustomizedDialogs({ profile }) {
     </div>
   );
 }
-
-
-
-
-
