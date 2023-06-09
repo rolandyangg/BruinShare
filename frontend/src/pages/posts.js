@@ -579,7 +579,7 @@ export default function CustomizedDialogs({ profile }) {
                         Departure Time: {post.data.departTime} 
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more members.
+                        Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more!
                       </Typography>
                       
                     </CardContent>
@@ -626,7 +626,7 @@ export default function CustomizedDialogs({ profile }) {
         </DialogTitle>
         <DialogContent>
         <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
-           Creator Informtion:
+           Creator Information:
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
             Group Creator: {post.data.userName.username}
@@ -651,7 +651,7 @@ export default function CustomizedDialogs({ profile }) {
             Flight Number: {post.data.flightNumber}
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
-            Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
+            Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more!
           </Typography>
           <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
             Current members:
