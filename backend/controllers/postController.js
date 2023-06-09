@@ -104,6 +104,7 @@ const updatePost = async (req, res) => {
       timeObject: req.body.timeObject,
       flightTime: req.body.flightTime,
       flightNumber: req.body.flightNumber,
+      groupSize: req.body.groupSize,
       }).then(() => {
           res.status(202).json({});  
       });

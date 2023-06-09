@@ -85,7 +85,7 @@ export default function MyRides({ profile }) {
     });
   };
   
- const handleUpdatePost = (e, postID) => {
+ const handleUpdatePost = async (e, postID) => {
     e.preventDefault();
      //define our form
 
@@ -127,16 +127,16 @@ export default function MyRides({ profile }) {
     // api.updatePost(updatedPost);
 
     // Call a function or API to save the post to the database
-    const id = api.updatePost(updatedPost);
+    const id = await api.updatePost(updatedPost);
 
     const updatedPost2 = {};
     updatedPost2.id = id;
     updatedPost2.data = updatedPost;    
 
-    api.getUserPosts(username).then((newposts) => {
+    getPosts();
      // Reset the form after saving the post
-     setPosts(newposts.posts);
-     getPosts();
+    //  setPosts(newposts.posts);
+    //  getPosts();
      userName = {};
      creator = '';
      formData.departLoc = '';
@@ -147,8 +147,7 @@ export default function MyRides({ profile }) {
      formData.flightNumber = '';
      //formData.flightDest = '';
      formData.groupSize = 0;
-   })
-   handleClose();
+     handleClose();
 
   };
 
@@ -274,7 +273,7 @@ export default function MyRides({ profile }) {
                       </Typography>
                       {post.data.members === undefined || (post.data.members).length !== post.data.groupSize ? (
                         <Typography variant="body2" color="text.secondary">
-                          Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
+                          Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more members.
                         </Typography>
                       ) : (
                         <Typography variant="body2" color="text.secondary">
@@ -395,7 +394,7 @@ export default function MyRides({ profile }) {
           Flight Number: {post.data.flightNumber}
         </Typography>
         <Typography variant="h6" color="text.secondary">
-          Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
+          Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length } more!
         </Typography>
         <Typography variant="h6" color="text.secondary">
           Current members:
@@ -435,7 +434,7 @@ export default function MyRides({ profile }) {
             Flight Number: {post.data.flightNumber}
           </Typography>
           <Typography variant="h6" color="text.secondary">
-            Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
+            Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
           </Typography>
           <Typography variant="h6" color="text.secondary">
             Current members:
