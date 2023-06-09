@@ -305,7 +305,6 @@ export default function CustomizedDialogs({ profile }) {
           <Grid className={styles.create_button} item xs={1.71}>
             <Button   
               style={{
-                backgroundColor: '#4399e6', // Change the background color
                 color: 'white', // Change the text color
                 height: 55
               }}
@@ -392,7 +391,6 @@ export default function CustomizedDialogs({ profile }) {
           </Grid>
           <Grid item xs={1.71}>
             <Button style={{
-                backgroundColor: '#4399e6', // Change the background color
                 color: 'white', // Change the text color
                 height: 55
               }}
