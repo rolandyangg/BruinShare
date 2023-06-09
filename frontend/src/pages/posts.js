@@ -72,11 +72,14 @@ export default function CustomizedDialogs({ profile }) {
       let usernames = [];
       for (let post of response.data) {
         post = post.data;
-        if (!usernames.includes(post.userName.username))
+        if (!usernames.includes(post.userName.username)){
           usernames.push(post.userName.username);
-        for (let member of post.members) {
-          if (!usernames.includes(member))
-            usernames.push(member);
+          if (Array.isArray(post.members)) {
+            for (let member of post.members) {
+              if (!usernames.includes(member))
+                usernames.push(member);
+            }
+          }
         }
       }
 
@@ -625,12 +628,15 @@ export default function CustomizedDialogs({ profile }) {
           Trip Details
         </DialogTitle>
         <DialogContent>
-        <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
-           Creator Informtion:
+        <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
+            Creator Information:
           </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
-            Group Creator: {post.data.userName.username}
-          </Typography>
+          <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem', paddingLeft: '15px' }}>
+            <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={profilePictures[post.data.userName.username]} src={profilePictures[post.data.userName.username]} />
+            <Typography display="flex" variant="h6" alignItems='center' color="text.secondary" key={post.data.userName.username} sx={{ mb: 0.6, pl: 2 }}>
+            {post.data.userName.username}
+            </Typography>
+          </ListItemIcon>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
           Creator Phone #: {post.data.userName.phone ? post.data.userName.phone : 'Phone number not provided'}
         </Typography>

@@ -46,6 +46,7 @@ export default function MyRides({ profile }) {
   const username = profile.username;
   const [open, setOpen] = React.useState(false);
   const [openInfo, setOpenInfo] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
   const [posts, setPosts] = useState([]);
   const [joined, setJoined] = useState([]);
   const [profilePictures, setProfilePictures] = useState({});
@@ -197,22 +198,9 @@ export default function MyRides({ profile }) {
                 // console.log(response);
                 const {posts, joined} = response;
                 // console.log(posts);
+                setAllPosts(posts.concat(joined));
                 setPosts(posts);
                 setJoined(joined);
-
-                // Collect all the usernames mentioned in all the posts for getProfilePictures
-                let usernames = [];
-                for (let post of posts) { // Little buggy... check out later...
-                  post = post.data;
-                  if (!usernames.includes(post.userName.username))
-                    usernames.push(post.userName.username);
-                  for (let member of post.members) {
-                    if (!usernames.includes(member))
-                      usernames.push(member);
-                  }
-                }
-                console.log(usernames);
-                getProfilePictures(usernames); // lmao why does every file do everything so differently, imma just try to stick the convention for each file
             }
         });
     }
@@ -239,6 +227,24 @@ export default function MyRides({ profile }) {
         getPosts();
       }, []);
     
+
+      useEffect(() => {
+        // When allPosts array updates, collect usernames and fetch profile pictures
+        let usernames = [];
+        for (let post of allPosts) {
+          post = post.data;
+          if (!usernames.includes(post.userName.username))
+            usernames.push(post.userName.username);
+          if (Array.isArray(post.members)) {
+            for (let member of post.members) {
+              if (!usernames.includes(member))
+                usernames.push(member);
+            }
+          }
+        }
+        // console.log("SKDLFJSK")
+        getProfilePictures(usernames);
+      }, [allPosts]); // Watch for changes in the allPosts array
 
     //when user clicks leave group button
     const leaveGroup = (postID) => {
@@ -526,6 +532,12 @@ No members currently.
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
         Group Creator: {post.data.userName.username}
       </Typography>
+      <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem', paddingLeft: '15px' }}>
+        <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={profilePictures[post.data.userName.username]} src={profilePictures[post.data.userName.username]} />
+        <Typography display="flex" variant="h6" alignItems='center' color="text.secondary" key={post.data.userName.username} sx={{ mb: 0.6, pl: 2 }}>
+        {post.data.userName.username}
+        </Typography>
+      </ListItemIcon>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
       Creator Phone #: {post.data.userName.phone ? post.data.userName.phone : 'Phone number not provided'}
     </Typography>
