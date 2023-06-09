@@ -629,7 +629,7 @@ export default function CustomizedDialogs({ profile }) {
         </DialogTitle>
         <DialogContent>
         <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
-            Creator Informaation:
+            Creator Information:
           </Typography>
           <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem', paddingLeft: '15px' }}>
             <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={profilePictures[post.data.userName.username]} src={profilePictures[post.data.userName.username]} />
