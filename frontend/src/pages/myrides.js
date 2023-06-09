@@ -16,6 +16,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Divider,
   InputLabel,
   Card,
   CardContent,
@@ -233,8 +234,7 @@ export default function MyRides({ profile }) {
     const handleCancelDelete = () => {
       setOpen2(false);
     };
-  
-    
+
     return (
         <div>
         <Box p={4}>
@@ -329,7 +329,8 @@ export default function MyRides({ profile }) {
 
      {/* defining the dialog */}
      
-  
+     <Divider/>
+
             <h1 className={styles.myrides_heading} style={{ textAlign: 'left' }}>Joined Groups</h1>
             <Box m={2}>
             <Grid container spacing={4} mt={2} pb={5}>
@@ -483,40 +484,77 @@ No members currently.
       <>
         {/* the post details popup */}
         <Dialog
-          open={openInfo === post.id}
-          onClose={handleInfoClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-        <DialogTitle id="alert-dialog-title">
-          {post.data.creator}'s Trip Details
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="h6" color="text.secondary">
-            {post.data.departLoc} To {post.data.dest}
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Departure Time: {post.data.departTime}
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Flight Number: {post.data.flightNumber}
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Current members:
-          </Typography>
-          {post.data.members !== undefined && post.data.members.map((member) => (
-            <Typography variant="h6" color="text.secondary">
-                <li>{member}</li>
-            </Typography>
-          ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleInfoClose}>Close</Button>
-        </DialogActions>
-        </Dialog>
+      open={openInfo === post.id}
+      onClose={handleInfoClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      PaperProps={{ style: { width: '80vw', height: '80vh', borderRadius: '10px', } }}      key={post.id}
+    >
+    <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.3rem', paddingTop: '28px' }}>
+      Trip Details
+    </DialogTitle>
+    <DialogContent>
+    <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
+       Creator Informtion:
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Group Creator: {post.data.userName.username}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+      Creator Phone #: {post.data.userName.phone ? post.data.userName.phone : 'Phone number not provided'}
+    </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
+        Creator Email: {post.data.userName.email}
+      </Typography>
+
+      <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2}}>
+       Travel Info:
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Depart to Dest: {post.data.departLoc} to {post.data.dest}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Departure Time: {post.data.departTime}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Flight Number: {post.data.flightNumber}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
+        Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
+      </Typography>
+      <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
+        Current members:
+      </Typography>
+      {post.data.members !== undefined && post.data.members.length > 0 ? (
+post.data.members.map((member) => (
+<Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
+  <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
+    <Icon>
+      <PersonIcon />
+    </Icon>
+  </ListItemIcon>
+  {member}
+</Typography>
+))
+) : (
+<Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+No members currently.
+</Typography>
+)}
+
+</DialogContent>
+
+
+<DialogActions
+  sx={{
+    justifyContent: 'flex-end',
+    mb: 2,
+    pr: 3, 
+  }}
+>
+  <Button onClick={handleInfoClose}>Close</Button>
+</DialogActions>
+    </Dialog>
 
       {/* the edit form popup */}
       <Dialog open={open} onClose={handleClose} maxWidth="md">
