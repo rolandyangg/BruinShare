@@ -11,7 +11,8 @@ This is the Github repository for the web app BruinShare, created for the class 
 
 ## About the Project
 
-BruinShare is a web app designed to streamline the process of ridesharing for UCLA students.
+BruinShare is a web app designed to streamline the process of ridesharing for UCLA students. [Presentation Slides](https://docs.google.com/presentation/d/1fMz-C_A9c9Lis-F9RDV-bSLyxL38-4UVSQzA2nmzmV8/edit?usp=sharing)
+
 Run the following commands in terminal in the directory you wish to clone this repository:
 
 ```
@@ -59,12 +60,12 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=xxxxx
 ```
 
 ## Main Features
-### Landing Page
+Landing Page
 <img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/bc1815ab-e238-4873-885b-e5febb4c8c18">
-### Main Rideshare Postings Bulletin Page
+Main Rideshare Postings Bulletin Page
 <img width="1440" alt="Screen Shot 2023-06-09 at 11 02 43 AM" src="https://github.com/rolandyangg/BruinShare/assets/64048278/afcee13a-23c3-4bf2-9614-0c6ce247dc33">
-### MyRides Page to see groups you joined and created
+MyRides Page to see groups you joined and created
 <img width="1440" alt="Screen Shot 2023-06-09 at 11 03 13 AM" src="https://github.com/rolandyangg/BruinShare/assets/64048278/1704464c-ae54-4f7f-aacc-17b427a91f1e">
-### Log In and Sign Up Functionality
+Log In and Sign Up Functionality
 <img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/b006aa44-1924-433b-9da7-020873181491">
 <img width="700" alt="image" src="https://github.com/rolandyangg/BruinShare/assets/42717361/2e45d312-4a4f-4725-a99d-ef4d0262bb1d">
