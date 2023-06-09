@@ -11,6 +11,8 @@ import {
   DialogActions,
   Grid,
   FormControl,
+  ListItemIcon, 
+  Icon,
   MenuItem,
   Select,
   TextField,
@@ -34,6 +36,9 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
 
 import LocationAutocomplete from '../components/LocationAutocomplete.js'
+
+import AddIcon from '@mui/icons-material/Add';
+import PersonIcon from '@mui/icons-material/Person';
 
 export default function MyRides({ profile }) {
   const username = profile.username;
@@ -213,6 +218,22 @@ export default function MyRides({ profile }) {
             getPosts();
         })
     }
+
+    const [open2, setOpen2] = useState(false);
+
+    const handleDeleteClick = () => {
+      setOpen2(true);
+    };
+  
+    const handleConfirmDelete = (postID) => {
+      setOpen2(false);
+      deletePost(postID);
+    };
+
+    const handleCancelDelete = () => {
+      setOpen2(false);
+    };
+  
     
     return (
         <div>
@@ -286,10 +307,20 @@ export default function MyRides({ profile }) {
                   <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: '6px' }}>
                       <Button size="small" onClick={() => { handleInfoClickOpen(post.id) }}>Details</Button>
-                      <Button size="small" onClick={() => { deletePost(post.id) }}>Delete</Button>
+                      <Button size="small" onClick={handleDeleteClick}>Delete</Button>
                       <Button size="small" onClick={() => { editPost(post.id) }}>Edit</Button>
                     </div>
                   </CardActions>
+                  <Dialog open={open2} onClose={handleCancelDelete}>
+                  <DialogTitle>Warning</DialogTitle>
+                  <DialogContent>
+                    <p>Are you sure you want to delete this post?</p>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCancelDelete}>Cancel</Button>
+                    <Button onClick={() => { handleConfirmDelete(post.id) }}>Delete</Button>
+                  </DialogActions>
+                </Dialog>
                 </Card>
               </Grid>
             ))}
@@ -375,40 +406,77 @@ export default function MyRides({ profile }) {
 
       {joined.map((post) => (
       <Dialog
-        open={openInfo === post.id}
-        onClose={handleInfoClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-      <DialogTitle id="alert-dialog-title">
-        {post.data.creator}'s Trip Details
-      </DialogTitle>
-      <DialogContent>
-        <Typography variant="h6" color="text.secondary">
-          {post.data.departLoc} To {post.data.dest}
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Departure Time: {post.data.departTime}
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Flight Number: {post.data.flightNumber}
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length } more!
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Current members:
-        </Typography>
-        {post.data.members !== undefined && post.data.members.map((member) => (
-          <Typography variant="h6" color="text.secondary">
-              <li>{member}</li>
-          </Typography>
-        ))}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleInfoClose}>Close</Button>
-      </DialogActions>
-      </Dialog>
+      open={openInfo === post.id}
+      onClose={handleInfoClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      PaperProps={{ style: { width: '80vw', height: '80vh', borderRadius: '10px', } }}      key={post.id}
+    >
+    <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center', fontSize: '2.3rem', paddingTop: '28px' }}>
+      Trip Details
+    </DialogTitle>
+    <DialogContent>
+    <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
+       Creator Informtion:
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Group Creator: {post.data.userName.username}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+      Creator Phone #: {post.data.userName.phone ? post.data.userName.phone : 'Phone number not provided'}
+    </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
+        Creator Email: {post.data.userName.email}
+      </Typography>
+
+      <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2}}>
+       Travel Info:
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Depart to Dest: {post.data.departLoc} to {post.data.dest}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Departure Time: {post.data.departTime}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+        Flight Number: {post.data.flightNumber}
+      </Typography>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
+        Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
+      </Typography>
+      <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
+        Current members:
+      </Typography>
+      {post.data.members !== undefined && post.data.members.length > 0 ? (
+post.data.members.map((member) => (
+<Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
+  <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
+    <Icon>
+      <PersonIcon />
+    </Icon>
+  </ListItemIcon>
+  {member}
+</Typography>
+))
+) : (
+<Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
+No members currently.
+</Typography>
+)}
+
+</DialogContent>
+
+
+<DialogActions
+  sx={{
+    justifyContent: 'flex-end',
+    mb: 2,
+    pr: 3, 
+  }}
+>
+  <Button onClick={handleInfoClose}>Close</Button>
+</DialogActions>
+    </Dialog>
       ))}
 
       {posts.map((post) => (
