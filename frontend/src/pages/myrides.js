@@ -457,6 +457,12 @@ export default function MyRides({ profile }) {
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
         Group Creator: {post.data.userName.username}
       </Typography>
+      <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem', paddingLeft: '15px' }}>
+        <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={profilePictures[post.data.userName.username]} src={profilePictures[post.data.userName.username]} />
+        <Typography display="flex" variant="h6" alignItems='center' color="text.secondary" key={post.data.userName.username} sx={{ mb: 0.6, pl: 2 }}>
+        {post.data.userName.username}
+        </Typography>
+      </ListItemIcon>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
       Creator Phone #: {post.data.userName.phone ? post.data.userName.phone : 'Phone number not provided'}
     </Typography>
