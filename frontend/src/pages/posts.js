@@ -626,7 +626,7 @@ export default function CustomizedDialogs({ profile }) {
             Flight Number: {post.data.flightNumber}
           </Typography>
           <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
-            Group Size: {post.data.members === undefined ? 2 : post.data.groupSize}, looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more!
+            Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
           </Typography>
           <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
             Current members:
