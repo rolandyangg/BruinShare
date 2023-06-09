@@ -97,27 +97,47 @@ export default function Profile({ profile }) {
       {/* new page: */}
       <div>
         <Box m={2} mt={10}>
-          <Grid container columnSpacing={3} textAlign="center">
-            <Grid container item md={6} direction="column" alignItems="center" justifyContent="center">
+          <Grid container columnSpacing={3} textAlign="center" >
+            <Grid container item md={6} direction="column" alignItems="center" justifyContent="center" style={{paddingTop: "1.5vh"}}>
               {isEditing ? (
                 <div>
                   <Grid container direction="row">
-                    <Grid item xs={12}>
-                      {/* <MuiFileInput value={image} onChange={handleImageChange} /> */}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className={styles.edit_profile_file_input}
-                      />
-                    </Grid>
+                  <div
+                    style={{
+                      width: '380px',
+                      height: '380px',
+                      borderRadius: '50%',
+                      backgroundColor: '#dedede',
+                      border: '1px solid grey',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: "11vw",
+                    }}
+                  >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className={styles.edit_profile_file_input}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'left',
+                      paddingTop:"9vw",
+                      paddingLeft:"5vw",
+                      alignItems: 'left',
+                      border: 'none', // Remove the border
+                      background: 'none', // or background: 'transparent'
+                    }}
+                  />
+                </div>
                     <Grid item xs={12}>
                       <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname} {profile.lastname}</Typography>
-                      <Typography variant="subtitle1" gutterBottom textAlign="center">{profile.username}</Typography>
+                      <Typography variant="h6">{`Username: ${editedProfile.username}`}</Typography>
                     </Grid>
-                    <Grid item xs={12} mt={2} alignItems="center" justifyContent="center">
+                    <Grid item xs={12} mt={2} alignItems="center" justifyContent="center" >
                       <TextField
-                        label="Description"
+                        label="Bio"
                         name="description"
                         value={editedProfile.description}
                         onChange={handleInputChange}
@@ -133,21 +153,23 @@ export default function Profile({ profile }) {
                 <div>
                   <Grid container direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12}>
-                      <Avatar
-                        src={editedProfile.profilePicture}
-                        alt={editedProfile.firstname}
-                        sx={{
-                          width: '300px',
-                          height: '300px',
-                          fontSize: "6.0rem",
-                        }}
-                        priority
-                      />
+                    <Avatar
+  src={editedProfile.profilePicture}
+  alt={editedProfile.firstname}
+  sx={{
+    width: '380px',
+    height: '380px',
+    borderRadius: '50%',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.15)', // Add the boxShadow property
+    fontSize: '6.0rem',
+  }}
+  priority
+/>
                     </Grid>
                     <Grid item xs={12}>
                       <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname} {profile.lastname}</Typography>
-                      <Typography variant="subtitle1" gutterBottom textAlign="center" mb={3}>{profile.username}</Typography>
-                      <Box sx={{width: "400px"}}>
+                      <Typography variant="h6">{`Username: ${editedProfile.username}`}</Typography>
+                      <Box sx={{width: "400px"}} style={{paddingTop: "10px"}}>
                         <Typography variant="body" gutterBottom textAlign="center">{editedProfile.description}</Typography>
                       </Box>
                     </Grid>
@@ -155,11 +177,11 @@ export default function Profile({ profile }) {
                 </div>
               )}
             </Grid>
-            <Grid container sx={{textAlign: "left"}} item md={6} direction="column">
+            <Grid container sx={{textAlign: "left"}} item md={6} direction="column" style={{paddingTop: "8vh", paddingLeft: "3vw"}}>
               <Grid item m={2}>
                 {isEditing ? (
                   <TextField
-                    fullWidth
+                    style={{ width: "35vw" }}
                     id="outlined-start-adornment"
                     label="Email"
                     name="email"
@@ -167,12 +189,19 @@ export default function Profile({ profile }) {
                     InputProps={{
                       startAdornment: <InputAdornment position="start"><EmailIcon /></InputAdornment>,
                     }}
-                    onChange={handleInputChange}
                   />
                 ) : (
                   <div>
-                    <Typography variant="h6">Email</Typography>
-                    <Typography variant="body">{editedProfile.email}</Typography>
+                    <TextField
+                      id="outlined-start-adornment"
+                      label="Email"
+                      name="email"
+                      value={editedProfile.email}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"><EmailIcon /></InputAdornment>,
+                        style: { color: "black", borderColor: "black", pointerEvents: "none", width: "35vw" }
+                      }}
+                    />
                   </div>
                 )}
               </Grid>
@@ -180,7 +209,7 @@ export default function Profile({ profile }) {
               <Grid item m={2}>
                 {isEditing ? (
                   <TextField
-                    fullWidth
+                  style={{ width: "35vw" }}
                     id="outlined-start-adornment"
                     label="Phone"
                     name="phone"
@@ -192,8 +221,17 @@ export default function Profile({ profile }) {
                   />
                 ) : (
                   <div>
-                    <Typography variant="h6">Phone</Typography>
-                    <Typography variant="body">{editedProfile.phone}</Typography>
+                    <TextField
+                    style={{ width: "35vw" }}
+                      id="outlined-start-adornment"
+                      label="Phone"
+                      name="phone"
+                      value={editedProfile.phone}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"><LocalPhoneIcon /></InputAdornment>,
+                        style: { color: "black", borderColor: "black", pointerEvents: "none" },
+                      }}
+                    />
                   </div>
                 )}
               </Grid>
@@ -201,7 +239,7 @@ export default function Profile({ profile }) {
               <Grid item m={2}>
                 {isEditing ? (
                   <TextField
-                    fullWidth
+                    style={{ width: "35vw" }}
                     id="outlined-start-adornment"
                     label="Location"
                     name="location"
@@ -213,16 +251,25 @@ export default function Profile({ profile }) {
                   />
                 ) : (
                   <div>
-                    <Typography variant="h6">Location</Typography>
-                    <Typography variant="body">{editedProfile.location}</Typography>
+                    <TextField
+                    style={{ width: "35vw" }}
+                    id="outlined-start-adornment"
+                    label="Location"
+                    name="location"
+                    value={editedProfile.location}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"><LocationOnIcon /></InputAdornment>,
+                      style: { color: "black", borderColor: "black", pointerEvents: "none" },
+                    }}
+                    />
                   </div>
                 )}
               </Grid>
 
-              <Grid item m={2}>
+              <Grid item m={2} >
                 {isEditing ? (
                   <TextField
-                    fullWidth
+                    style={{ width: "35vw" }}
                     id="outlined-start-adornment"
                     label="Interests"
                     name="interests"
@@ -234,13 +281,23 @@ export default function Profile({ profile }) {
                   />
                 ) : (
                   <div>
-                    <Typography variant="h6">Interests</Typography>
-                    <Typography variant="body">{editedProfile.interests}</Typography>
+                     <TextField
+                      style={{ width: "35vw" }}
+                      id="outlined-start-adornment"
+                      label="Interests"
+                      name="interests"
+                      value={editedProfile.interests}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"><InterestsIcon /></InputAdornment>,
+                        style: { color: "black", borderColor: "black", pointerEvents: "none" },
+                      }}
+                      
+                    />
                   </div>
                 )}
               </Grid>
 
-              <Grid item m={2}>
+              <Grid item m={2} style={{ display: "flex", justifyContent: "flex-end", paddingRight: "9.6vw" }}>
                 {!isEditing ? (
                   <Button
                     type="submit"
@@ -258,17 +315,17 @@ export default function Profile({ profile }) {
                       size="large"
                       variant="contained"
                       sx={{ mt: 2, mb: 2 }}
-                      onClick={handleSaveProfile}
-                    >
-                      Save
+                      onClick={handleCancelEdit}>
+                      Cancel
                     </Button>
                     <Button
                       type="submit"
                       size="large"
                       variant="contained"
                       sx={{ mt: 2, mb: 2 }}
-                      onClick={handleCancelEdit}>
-                      Cancel
+                      onClick={handleSaveProfile}
+                    >
+                      Save
                     </Button>
                   </div>
                 )}
