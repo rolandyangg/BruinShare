@@ -27,7 +27,7 @@ This app was created using the following technologies:
 * [![React][React.js]][React-url]
 * [![Node][Node.js]][Node-url]
 
-Running the Web App
+## Running the Web App
 To start up the client-side view, run the following commands in the project directory BruinShare:
 
 ```
