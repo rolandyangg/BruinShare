@@ -132,7 +132,7 @@ export default function Profile({ profile }) {
                   />
                 </div>
                     <Grid item xs={12}>
-                      <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname} {profile.lastname}</Typography>
+                      <Typography mt={2.5} variant="h4" gutterBottom textAlign="center" style={{fontSize: '1.8rem',}}>{profile.firstname} {profile.lastname}</Typography>
                       <Typography variant="h6">{`Username: ${editedProfile.username}`}</Typography>
                     </Grid>
                     <Grid item xs={12} mt={2} alignItems="center" justifyContent="center" >
@@ -167,7 +167,7 @@ export default function Profile({ profile }) {
 />
                     </Grid>
                     <Grid item xs={12}>
-                      <Typography mt={4} variant="h5" gutterBottom textAlign="center">{profile.firstname} {profile.lastname}</Typography>
+                      <Typography mt={2.5} variant="h5" gutterBottom textAlign="center" style={{fontSize: '1.8rem',}}>{profile.firstname} {profile.lastname}</Typography>
                       <Typography variant="h6">{`Username: ${editedProfile.username}`}</Typography>
                       <Box sx={{width: "400px"}} style={{paddingTop: "10px"}}>
                         <Typography variant="body" gutterBottom textAlign="center">{editedProfile.description}</Typography>
