@@ -331,7 +331,7 @@ export default function MyRides({ profile }) {
                       </Typography>
                       {post.data.members === undefined || (post.data.members).length !== post.data.groupSize ? (
                         <Typography variant="body2" color="text.secondary">
-                          Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more members.
+                          Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more.
                         </Typography>
                       ) : (
                         <Typography variant="body2" color="text.secondary">
@@ -420,7 +420,7 @@ export default function MyRides({ profile }) {
                         Departure Time: {post.data.departTime} on {post.data.departDate}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Looking for {post.data.members === undefined ? 2 : post.data.groupSize - post.data.members.length} more members.
+                        Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more!
                       </Typography>
                     </CardContent>
                   </CardActionArea>
@@ -452,7 +452,7 @@ export default function MyRides({ profile }) {
     </DialogTitle>
     <DialogContent>
     <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
-       Creator Informtion:
+       Creator Information:
       </Typography>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
         Group Creator: {post.data.userName.username}
@@ -465,7 +465,7 @@ export default function MyRides({ profile }) {
       </Typography>
 
       <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2}}>
-       Travel Info:
+       Travel Information:
       </Typography>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
         Depart to Dest: {post.data.departLoc} to {post.data.dest}
@@ -477,7 +477,7 @@ export default function MyRides({ profile }) {
         Flight Number: {post.data.flightNumber}
       </Typography>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
-        Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
+        Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more!
       </Typography>
       <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
         Current members:
@@ -527,7 +527,7 @@ No members currently.
     </DialogTitle>
     <DialogContent>
     <Typography variant="h5" color="text.primary" sx={{ pl: 2, marginTop: "0px", mb: 0.6}}>
-       Creator Informtion:
+       Creator Information:
       </Typography>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 0.6, pl: 2 }}>
         Group Creator: {post.data.userName.username}
@@ -558,7 +558,7 @@ No members currently.
         Flight Number: {post.data.flightNumber}
       </Typography>
       <Typography variant="h6" color="text.secondary" sx={{ mb: 1.2, pl: 2 }}>
-        Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length} more!
+        Group Size: {post.data.groupSize}, looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more!
       </Typography>
       <Typography variant="h5" color="text.primary" sx={{ mb: 0.6, pl: 2 }}>
         Current members:
