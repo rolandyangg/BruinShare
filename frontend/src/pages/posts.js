@@ -70,7 +70,7 @@ export default function CustomizedDialogs({ profile }) {
 
       // Collect all the usernames mentioned in all the posts
       let usernames = [];
-      for (let post of posts) {
+      for (let post of response.data) {
         post = post.data;
         if (!usernames.includes(post.userName.username))
           usernames.push(post.userName.username);
@@ -79,6 +79,8 @@ export default function CustomizedDialogs({ profile }) {
             usernames.push(member);
         }
       }
+
+      console.log(usernames);
 
       // Create a dictionary of all the relevant user images to render them
       // (We do this because it is more space efficient and reduces amount of API calls made)

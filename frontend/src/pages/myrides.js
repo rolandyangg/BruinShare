@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as api from "../pages/api/posts.js";
+import * as userApi from "./api/api.js";
 import styles from '@/styles/post.module.css';
 import {
   Box,
@@ -47,6 +48,7 @@ export default function MyRides({ profile }) {
   const [openInfo, setOpenInfo] = useState(null);
   const [posts, setPosts] = useState([]);
   const [joined, setJoined] = useState([]);
+  const [profilePictures, setProfilePictures] = useState({});
   // const [selectedPost, setSelectedPost] = useState(null);
 
     //open dialog
@@ -192,12 +194,44 @@ export default function MyRides({ profile }) {
     const getPosts = () => {
         api.getUserPosts(username).then((response) => {
             if(response){
-                console.log(response);
+                // console.log(response);
                 const {posts, joined} = response;
+                // console.log(posts);
                 setPosts(posts);
                 setJoined(joined);
+
+                // Collect all the usernames mentioned in all the posts for getProfilePictures
+                let usernames = [];
+                for (let post of posts) { // Little buggy... check out later...
+                  post = post.data;
+                  if (!usernames.includes(post.userName.username))
+                    usernames.push(post.userName.username);
+                  for (let member of post.members) {
+                    if (!usernames.includes(member))
+                      usernames.push(member);
+                  }
+                }
+                console.log(usernames);
+                getProfilePictures(usernames); // lmao why does every file do everything so differently, imma just try to stick the convention for each file
             }
         });
+    }
+
+    const getProfilePictures = (usernames) => {
+      userApi.getUsers().then((response) => {
+        if (response) {
+          // Create a dictionary of all the relevant user images to render them
+          // (We do this because it is more space efficient and reduces amount of API calls made)
+          let newProfilePics = {};
+          userApi.getUsers().then((userRes) => {
+            for (let user of userRes.data) {
+              if (usernames.includes(user.data.username))
+                newProfilePics[user.data.username] = user.data.profilePicture;
+            }
+            setProfilePictures(newProfilePics);
+          })
+        }
+      });
     }
 
     //get posts upon first render
@@ -273,14 +307,11 @@ export default function MyRides({ profile }) {
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
                         {post.data.userName.username !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src={profilePictures[post.data.userName.username]}/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src={profilePictures[member]}/>
                         ))}
-                        {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
                       </AvatarGroup>
                       </Grid>
                       <Typography gutterBottom variant="h5" component="div">
@@ -366,14 +397,11 @@ export default function MyRides({ profile }) {
                       <Grid container mb={2}>
                       <AvatarGroup sx={{float: 'left'}} max={3}>
                         {post.data.userName.username !== undefined &&
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src="/static/images/avatar/2.jpg"/>
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={post.data.userName.username} src={profilePictures[post.data.userName.username]}/>
                         }
                         {post.data.members !== undefined && post.data.members.map((member) => (
-                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src="/static/images/avatar/2.jpg" />
+                          <Avatar sx={{backgroundColor: 'lightgrey'}} alt={member} src={profilePictures[member]}/>
                         ))}
-                        {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                        <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                        <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" /> */}
                       </AvatarGroup>
                       </Grid>
                       <Typography gutterBottom variant="h5" component="div">
@@ -450,11 +478,9 @@ export default function MyRides({ profile }) {
       </Typography>
       {post.data.members !== undefined && post.data.members.length > 0 ? (
 post.data.members.map((member) => (
-<Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
+<Typography display="flex" variant="h6" alignItems='center' color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
   <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
-    <Icon>
-      <PersonIcon />
-    </Icon>
+    <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={member} src={profilePictures[member]} />
   </ListItemIcon>
   {member}
 </Typography>
@@ -527,11 +553,9 @@ No members currently.
       </Typography>
       {post.data.members !== undefined && post.data.members.length > 0 ? (
 post.data.members.map((member) => (
-<Typography variant="h6" color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
+<Typography display="flex" variant="h6" alignItems='center' color="text.secondary" key={member} sx={{ mb: 0.6, pl: 2 }}>
   <ListItemIcon sx={{ minWidth: 'unset', marginRight: '0.5rem' }}>
-    <Icon>
-      <PersonIcon />
-    </Icon>
+    <Avatar sx={{width: 30, height: 30, backgroundColor: 'lightgrey'}} alt={member} src={profilePictures[member]} />
   </ListItemIcon>
   {member}
 </Typography>
