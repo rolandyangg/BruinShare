@@ -251,6 +251,7 @@ export default function CustomizedDialogs({ profile }) {
    })
   };
 
+
  // Filter form submit
  const handleFilterFormSubmit = (e) => {
    e.preventDefault();
@@ -344,7 +345,7 @@ export default function CustomizedDialogs({ profile }) {
           <Grid item xs={1.71}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker 
-                fullwidth
+                fullWidth
                 slotProps={{ textField: { fullWidth: true, error: false } }} 
                 label="Start Date Range" value={formData.departTime}  
                 onChange={(date) => handleFilterInputChange({ target: { name: 'startTimeRange', value: date } })}
@@ -355,7 +356,7 @@ export default function CustomizedDialogs({ profile }) {
           <Grid item xs={1.71}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker 
-                fullwidth
+                fullWidth
                 slotProps={{ textField: { fullWidth: true, error: false} }} 
                 label="End Date Range" value={formData.departTime}  
                 onChange={(date) => handleFilterInputChange({ target: { name: 'endTimeRange', value: date } })}
@@ -489,7 +490,7 @@ export default function CustomizedDialogs({ profile }) {
       {/* sort by and create post + display posts */}
       <Box m={4} >
         <Grid container spacing={4} mt={2} pb={5}>
-          {posts.filter(fPost => fPost.data.members === undefined || (fPost.data.members).length !== fPost.data.groupSize).map((post) => (
+          {posts.map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea onClick={() => {handleInfoClickOpen(post.id)}}>
@@ -509,11 +510,23 @@ export default function CustomizedDialogs({ profile }) {
                       >
 
                       <Grid sx={{height: '60px'}} item xs={12}>
-                        <Typography variant="h5" textAlgin="center" centercolor="text.secondary" style={{ fontSize: "1.5rem", align: "center"}}>
-                          {post.data.departLoc}
-                          {`  →  `}
-                          {post.data.dest}
-                        </Typography>
+                      {post.data.members !== undefined && (post.data.members).length === post.data.groupSize ? (
+                       <Typography variant="h5" color="text.secondary" style={{ fontSize: "1.9rem", align: "center", textAlign: "center", paddingTop: "10px"}}>
+                       FULL
+                     </Typography>
+                     
+                      )
+                      :
+                       (
+                    
+                       <Typography variant="h5" textAlgin="center" centercolor="text.secondary" style={{ fontSize: "1.5rem", align: "center"}}>
+                       {post.data.departLoc}
+                       {`  →  `}
+                       {post.data.dest}
+                     </Typography>
+
+                       ) 
+                      }
                       </Grid>
                     </Grid>
                     <CardContent>
@@ -571,7 +584,7 @@ export default function CustomizedDialogs({ profile }) {
           </Grid>
       </Box>
       
-      {posts.filter(fPost => fPost.data.members === undefined || (fPost.data.members).length !== fPost.data.groupSize).map((post) => (
+      {posts.map((post) => (
         <Dialog
           open={openInfo === post.id}
           onClose={handleInfoClose}
