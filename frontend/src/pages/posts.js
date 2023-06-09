@@ -524,7 +524,7 @@ export default function CustomizedDialogs({ profile }) {
       {/* sort by and create post + display posts */}
       <Box m={4} >
         <Grid container spacing={4} mt={2} pb={5}>
-          {posts.filter(post => post.data.members === undefined || (post.data.members).length !== post.data.groupSize).map((post) => (
+          {posts.filter(post => post.data.members === undefined || (post.data.members).length + 1 !== post.data.groupSize).map((post) => (
             <Grid item key={post.id} xs={12} sm={6} md={4} lg={3} variant="outlined">
                 <Card sx={{ maxWidth: 1000, boxShadow: 7, borderRadius:'5px' }}>
                   <CardActionArea onClick={() => {handleInfoClickOpen(post.id)}}>
@@ -542,25 +542,12 @@ export default function CustomizedDialogs({ profile }) {
                             : '#95c5ed', // blue //  '#3AE46D', green
                       }}
                       >
-
                       <Grid sx={{height: '60px'}} item xs={12}>
-                      {post.data.members !== undefined && (post.data.members).length === post.data.groupSize ? (
-                       <Typography variant="h5" color="text.secondary" style={{ fontSize: "1.9rem", align: "center", textAlign: "center", paddingTop: "10px"}}>
-                       FULL
-                     </Typography>
-                     
-                      )
-                      :
-                       (
-                    
                        <Typography variant="h5" textAlgin="center" centercolor="text.secondary" style={{ fontSize: "1.5rem", align: "center"}}>
                        {post.data.departLoc}
                        {`  →  `}
                        {post.data.dest}
                      </Typography>
-
-                       ) 
-                      }
                       </Grid>
                     </Grid>
                     <CardContent>
@@ -582,7 +569,7 @@ export default function CustomizedDialogs({ profile }) {
                         Departure Time: {post.data.departTime} 
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more!
+                        Looking for {post.data.members === undefined ? post.data.groupSize - 1 : post.data.groupSize - post.data.members.length - 1} more!
                       </Typography>
                       
                     </CardContent>
@@ -603,7 +590,7 @@ export default function CustomizedDialogs({ profile }) {
                       <Typography variant="body2" color="text.secondary">JOINED</Typography>
                     </CardActions>
                   }
-                  {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize) && post.data.userName.username !== username  && 
+                  {(post.data.members === undefined || !post.data.members.includes(username) && post.data.members.length !== post.data.groupSize - 1) && post.data.userName.username !== username  && 
                   <CardActions style={{ justifyContent: 'flex-end' }} >
                     <Button size="small" onClick={() => handleInfoClickOpen(post.id)}>Details</Button>
                     <Button size="small" styles={{ paddingRight: '10px'}} onClick={() => {joinGroup(post.id, post.data.userName.username)}}>Join</Button>
@@ -615,7 +602,7 @@ export default function CustomizedDialogs({ profile }) {
           </Grid>
       </Box>
       
-      {posts.filter(post => post.data.members === undefined || (post.data.members).length !== post.data.groupSize).map((post) => (
+      {posts.filter(post => post.data.members === undefined || (post.data.members).length !== post.data.groupSize - 1).map((post) => (
         <Dialog
           open={openInfo === post.id}
           onClose={handleInfoClose}

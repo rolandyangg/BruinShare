@@ -329,7 +329,7 @@ export default function MyRides({ profile }) {
                       <Typography variant="body2" color="text.secondary">
                         Departure Time: {post.data.departTime} on {post.data.departDate}
                       </Typography>
-                      {post.data.members === undefined || (post.data.members).length !== post.data.groupSize ? (
+                      {post.data.members === undefined || (post.data.members).length + 1 !== post.data.groupSize ? (
                         <Typography variant="body2" color="text.secondary">
                           Looking for {post.data.members === undefined ? post.data.groupSize : post.data.groupSize - post.data.members.length - 1} more.
                         </Typography>
