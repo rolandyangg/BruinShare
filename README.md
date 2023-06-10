@@ -13,14 +13,6 @@ This is the Github repository for the web app BruinShare, created for the class 
 
 BruinShare is a web app designed to streamline the process of ridesharing specifically for UCLA students. [Presentation Slides](https://docs.google.com/presentation/d/1fMz-C_A9c9Lis-F9RDV-bSLyxL38-4UVSQzA2nmzmV8/edit?usp=sharing)
 
-Run the following commands in terminal in the directory you wish to clone this repository:
-
-```
-git clone https://github.com/rolandyangg/BruinShare.git
-cd BruinShare
-npm install --save
-```
-
 ## Built With
 
 This app was created using the following technologies:
@@ -29,6 +21,14 @@ This app was created using the following technologies:
 * [![Node][Node.js]][Node-url]
 
 ## Running the Web App
+Run the following commands in terminal in the directory you wish to clone this repository:
+
+```
+git clone https://github.com/rolandyangg/BruinShare.git
+cd BruinShare
+npm install --save
+```
+
 To start up the client-side view, run the following commands in the project directory BruinShare:
 
 ```
