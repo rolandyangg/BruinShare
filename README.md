@@ -13,7 +13,7 @@ This is the Github repository for the web app BruinShare, created for the class 
 
 BruinShare is a web app designed to streamline the process of ridesharing specifically for UCLA students. [Presentation Slides](https://docs.google.com/presentation/d/1fMz-C_A9c9Lis-F9RDV-bSLyxL38-4UVSQzA2nmzmV8/edit?usp=sharing)
 
-Try out the deployed version here: [https://bruinshare-private.vercel.app/](https://bruinshare-private.vercel.app/)
+Try out the deployed version [here](http://52.91.189.112:3000/)!
 
 ## Built With
 
